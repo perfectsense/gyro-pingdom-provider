@@ -1,7 +1,7 @@
 package gyro.pingdom;
 
-import gyro.core.BeamException;
-import gyro.lang.Resource;
+import gyro.core.GyroException;
+import gyro.core.resource.Resource;
 
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
@@ -43,9 +43,9 @@ public abstract class PingdomResource extends Resource {
             fileInput.close();
             properties = props;
         } catch (FileNotFoundException ex) {
-            throw new BeamException(ex.getMessage());
+            throw new GyroException(ex.getMessage());
         } catch (IOException ex) {
-            throw new BeamException(ex.getMessage());
+            throw new GyroException(ex.getMessage());
         }
     }
 

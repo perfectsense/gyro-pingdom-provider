@@ -5,4 +5,4 @@
 @DocNamespace("pingdom")
 package gyro.pingdom;
 
-import gyro.core.docs.DocNamespace;
+import gyro.core.resource.DocNamespace;

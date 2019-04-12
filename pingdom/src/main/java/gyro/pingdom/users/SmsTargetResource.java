@@ -1,9 +1,8 @@
 package gyro.pingdom.users;
 
-import gyro.core.BeamException;
-import gyro.core.diff.ResourceName;
-import gyro.lang.Resource;
-
+import gyro.core.GyroException;
+import gyro.core.resource.Resource;
+import gyro.core.resource.ResourceName;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.ContactTargetId;
 import gyro.pingdom.api.SmsTarget;
@@ -88,7 +87,7 @@ public class SmsTargetResource extends PingdomResource {
 
             //setId(contactTarget.getContactTarget().getId());
         } catch (IOException ex) {
-            throw new BeamException(ex.getMessage());
+            throw new GyroException(ex.getMessage());
         }
     }
 
@@ -101,7 +100,7 @@ public class SmsTargetResource extends PingdomResource {
                     getId(), getCountryCode(), getNumber(),
                     getProvider(), getSeverity()).execute().body();
         } catch (IOException ex) {
-            throw new BeamException(ex.getMessage());
+            throw new GyroException(ex.getMessage());
         }
     }
 

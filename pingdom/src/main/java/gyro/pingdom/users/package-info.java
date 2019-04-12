@@ -1,4 +1,4 @@
 @DocGroup("User")
 package gyro.pingdom.users;
 
-import gyro.core.docs.DocGroup;
+import gyro.core.resource.DocGroup;

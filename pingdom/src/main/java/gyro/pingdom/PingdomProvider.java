@@ -1,6 +1,6 @@
 package gyro.pingdom;
 
-import gyro.lang.plugins.Provider;
+import gyro.core.plugin.Provider;
 
 public class PingdomProvider extends Provider {
 

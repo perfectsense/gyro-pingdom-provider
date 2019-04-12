@@ -1,9 +1,8 @@
 package gyro.pingdom.users;
 
-import gyro.core.BeamException;
-import gyro.core.diff.ResourceName;
-import gyro.lang.Resource;
-
+import gyro.core.GyroException;
+import gyro.core.resource.Resource;
+import gyro.core.resource.ResourceName;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.ContactTargetsList;
 import gyro.pingdom.api.EmailTarget;
@@ -103,7 +102,7 @@ public class UserResource extends PingdomResource {
             }
 
         } catch (IOException ex) {
-            throw new BeamException(ex.getMessage());
+            throw new GyroException(ex.getMessage());
         }
 
         return true;
@@ -118,7 +117,7 @@ public class UserResource extends PingdomResource {
             setPaused(body.getUser().getPaused());
             setPrimaryContact(body.getUser().getPrimary());
         } catch (IOException ex) {
-            throw new BeamException(ex.getMessage());
+            throw new GyroException(ex.getMessage());
         }
     }
 
@@ -128,7 +127,7 @@ public class UserResource extends PingdomResource {
         try {
             service.modifyUser(getId(), getName(), getPrimaryContact(), getPaused()).execute().body();
         } catch (IOException ex) {
-            throw new BeamException(ex.getMessage());
+            throw new GyroException(ex.getMessage());
         }
     }
 
@@ -138,7 +137,7 @@ public class UserResource extends PingdomResource {
         try {
             service.deleteUser(getId()).execute().body();
         } catch (IOException ex) {
-            throw new BeamException(ex.getMessage());
+            throw new GyroException(ex.getMessage());
         }
     }
 

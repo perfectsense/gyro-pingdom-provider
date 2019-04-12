@@ -1,8 +1,8 @@
 package gyro.pingdom;
 
 import com.google.common.collect.ImmutableMap;
-import gyro.core.diff.ResourceName;
-import gyro.lang.Credentials;
+import gyro.core.Credentials;
+import gyro.core.resource.ResourceName;
 
 import java.util.Map;
 
