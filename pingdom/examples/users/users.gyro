@@ -1,0 +1,11 @@
+import ../init as _
+
+pingdom::user user-example
+    name: "example-user"
+    primary-contact: "primary-contact"
+    paused: "NO"
+
+    sms-target
+        email: "example@email.com"
+    end
+end
