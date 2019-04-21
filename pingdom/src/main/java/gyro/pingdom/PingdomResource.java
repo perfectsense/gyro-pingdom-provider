@@ -89,7 +89,7 @@ public abstract class PingdomResource extends Resource {
         OkHttpClient okHttpClient = httpClient.build();
 
         Retrofit retro = new Retrofit.Builder()
-                .baseUrl("https://api.pingdom.com/2.1/")
+                .baseUrl("https://api.pingdom.com/api/2.1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

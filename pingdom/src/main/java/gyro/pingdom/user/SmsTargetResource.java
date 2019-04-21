@@ -1,12 +1,16 @@
-package gyro.pingdom.users;
+package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceName;
+
+import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceOutput;
+
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.api.ContactTargetId;
-import gyro.pingdom.api.SmsTarget;
-import gyro.pingdom.api.SmsTargetService;
+import gyro.pingdom.userapi.ContactTargetId;
+import gyro.pingdom.userapi.SmsTarget;
+import gyro.pingdom.userapi.SmsTargetService;
 
 import java.io.IOException;
 import java.util.Set;
@@ -14,11 +18,13 @@ import java.util.Set;
 @ResourceName(parent = "user", value = "sms-target")
 public class SmsTargetResource extends PingdomResource {
 
-    public String country_code;
+    public String countryCode;
     public Integer id;
     public String number;
     public String provider;
     public String severity;
+
+    public SmsTargetResource() {}
 
     public SmsTargetResource(SmsTarget smsTarget) {
         setCountryCode(smsTarget.getCountryCode());
@@ -28,14 +34,22 @@ public class SmsTargetResource extends PingdomResource {
         setSeverity(smsTarget.getSeverity());
     }
 
+    /**
+     * The country code. (Optional)
+     */
+    @ResourceDiffProperty(updatable = true)
     public String getCountryCode() {
-        return country_code;
+        return countryCode;
     }
 
-    public void setCountryCode(String country_code) {
-        this.country_code = country_code;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
+    /**
+     * The id of the target
+     */
+    @ResourceOutput
     public Integer getId() {
         return id;
     }
@@ -44,6 +58,10 @@ public class SmsTargetResource extends PingdomResource {
         this.id = id;
     }
 
+    /**
+     * The phone number of the target. (Required)
+     */
+    @ResourceDiffProperty(updatable = true)
     public String getNumber() {
         return number;
     }
@@ -52,6 +70,10 @@ public class SmsTargetResource extends PingdomResource {
         this.number = number;
     }
 
+    /**
+     * The provider for the target. (Optional)
+     */
+    @ResourceDiffProperty(updatable = true)
     public String getProvider() {
         return provider;
     }
@@ -60,6 +82,10 @@ public class SmsTargetResource extends PingdomResource {
         this.provider = provider;
     }
 
+    /**
+     * The severity of the target. (Optional)
+     */
+    @ResourceDiffProperty(updatable = true)
     public String getSeverity() {
         return severity;
     }
@@ -85,7 +111,12 @@ public class SmsTargetResource extends PingdomResource {
                     getCountryCode(), getNumber(),
                     getProvider(), getSeverity()).execute().body();
 
-            //setId(contactTarget.getContactTarget().getId());
+            setId(contactTarget.getContactTarget().getId());
+
+            service.modifySmsTarget(getUserId(),
+                    getId(), getCountryCode(), getNumber(),
+                    getProvider(), getSeverity()).execute().body();
+
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -95,9 +126,11 @@ public class SmsTargetResource extends PingdomResource {
     public void update(Resource current, Set<String> changedProperties) {
         SmsTargetService service = (SmsTargetService) createClient(SmsTargetService.class);
 
+        SmsTargetResource oldResource = (SmsTargetResource) current;
+
         try {
             service.modifySmsTarget(getUserId(),
-                    getId(), getCountryCode(), getNumber(),
+                    oldResource.getId(), getCountryCode(), getNumber(),
                     getProvider(), getSeverity()).execute().body();
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
@@ -108,11 +141,34 @@ public class SmsTargetResource extends PingdomResource {
     public void delete() {
         SmsTargetService service = (SmsTargetService) createClient(SmsTargetService.class);
 
-        service.deleteSmsTarget(getUserId(), getId());
+        try {
+            service.deleteSmsTarget(getUserId(), getId()).execute().body();
+        } catch (IOException ex) {
+            throw new GyroException(ex.getMessage());
+        }
     }
 
     @Override
     public String toDisplayString() {return "sms target " + getNumber();}
 
+    @Override
+    public String toString() {
+        return "SmsTargetResource{" +
+                "countryCode='" + countryCode + '\'' +
+                ", id=" + id +
+                ", number='" + number + '\'' +
+                ", provider='" + provider + '\'' +
+                ", severity='" + severity + '\'' +
+                '}';
+    }
 
+    @Override
+    public String primaryKey() {
+        return String.format("%s", getNumber());
+    }
+
+    @Override
+    public String resourceIdentifier() {
+        return null;
+    }
 }

@@ -1,12 +1,14 @@
-package gyro.pingdom.api;
+package gyro.pingdom.userapi;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactTargets {
+public class ContactTarget {
 
-    public List<SmsTarget> sms;
     public List<EmailTarget> email;
+    public Integer id;
+    public List<SmsTarget> sms;
+
 
     public List<EmailTarget> getEmail() {
         if (email == null){
@@ -20,6 +22,14 @@ public class ContactTargets {
         this.email = email;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public List<SmsTarget> getSms() {
         if (sms == null) {
             sms = new ArrayList<>();
@@ -30,5 +40,14 @@ public class ContactTargets {
 
     public void setSms(List<SmsTarget> sms) {
         this.sms = sms;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactTarget{" +
+                "email=" + email +
+                ", id=" + id +
+                ", sms=" + sms +
+                '}';
     }
 }

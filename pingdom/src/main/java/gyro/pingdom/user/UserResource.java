@@ -1,14 +1,18 @@
-package gyro.pingdom.users;
+package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceName;
+
+import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceOutput;
+
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.api.ContactTargetsList;
-import gyro.pingdom.api.EmailTarget;
-import gyro.pingdom.api.SmsTarget;
-import gyro.pingdom.api.UserId;
-import gyro.pingdom.api.UserService;
+import gyro.pingdom.userapi.ContactTargetsList;
+import gyro.pingdom.userapi.EmailTarget;
+import gyro.pingdom.userapi.SmsTarget;
+import gyro.pingdom.userapi.UserId;
+import gyro.pingdom.userapi.UserService;
 
 import java.io.IOException;
 
@@ -19,25 +23,32 @@ import java.util.Set;
 @ResourceName("user")
 public class UserResource extends PingdomResource {
 
-    private List<EmailTargetResource> email;
+    private List<EmailTargetResource> emailTarget;
     private Integer id;
     private String name;
     private String paused;
     private String primaryContact;
-    private List<SmsTargetResource> sms;
+    private List<SmsTargetResource> smsTarget;
 
-    public List<EmailTargetResource> getEmail() {
-        if (email == null) {
-            email = new ArrayList<>();
+    /**
+     * Subnets for the network.
+     *
+     * @subresource gyro.pingdom.user.EmailTargetResource
+     */
+    @ResourceDiffProperty(updatable = true)
+    public List<EmailTargetResource> getEmailTarget() {
+        if (emailTarget == null) {
+            emailTarget = new ArrayList<>();
         }
 
-        return email;
+        return emailTarget;
     }
 
-    public void setEmail(List<EmailTargetResource> email) {
-        this.email = email;
+    public void setEmailTarget(List<EmailTargetResource> emailTarget) {
+        this.emailTarget = emailTarget;
     }
 
+    @ResourceOutput
     public Integer getId() {
         return id;
     }
@@ -46,6 +57,7 @@ public class UserResource extends PingdomResource {
         this.id = id;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getName() {
         return name;
     }
@@ -54,6 +66,7 @@ public class UserResource extends PingdomResource {
         this.name = name;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getPaused() {
         return paused;
     }
@@ -62,6 +75,7 @@ public class UserResource extends PingdomResource {
         this.paused = paused;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getPrimaryContact() {
         return primaryContact;
     }
@@ -70,16 +84,21 @@ public class UserResource extends PingdomResource {
         this.primaryContact = primaryContact;
     }
 
-    public List<SmsTargetResource> getSms() {
-        if (sms == null) {
-            sms = new ArrayList<>();
+    /**
+     * Subnets for the network.
+     *
+     * @subresource gyro.pingdom.user.SmsTargetResource
+     */
+    public List<SmsTargetResource> getSmsTarget() {
+        if (smsTarget == null) {
+            smsTarget = new ArrayList<>();
         }
 
-        return sms;
+        return smsTarget;
     }
 
-    public void setSms(List<SmsTargetResource> sms) {
-        this.sms = sms;
+    public void setSmsTarget(List<SmsTargetResource> smsTarget) {
+        this.smsTarget = smsTarget;
     }
 
     @Override
@@ -92,15 +111,20 @@ public class UserResource extends PingdomResource {
                 return false;
             }
 
-            getEmail().clear();
+            getEmailTarget().clear();
             for (EmailTarget emailTarget : body.getContactTargets().getEmail()) {
-                getEmail().add(new EmailTargetResource(emailTarget));
-            }
-            getSms().clear();
-            for (SmsTarget smsTarget : body.getContactTargets().getSms()) {
-                getSms().add(new SmsTargetResource(smsTarget));
+                EmailTargetResource emailTargetResource = new EmailTargetResource(emailTarget);
+                emailTargetResource.parent(this);
+                getEmailTarget().add(emailTargetResource);
             }
 
+
+            getSmsTarget().clear();
+            for (SmsTarget smsTarget : body.getContactTargets().getSms()) {
+                SmsTargetResource smsTargetResource = new SmsTargetResource(smsTarget);
+                smsTargetResource.parent(this);
+                getSmsTarget().add(smsTargetResource);
+            }
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -111,11 +135,16 @@ public class UserResource extends PingdomResource {
     @Override
     public void create() {
         UserService service = (UserService) createClient(UserService.class);
+
         try {
             UserId body = service.createUser(getName()).execute().body();
+
             setId(body.getUser().getId());
-            setPaused(body.getUser().getPaused());
-            setPrimaryContact(body.getUser().getPrimary());
+
+            service.modifyPrimaryAndPaused(getId(), getPrimaryContact(), getPaused()).execute().body();
+
+            service.modifyUserName(getId(), getName()).execute().body();
+
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -124,8 +153,10 @@ public class UserResource extends PingdomResource {
     @Override
     public void update(Resource current, Set<String> changedProperties) {
         UserService service = (UserService) createClient(UserService.class);
+
         try {
-            service.modifyUser(getId(), getName(), getPrimaryContact(), getPaused()).execute().body();
+            service.modifyUserNamePaused(getId(), getName(), getPaused()).execute().body();
+            service.modifyPrimary(getId(), getPrimaryContact()).execute().body();
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -134,6 +165,7 @@ public class UserResource extends PingdomResource {
     @Override
     public void delete() {
         UserService service = (UserService) createClient(UserService.class);
+
         try {
             service.deleteUser(getId()).execute().body();
         } catch (IOException ex) {

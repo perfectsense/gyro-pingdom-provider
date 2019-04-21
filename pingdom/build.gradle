@@ -43,7 +43,6 @@ dependencies {
     gyroDoclet "gyro:gyro-doclet:0.14-SNAPSHOT"
 
     compile 'com.squareup.retrofit2:retrofit:2.5.0'
-    //compile 'com.squareup.retrofit2:converter-gson'
     compile 'com.google.code.gson:gson:2.8.5'
     compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.5.0'
 }

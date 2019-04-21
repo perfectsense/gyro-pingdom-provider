@@ -1,14 +1,14 @@
-package gyro.pingdom.api;
+package gyro.pingdom.userapi;
 
 public class ContactTargetsList {
 
-    public ContactTargets contact_targets;
+    public ContactTarget contact_targets;
 
-    public ContactTargets getContactTargets() {
+    public ContactTarget getContactTargets() {
         return contact_targets;
     }
 
-    public void setContactTargets(ContactTargets contact_targets) {
+    public void setContactTargets(ContactTarget contact_targets) {
         this.contact_targets = contact_targets;
     }
 

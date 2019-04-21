@@ -1,4 +1,4 @@
-package gyro.pingdom.api;
+package gyro.pingdom.userapi;
 
 public class EmailTarget {
 

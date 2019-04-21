@@ -1,4 +1,4 @@
-package gyro.pingdom.api;
+package gyro.pingdom.userapi;
 
 import java.util.List;
 

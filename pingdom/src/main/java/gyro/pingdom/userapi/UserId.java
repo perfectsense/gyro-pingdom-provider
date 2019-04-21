@@ -1,4 +1,4 @@
-package gyro.pingdom.api;
+package gyro.pingdom.userapi;
 
 public class UserId {
 
@@ -10,5 +10,12 @@ public class UserId {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserId{" +
+                "user=" + user +
+                '}';
     }
 }
