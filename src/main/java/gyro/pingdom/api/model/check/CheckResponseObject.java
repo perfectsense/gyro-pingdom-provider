@@ -1,13 +1,12 @@
-package gyro.pingdom.checkapi;
+package gyro.pingdom.api.model.check;
 
 import gyro.core.diff.Diffable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Check {
+public class CheckResponseObject extends Diffable {
 
     public String created;
     public String hostname;
@@ -23,9 +22,17 @@ public class Check {
     public Integer responsetime_threshold;
     public Integer sendnotificationwhendown;
     public List<Tag> tags;
-    public String type;
     public List<Integer> teamids;
     public List<Integer> userids;
+    public Types type;
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
 
     public String getHostname() {
         return hostname;
@@ -35,13 +42,7 @@ public class Check {
         this.hostname = hostname;
     }
 
-
-
     public List<Integer> getIntegrationids() {
-        if (integrationids == null) {
-            integrationids = new ArrayList<>();
-        }
-
         return integrationids;
     }
 
@@ -56,7 +57,6 @@ public class Check {
     public void setId(Integer id) {
         this.id = id;
     }
-
 
     public Boolean getIpv6() {
         return ipv6;
@@ -99,10 +99,6 @@ public class Check {
     }
 
     public Map<String, String> getProbeFilters() {
-        if (probeFilters == null) {
-            probeFilters = new HashMap<>();
-        }
-
         return probeFilters;
     }
 
@@ -134,20 +130,15 @@ public class Check {
         this.sendnotificationwhendown = sendnotificationwhendown;
     }
 
-    /*
     public List<Tag> getTags() {
         return tags;
     }
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
-    }*/
+    }
 
     public List<Integer> getTeamids() {
-        if (teamids == null) {
-            teamids = new ArrayList<>();
-        }
-
         return teamids;
     }
 
@@ -155,19 +146,7 @@ public class Check {
         this.teamids = teamids;
     }
 
-    /*
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }*/
-
     public List<Integer> getUserids() {
-        if (userids == null) {
-            userids = new ArrayList<>();
-        }
         return userids;
     }
 
@@ -175,10 +154,35 @@ public class Check {
         this.userids = userids;
     }
 
+    public Types getType() {
+        return type;
+    }
+
+    public void setType(Types type) {
+        this.type = type;
+    }
+
+    public List<String> tags() {
+        List<String> tag = new ArrayList<>();
+        getTags().forEach(r -> tag.add(r.getName()));
+        return tag;
+    }
+
+    @Override
+    public String primaryKey() {
+        return getName();
+    }
+
+    @Override
+    public String toDisplayString() {
+        return "check " + getName();
+    }
+
     @Override
     public String toString() {
-        return "Check{" +
-                "created='" + created + '\'' +
+        return "CheckObject{" +
+                "type=" + type +
+                ", created='" + created + '\'' +
                 ", hostname='" + hostname + '\'' +
                 ", integrationids=" + integrationids +
                 ", id=" + id +
@@ -187,12 +191,12 @@ public class Check {
                 ", notifyagainevery=" + notifyagainevery +
                 ", notifywhenbackup=" + notifywhenbackup +
                 ", paused=" + paused +
+                ", probeFilters=" + probeFilters +
                 ", resolution=" + resolution +
                 ", responsetime_threshold=" + responsetime_threshold +
                 ", sendnotificationwhendown=" + sendnotificationwhendown +
                 ", tags=" + tags +
                 ", teamids=" + teamids +
-                //", type=" + type +
                 ", userids=" + userids +
                 '}';
     }

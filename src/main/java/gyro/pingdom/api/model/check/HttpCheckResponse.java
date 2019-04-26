@@ -1,4 +1,4 @@
-package gyro.pingdom.checkapi;
+package gyro.pingdom.api.model.check;
 
 import java.util.ArrayList;
 import java.util.List;

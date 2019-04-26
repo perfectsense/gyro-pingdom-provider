@@ -8,11 +8,11 @@ import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceOutput;
 
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.userapi.ContactTargetsList;
-import gyro.pingdom.userapi.EmailTarget;
-import gyro.pingdom.userapi.SmsTarget;
-import gyro.pingdom.userapi.UserId;
-import gyro.pingdom.userapi.UserService;
+import gyro.pingdom.api.PingdomService;
+import gyro.pingdom.api.model.user.ContactTargetsList;
+import gyro.pingdom.api.model.user.EmailTarget;
+import gyro.pingdom.api.model.user.SmsTarget;
+import gyro.pingdom.api.model.user.UserId;
 
 import java.io.IOException;
 
@@ -103,7 +103,8 @@ public class UserResource extends PingdomResource {
 
     @Override
     public boolean refresh() {
-        UserService service = (UserService) createClient(UserService.class);
+        PingdomService service = createClient();
+
         try {
             ContactTargetsList body = service.getUser(getId()).execute().body();
 
@@ -134,7 +135,7 @@ public class UserResource extends PingdomResource {
 
     @Override
     public void create() {
-        UserService service = (UserService) createClient(UserService.class);
+        PingdomService service = createClient();
 
         try {
             UserId body = service.createUser(getName()).execute().body();
@@ -152,7 +153,7 @@ public class UserResource extends PingdomResource {
 
     @Override
     public void update(Resource current, Set<String> changedProperties) {
-        UserService service = (UserService) createClient(UserService.class);
+        PingdomService service = createClient();
 
         try {
             service.modifyUserNamePaused(getId(), getName(), getPaused()).execute().body();
@@ -164,7 +165,7 @@ public class UserResource extends PingdomResource {
 
     @Override
     public void delete() {
-        UserService service = (UserService) createClient(UserService.class);
+        PingdomService service = createClient();
 
         try {
             service.deleteUser(getId()).execute().body();

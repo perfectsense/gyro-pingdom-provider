@@ -7,9 +7,9 @@ import gyro.core.resource.ResourceOutput;
 import gyro.core.resource.ResourceDiffProperty;
 
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.userapi.ContactTargetId;
-import gyro.pingdom.userapi.EmailTarget;
-import gyro.pingdom.userapi.EmailTargetService;
+import gyro.pingdom.api.PingdomService;
+import gyro.pingdom.api.model.user.ContactTargetId;
+import gyro.pingdom.api.model.user.EmailTarget;
 
 import java.io.IOException;
 import java.util.Set;
@@ -75,7 +75,7 @@ public class EmailTargetResource extends PingdomResource {
 
     @Override
     public void create() {
-        EmailTargetService service = (EmailTargetService) createClient(EmailTargetService.class);
+        PingdomService service = createClient();
 
         try {
             ContactTargetId contactTarget = service.addEmailTargetToUser(getUserId(), getEmail(),
@@ -92,7 +92,7 @@ public class EmailTargetResource extends PingdomResource {
 
     @Override
     public void update(Resource current, Set<String> changedProperties) {
-        EmailTargetService service = (EmailTargetService) createClient(EmailTargetService.class);
+        PingdomService service = createClient();
 
         EmailTargetResource oldResource = (EmailTargetResource) current;
 
@@ -105,7 +105,7 @@ public class EmailTargetResource extends PingdomResource {
 
     @Override
     public void delete() {
-        EmailTargetService service = (EmailTargetService) createClient(EmailTargetService.class);
+        PingdomService service = createClient();
 
         try {
             service.deleteEmailTarget(getUserId(), getId()).execute().body();

@@ -1,4 +1,4 @@
-package gyro.pingdom.userapi;
+package gyro.pingdom.api.model.user;
 
 public class ContactTargetId {
 

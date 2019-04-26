@@ -7,11 +7,11 @@ import gyro.core.resource.ResourceOutput;
 import gyro.core.resource.Resource;
 
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.checkapi.CheckId;
-import gyro.pingdom.checkapi.CheckResponse;
-import gyro.pingdom.checkapi.CheckResponseObject;
-import gyro.pingdom.checkapi.CheckService;
-import gyro.pingdom.checkapi.Types;
+import gyro.pingdom.api.PingdomService;
+import gyro.pingdom.api.model.check.CheckId;
+import gyro.pingdom.api.model.check.CheckResponse;
+import gyro.pingdom.api.model.check.CheckResponseObject;
+import gyro.pingdom.api.model.check.Types;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -253,7 +253,7 @@ public abstract class CheckResource extends PingdomResource {
 
     @Override
     public boolean refresh() {
-        CheckService service = (CheckService) createClient(CheckService.class);
+        PingdomService service = createClient();
 
         try {
             CheckResponse checkId = service.getCheck(getId()).execute().body();
@@ -289,7 +289,7 @@ public abstract class CheckResource extends PingdomResource {
 
     @Override
     public void create() {
-        CheckService service = (CheckService) createClient(CheckService.class);
+        PingdomService service = createClient();
 
         try {
             CheckId check = service.createCheck(getName(), getHostname(), "http",
@@ -307,7 +307,7 @@ public abstract class CheckResource extends PingdomResource {
 
     @Override
     public void update(Resource current, Set<String> changedProperties) {
-        CheckService service = (CheckService) createClient(CheckService.class);
+        PingdomService service = createClient();
 
         try {
             service.modifyCheck(getId(), getName(), getHostname(), getType().inUse(), getPaused(),
@@ -323,7 +323,7 @@ public abstract class CheckResource extends PingdomResource {
 
     @Override
     public void delete() {
-        CheckService service = (CheckService) createClient(CheckService.class);
+        PingdomService service = createClient();
 
         try {
             service.deleteCheck(getId()).execute().body();

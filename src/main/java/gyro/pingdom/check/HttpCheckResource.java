@@ -5,11 +5,10 @@ import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceName;
 import gyro.core.resource.Resource;
 
-import gyro.pingdom.checkapi.CheckResponse;
-import gyro.pingdom.checkapi.CheckResponseObject;
-import gyro.pingdom.checkapi.CheckService;
-import gyro.pingdom.checkapi.HttpCheckResponse;
-import gyro.pingdom.checkapi.HttpCheckService;
+import gyro.pingdom.api.PingdomService;
+import gyro.pingdom.api.model.check.CheckResponse;
+import gyro.pingdom.api.model.check.CheckResponseObject;
+import gyro.pingdom.api.model.check.HttpCheckResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -123,7 +122,7 @@ public class HttpCheckResource extends CheckResource {
 
     @Override
     public boolean refresh() {
-        CheckService service = (CheckService) createClient(CheckService.class);
+        PingdomService service = createClient();
 
         super.refresh();
 
@@ -166,7 +165,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     private void modifyCheck() {
-        HttpCheckService service = (HttpCheckService) createClient(HttpCheckService.class);
+        PingdomService service = createClient();
 
         try {
             service.modifyHttpCheck(super.getId(), getUrl(), getEncryption(), getPort(), getAuth(),

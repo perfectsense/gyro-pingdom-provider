@@ -1,6 +1,7 @@
 package gyro.pingdom;
 
 import gyro.core.resource.Resource;
+import gyro.pingdom.api.PingdomService;
 import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -21,7 +22,7 @@ public abstract class PingdomResource extends Resource {
         return PingdomCredentials.class;
     }
 
-    protected Object createClient(Class apiClass) {
+    protected PingdomService createClient() {
         Map<String, String> credentials = resourceCredentials().findCredentials();
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -64,6 +65,6 @@ public abstract class PingdomResource extends Resource {
                 .client(httpClient.build())
                 .build();
 
-        return retro.create(apiClass);
+        return retro.create(PingdomService.class);
     }
 }

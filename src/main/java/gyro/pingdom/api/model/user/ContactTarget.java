@@ -1,4 +1,4 @@
-package gyro.pingdom.userapi;
+package gyro.pingdom.api.model.user;
 
 import java.util.ArrayList;
 import java.util.List;
