@@ -1,70 +1,37 @@
 package gyro.pingdom;
 
-import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-
 import okhttp3.Credentials;
-import okhttp3.OkHttpClient;
 import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
-
 import retrofit2.Retrofit;
-
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public abstract class PingdomResource extends Resource {
+import java.io.IOException;
+import java.util.Map;
 
-    private Properties properties;
+public abstract class PingdomResource extends Resource {
 
     @Override
     public Class resourceCredentialsClass() {
         return PingdomCredentials.class;
     }
 
-    public Properties getProperties() {
-        return properties;
-    }
-
-    public void setProperties() {
-        PingdomCredentials credentials = (PingdomCredentials) resourceCredentials();
-
-        try {
-            File file = new File(credentials.getCredentialFilePath());
-            FileInputStream fileInput = new FileInputStream(file);
-            Properties props = new Properties();
-            props.load(fileInput);
-            fileInput.close();
-            properties = props;
-        } catch (FileNotFoundException ex) {
-            throw new GyroException(ex.getMessage());
-        } catch (IOException ex) {
-            throw new GyroException(ex.getMessage());
-        }
-    }
-
     protected Object createClient(Class apiClass) {
+        Map<String, String> credentials = resourceCredentials().findCredentials();
+
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        setProperties();
-
         httpClient.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Interceptor.Chain chain) throws IOException {
                 Request original = chain.request();
 
-                String auth = Credentials.basic(getProperties().getProperty("username"),
-                        getProperties().getProperty("password"));
+                String auth = Credentials.basic(credentials.get("username"), credentials.get("password"));
 
                 // Request customization: add request headers
-                Request.Builder requestBuilder = original.newBuilder()
-                        .header("Authorization", auth);
+                Request.Builder requestBuilder = original.newBuilder().header("Authorization", auth);
                 requestBuilder.addHeader("Accept", "application/json");
                 Request request = requestBuilder.build();
                 return chain.proceed(request);
@@ -77,21 +44,17 @@ public abstract class PingdomResource extends Resource {
                 Request original = chain.request();
 
                 // Request customization: add request headers
-                Request.Builder requestBuilder = original.newBuilder()
-                        .header("App-Key", getProperties().getProperty("app-key"));
+                Request.Builder requestBuilder = original.newBuilder().header("App-Key", credentials.get("app-key"));
                 requestBuilder.addHeader("Accept", "application/json");
                 Request request = requestBuilder.build();
                 return chain.proceed(request);
             }
         });
-
-
-        OkHttpClient okHttpClient = httpClient.build();
 
         Retrofit retro = new Retrofit.Builder()
                 .baseUrl("https://api.pingdom.com/api/2.1/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
+                .client(httpClient.build())
                 .build();
 
         return retro.create(apiClass);
