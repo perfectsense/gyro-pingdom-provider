@@ -9,10 +9,10 @@ public class HttpCheckResponse extends Check {
     private Boolean encryption;
     private Integer port;
     private String auth;
-    private String shouldcontain;
-    private String shouldnotcontain;
-    private String postdata;
-    private RequestHeader requestheaders;
+    private String shouldContain;
+    private String shouldNotContain;
+    private String postData;
+    private RequestHeader requestHeaders;
     private String typeName;
 
     public String getUrl() {
@@ -48,35 +48,35 @@ public class HttpCheckResponse extends Check {
     }
 
     public String getShouldContain() {
-        return shouldcontain;
+        return shouldContain;
     }
 
-    public void setShouldContain(String shouldcontain) {
-        this.shouldcontain = shouldcontain;
+    public void setShouldContain(String shouldContain) {
+        this.shouldContain = shouldContain;
     }
 
     public String getShouldNotContain() {
-        return shouldnotcontain;
+        return shouldNotContain;
     }
 
-    public void setShouldNotContain(String shouldnotcontain) {
-        this.shouldnotcontain = shouldnotcontain;
+    public void setShouldNotContain(String shouldNotContain) {
+        this.shouldNotContain = shouldNotContain;
     }
 
-    public String getPostdata() {
-        return postdata;
+    public String getPostData() {
+        return postData;
     }
 
-    public void setPostdata(String postdata) {
-        this.postdata = postdata;
+    public void setPostData(String postData) {
+        this.postData = postData;
     }
 
-    public RequestHeader getRequestheaders() {
-        return requestheaders;
+    public RequestHeader getRequestHeaders() {
+        return requestHeaders;
     }
 
-    public void setRequestheaders(RequestHeader requestheaders) {
-        this.requestheaders = requestheaders;
+    public void setRequestHeaders(RequestHeader requestHeaders) {
+        this.requestHeaders = requestHeaders;
     }
 
     public String getTypeName() {
@@ -89,23 +89,10 @@ public class HttpCheckResponse extends Check {
 
     public List<String> headers() {
         List<String> header;
-        if (getRequestheaders().getRequests() != null) {
-            header = new ArrayList<>(getRequestheaders().getRequests());
+        if (getRequestHeaders().getRequests() != null) {
+            header = new ArrayList<>(getRequestHeaders().getRequests());
         }
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "HttpCheck{" +
-                "url='" + url + '\'' +
-                ", encryption='" + encryption + '\'' +
-                ", port='" + port + '\'' +
-                ", auth='" + auth + '\'' +
-                ", shouldcontain='" + shouldcontain + '\'' +
-                ", shouldnotcontain='" + shouldnotcontain + '\'' +
-                ", postdata='" + postdata + '\'' +
-                ", requestheaders='" + requestheaders + '\'' +
-                '}';
-    }
 }

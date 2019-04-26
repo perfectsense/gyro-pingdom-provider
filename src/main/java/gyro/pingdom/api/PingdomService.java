@@ -38,11 +38,11 @@ public interface PingdomService {
                               @Field("type") String typeCheck,
                               @Field("paused") Boolean paused,
                               @Field("resolution") Integer resolution,
-                              @Field("sendnotificationwhendown") Integer sendnotificationwhendown,
-                              @Field("notifyagainevery") Integer notifyagainevery,
-                              @Field("notifywhenbackup") Boolean notifywhenbackup,
+                              @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
+                              @Field("notifyagainevery") Integer notifyAgainEvery,
+                              @Field("notifywhenbackup") Boolean notifyWhenBackup,
                               @Field("tags") List<String> tags,
-                              @Field("userids") List<Integer> userids);
+                              @Field("userids") List<Integer> userIds);
 
     @POST("checks")
     @FormUrlEncoded
@@ -52,15 +52,15 @@ public interface PingdomService {
                               @Field("paused") Boolean paused,
                               @Field("resolution") Integer resolution,
                               @Field("userids") List<Integer> userids,
-                              @Field("sendnotificationwhendown") Integer sendnotificationwhendown,
-                              @Field("notifyagainevery") Integer notifyagainevery,
-                              @Field("notifywhenbackup") Boolean notifywhenbackup,
+                              @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
+                              @Field("notifyagainevery") Integer notifyAgainEvery,
+                              @Field("notifywhenbackup") Boolean notifyWhenBackup,
                               @Field("tags") List<String> tags,
-                              @Field("probe_filters") Map<String, String> probe_filters,
+                              @Field("probe_filters") Map<String, String> probeFilters,
                               @Field("ipv6") Boolean ipv6,
-                              @Field("responsetime_threshold") Integer responsetime_threshold,
-                              @Field("integrationids") List<Integer> integrationids,
-                              @Field("teamids") List<Integer> teamids);
+                              @Field("responsetime_threshold") Integer responseTimeThreshold,
+                              @Field("integrationids") List<Integer> integrationIds,
+                              @Field("teamids") List<Integer> teamIds);
 
     @PUT("checks/{checkid}")
     @FormUrlEncoded
@@ -71,15 +71,15 @@ public interface PingdomService {
                               @Field("paused") Boolean paused,
                               @Field("resolution") Integer resolution,
                               @Field("userids") List<Integer> userids,
-                              @Field("sendnotificationwhendown") Integer sendnotificationwhendown,
-                              @Field("notifyagainevery") Integer notifyagainevery,
-                              @Field("notifywhenbackup") Boolean notifywhenbackup,
+                              @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
+                              @Field("notifyagainevery") Integer notifyAgainEvery,
+                              @Field("notifywhenbackup") Boolean notifyWhenBackup,
                               @Field("tags") List<String> tags,
-                              @Field("probe_filters") Map<String, String> probe_filters,
+                              @Field("probe_filters") Map<String, String> probeFilters,
                               @Field("ipv6") Boolean ipv6,
-                              @Field("responsetime_threshold") Integer responsetime_threshold,
-                              @Field("integrationids") List<Integer> integrationids,
-                              @Field("teamids") List<Integer> teamids);
+                              @Field("responsetime_threshold") Integer responseTimeThreshold,
+                              @Field("integrationids") List<Integer> integrationIds,
+                              @Field("teamids") List<Integer> teamIds);
 
     @DELETE("checks/{checkid}")
     Call<Message> deleteCheck(@Path("checkid") Integer checkId);
@@ -93,9 +93,9 @@ public interface PingdomService {
                                   @Field("encryption") Boolean encryption,
                                   @Field("port") Integer port,
                                   @Field("auth") String auth,
-                                  @Field("shouldcontain") String shouldcontain,
-                                  @Field("shouldnotcontain") String shouldnotcontain,
-                                  @Field("postdata") String postdata);
+                                  @Field("shouldcontain") String shouldContain,
+                                  @Field("shouldnotcontain") String shouldNotContain,
+                                  @Field("postdata") String postData);
 
     @PUT("checks/{checkid}")
     @FormUrlEncoded

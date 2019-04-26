@@ -2,7 +2,7 @@ package gyro.pingdom.api.model.user;
 
 public class UserId {
 
-    public User user;
+    private User user;
 
     public User getUser() {
         return user;

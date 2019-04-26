@@ -5,12 +5,12 @@ import java.util.List;
 
 public class User {
 
-    public Integer id;
-    public String name;
-    public String paused;
-    public String primary;
-    public List<SmsTarget> sms;
-    public List<EmailTarget> email;
+    private Integer id;
+    private String name;
+    private String paused;
+    private String primary;
+    private List<SmsTarget> sms;
+    private List<EmailTarget> email;
 
     public Integer getId() {
         return id;

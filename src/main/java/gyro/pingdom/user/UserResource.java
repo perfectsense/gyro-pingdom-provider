@@ -23,30 +23,12 @@ import java.util.Set;
 @ResourceName("user")
 public class UserResource extends PingdomResource {
 
-    private List<EmailTargetResource> emailTarget;
     private Integer id;
     private String name;
     private String paused;
     private String primaryContact;
+    private List<EmailTargetResource> emailTarget;
     private List<SmsTargetResource> smsTarget;
-
-    /**
-     * Subnets for the network.
-     *
-     * @subresource gyro.pingdom.user.EmailTargetResource
-     */
-    @ResourceDiffProperty(updatable = true)
-    public List<EmailTargetResource> getEmailTarget() {
-        if (emailTarget == null) {
-            emailTarget = new ArrayList<>();
-        }
-
-        return emailTarget;
-    }
-
-    public void setEmailTarget(List<EmailTargetResource> emailTarget) {
-        this.emailTarget = emailTarget;
-    }
 
     @ResourceOutput
     public Integer getId() {
@@ -82,6 +64,24 @@ public class UserResource extends PingdomResource {
 
     public void setPrimaryContact(String primaryContact) {
         this.primaryContact = primaryContact;
+    }
+
+    /**
+     * Subnets for the network.
+     *
+     * @subresource gyro.pingdom.user.EmailTargetResource
+     */
+    @ResourceDiffProperty(updatable = true)
+    public List<EmailTargetResource> getEmailTarget() {
+        if (emailTarget == null) {
+            emailTarget = new ArrayList<>();
+        }
+
+        return emailTarget;
+    }
+
+    public void setEmailTarget(List<EmailTargetResource> emailTarget) {
+        this.emailTarget = emailTarget;
     }
 
     /**
@@ -175,5 +175,7 @@ public class UserResource extends PingdomResource {
     }
 
     @Override
-    public String toDisplayString() {return "user " + getName();}
+    public String toDisplayString() {
+        return "user " + getName();
+    }
 }

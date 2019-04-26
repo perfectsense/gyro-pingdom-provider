@@ -21,24 +21,24 @@ import java.util.Map;
 import java.util.Set;
 
 @ResourceName("check")
-public abstract class CheckResource extends PingdomResource {
+public class CheckResource extends PingdomResource {
 
-    public String hostname;
-    public List<Integer> integrationIds;
-    public Integer id;
-    public Boolean ipv6;
-    public String name;
-    public Integer notifyAgainEvery;
-    public Boolean notifyWhenBackUp;
-    public Boolean paused;
-    public Map<String, String> probeFilters;
-    public Integer resolution;
-    public Integer responseTimeThreshold;
-    public Integer sendNotificationWhenDown;
-    public List<String> tags;
-    public List<Integer> teamIds;
-    public Types type;
-    public List<Integer> userIds;
+    private String hostname;
+    private List<Integer> integrationIds;
+    private Integer id;
+    private Boolean ipv6;
+    private String name;
+    private Integer notifyAgainEvery;
+    private Boolean notifyWhenBackUp;
+    private Boolean paused;
+    private Map<String, String> probeFilters;
+    private Integer resolution;
+    private Integer responseTimeThreshold;
+    private Integer sendNotificationWhenDown;
+    private List<String> tags;
+    private List<Integer> teamIds;
+    private Types type;
+    private List<Integer> userIds;
 
     /**
      * The target host of the check. (Required)

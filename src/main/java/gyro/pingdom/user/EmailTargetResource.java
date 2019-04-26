@@ -17,28 +17,18 @@ import java.util.Set;
 @ResourceName(parent = "user", value = "email-target")
 public class EmailTargetResource extends PingdomResource {
 
-    private String email;
     private Integer id;
+    private String email;
     private String severity;
 
-    public EmailTargetResource() {}
+    public EmailTargetResource() {
 
-    public EmailTargetResource(EmailTarget emailTarget) {
+    }
+
+    EmailTargetResource(EmailTarget emailTarget) {
         setEmail(emailTarget.getAddress());
         setId(emailTarget.getId());
         setSeverity(emailTarget.getSeverity());
-    }
-
-    /**
-     * The email for the target. (Required)
-     */
-    @ResourceDiffProperty(updatable = true)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     /**
@@ -51,6 +41,18 @@ public class EmailTargetResource extends PingdomResource {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * The email for the target. (Required)
+     */
+    @ResourceDiffProperty(updatable = true)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
@@ -71,7 +73,9 @@ public class EmailTargetResource extends PingdomResource {
     }
 
     @Override
-    public boolean refresh() { return false; }
+    public boolean refresh() {
+        return false;
+    }
 
     @Override
     public void create() {
@@ -115,24 +119,21 @@ public class EmailTargetResource extends PingdomResource {
     }
 
     @Override
-    public String toDisplayString() {return "email target " + getEmail();}
-
-    @Override
-    public String toString() {
-        return "EmailTargetResource{" +
-                "email='" + email + '\'' +
-                ", id=" + id +
-                ", severity='" + severity + '\'' +
-                '}';
-    }
-
-    @Override
     public String primaryKey() {
         return String.format("%s", getEmail());
     }
 
     @Override
-    public String resourceIdentifier() {
-        return null;
+    public String toDisplayString() {
+        return "email target " + getEmail();
+    }
+
+    @Override
+    public String toString() {
+        return "EmailTargetResource{" +
+            "email='" + email + '\'' +
+            ", id=" + id +
+            ", severity='" + severity + '\'' +
+            '}';
     }
 }

@@ -1,29 +1,35 @@
 package gyro.pingdom.api.model.check;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Check {
 
-    public String created;
-    public String hostname;
-    public List<Integer> integrationids;
-    public Integer id;
-    public Boolean ipv6;
-    public String name;
-    public Integer notifyagainevery;
-    public Boolean notifywhenbackup;
-    public Boolean paused;
-    public Map<String, String> probeFilters;
-    public Integer resolution;
-    public Integer responsetime_threshold;
-    public Integer sendnotificationwhendown;
-    public List<Tag> tags;
-    public String type;
-    public List<Integer> teamids;
-    public List<Integer> userids;
+    private String created;
+    private String hostname;
+    private List<Integer> integrationIds;
+    private Integer id;
+    private Boolean ipv6;
+    private String name;
+    private Integer notifyAgainEvery;
+    private Boolean notifyWhenBackup;
+    private Boolean paused;
+    private Map<String, String> probeFilters;
+    private Integer resolution;
+    private Integer responseTimeThreshold;
+    private Integer sendNotificationWhenDown;
+    private List<Tag> tags;
+    private String type;
+    private List<Integer> teamIds;
+    private List<Integer> userIds;
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
 
     public String getHostname() {
         return hostname;
@@ -33,18 +39,12 @@ public class Check {
         this.hostname = hostname;
     }
 
-
-
-    public List<Integer> getIntegrationids() {
-        if (integrationids == null) {
-            integrationids = new ArrayList<>();
-        }
-
-        return integrationids;
+    public List<Integer> getIntegrationIds() {
+        return integrationIds;
     }
 
-    public void setIntegrationids(List<Integer> integrationids) {
-        this.integrationids = integrationids;
+    public void setIntegrationIds(List<Integer> integrationIds) {
+        this.integrationIds = integrationIds;
     }
 
     public Integer getId() {
@@ -54,7 +54,6 @@ public class Check {
     public void setId(Integer id) {
         this.id = id;
     }
-
 
     public Boolean getIpv6() {
         return ipv6;
@@ -72,20 +71,20 @@ public class Check {
         this.name = name;
     }
 
-    public Integer getNotifyagainevery() {
-        return notifyagainevery;
+    public Integer getNotifyAgainEvery() {
+        return notifyAgainEvery;
     }
 
-    public void setNotifyagainevery(Integer notifyagainevery) {
-        this.notifyagainevery = notifyagainevery;
+    public void setNotifyAgainEvery(Integer notifyAgainEvery) {
+        this.notifyAgainEvery = notifyAgainEvery;
     }
 
-    public Boolean getNotifywhenbackup() {
-        return notifywhenbackup;
+    public Boolean getNotifyWhenBackup() {
+        return notifyWhenBackup;
     }
 
-    public void setNotifywhenbackup(Boolean notifywhenbackup) {
-        this.notifywhenbackup = notifywhenbackup;
+    public void setNotifyWhenBackup(Boolean notifyWhenBackup) {
+        this.notifyWhenBackup = notifyWhenBackup;
     }
 
     public Boolean getPaused() {
@@ -97,10 +96,6 @@ public class Check {
     }
 
     public Map<String, String> getProbeFilters() {
-        if (probeFilters == null) {
-            probeFilters = new HashMap<>();
-        }
-
         return probeFilters;
     }
 
@@ -116,82 +111,52 @@ public class Check {
         this.resolution = resolution;
     }
 
-    public Integer getResponsetime_threshold() {
-        return responsetime_threshold;
+    public Integer getResponseTimeThreshold() {
+        return responseTimeThreshold;
     }
 
-    public void setResponsetime_threshold(Integer responsetime_threshold) {
-        this.responsetime_threshold = responsetime_threshold;
+    public void setResponseTimeThreshold(Integer responseTimeThreshold) {
+        this.responseTimeThreshold = responseTimeThreshold;
     }
 
-    public Integer getSendnotificationwhendown() {
-        return sendnotificationwhendown;
+    public Integer getSendNotificationWhenDown() {
+        return sendNotificationWhenDown;
     }
 
-    public void setSendnotificationwhendown(Integer sendnotificationwhendown) {
-        this.sendnotificationwhendown = sendnotificationwhendown;
+    public void setSendNotificationWhenDown(Integer sendNotificationWhenDown) {
+        this.sendNotificationWhenDown = sendNotificationWhenDown;
     }
 
-    /*
     public List<Tag> getTags() {
         return tags;
     }
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
-    }*/
-
-    public List<Integer> getTeamids() {
-        if (teamids == null) {
-            teamids = new ArrayList<>();
-        }
-
-        return teamids;
     }
 
-    public void setTeamids(List<Integer> teamids) {
-        this.teamids = teamids;
-    }
-
-    /*
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
-    }*/
-
-    public List<Integer> getUserids() {
-        if (userids == null) {
-            userids = new ArrayList<>();
-        }
-        return userids;
     }
 
-    public void setUserids(List<Integer> userids) {
-        this.userids = userids;
+    public List<Integer> getTeamIds() {
+        return teamIds;
     }
 
-    @Override
-    public String toString() {
-        return "Check{" +
-                "created='" + created + '\'' +
-                ", hostname='" + hostname + '\'' +
-                ", integrationids=" + integrationids +
-                ", id=" + id +
-                ", ipv6=" + ipv6 +
-                ", name='" + name + '\'' +
-                ", notifyagainevery=" + notifyagainevery +
-                ", notifywhenbackup=" + notifywhenbackup +
-                ", paused=" + paused +
-                ", resolution=" + resolution +
-                ", responsetime_threshold=" + responsetime_threshold +
-                ", sendnotificationwhendown=" + sendnotificationwhendown +
-                ", tags=" + tags +
-                ", teamids=" + teamids +
-                //", type=" + type +
-                ", userids=" + userids +
-                '}';
+    public void setTeamIds(List<Integer> teamIds) {
+        this.teamIds = teamIds;
     }
+
+    public List<Integer> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<Integer> userIds) {
+        this.userIds = userIds;
+    }
+
 }

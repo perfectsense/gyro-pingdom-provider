@@ -2,19 +2,11 @@ package gyro.pingdom.api.model.user;
 
 public class SmsTarget {
 
-    public String country_code;
-    public Integer id;
-    public String number;
-    public String provider;
-    public String severity;
-
-    public String getCountryCode() {
-        return country_code;
-    }
-
-    public void setCountryCode(String country_code) {
-        this.country_code = country_code;
-    }
+    private Integer id;
+    private String countryCode;
+    private String number;
+    private String provider;
+    private String severity;
 
     public Integer getId() {
         return id;
@@ -22,6 +14,14 @@ public class SmsTarget {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getNumber() {
@@ -51,7 +51,7 @@ public class SmsTarget {
     @Override
     public String toString() {
         return "SmsTarget{" +
-                "country_code=" + country_code +
+                "country_code=" + countryCode +
                 ", id=" + id +
                 ", number='" + number + '\'' +
                 ", provider='" + provider + '\'' +

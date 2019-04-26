@@ -2,18 +2,20 @@ package gyro.pingdom.api.model.user;
 
 public class ContactTargetId {
 
-    public ContactTarget contact_target;
+    private ContactTarget contactTarget;
 
-    public ContactTarget getContactTarget() {return contact_target;}
+    public ContactTarget getContactTarget() {
+        return contactTarget;
+    }
 
-    public void setContactTarget(ContactTarget contact_target) {
-       this.contact_target = contact_target;
+    public void setContactTarget(ContactTarget contactTarget) {
+       this.contactTarget = contactTarget;
     }
 
     @Override
     public String toString() {
         return "ContactTargetId{" +
-                "contact_target=" + contact_target +
+                "contact_target=" + contactTarget +
                 '}';
     }
 }

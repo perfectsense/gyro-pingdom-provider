@@ -2,15 +2,9 @@ package gyro.pingdom.api.model.user;
 
 public class EmailTarget {
 
-    public String address;
-    public Integer id;
-    public String severity;
-
-    public String getAddress() { return address; }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    private Integer id;
+    private String address;
+    private String severity;
 
     public Integer getId() {
         return id;
@@ -18,6 +12,14 @@ public class EmailTarget {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getSeverity() {

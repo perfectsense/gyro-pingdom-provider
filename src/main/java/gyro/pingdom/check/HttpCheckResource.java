@@ -138,7 +138,7 @@ public class HttpCheckResource extends CheckResource {
             setAuth(http.getAuth());
             setShouldContain(http.getShouldContain());
             setShouldNotContain(http.getShouldNotContain());
-            setPostdata(http.getPostdata());
+            setPostdata(http.getPostData());
             setRequestHeader(http.headers());
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());

@@ -2,9 +2,7 @@ package gyro.pingdom.api.model.check;
 
 public class Types {
 
-    public HttpCheckResponse http;
-
-    public Types(){}
+    private HttpCheckResponse http;
 
     public HttpCheckResponse getHttp() {
         return http;

@@ -18,13 +18,15 @@ import java.util.Set;
 @ResourceName(parent = "user", value = "sms-target")
 public class SmsTargetResource extends PingdomResource {
 
-    public String countryCode;
-    public Integer id;
-    public String number;
-    public String provider;
-    public String severity;
+    private Integer id;
+    private String countryCode;
+    private String number;
+    private String provider;
+    private String severity;
 
-    public SmsTargetResource() {}
+    public SmsTargetResource() {
+
+    }
 
     public SmsTargetResource(SmsTarget smsTarget) {
         setCountryCode(smsTarget.getCountryCode());
@@ -32,18 +34,6 @@ public class SmsTargetResource extends PingdomResource {
         setNumber(smsTarget.getNumber());
         setProvider(smsTarget.getProvider());
         setSeverity(smsTarget.getSeverity());
-    }
-
-    /**
-     * The country code. (Optional)
-     */
-    @ResourceDiffProperty(updatable = true)
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
     }
 
     /**
@@ -56,6 +46,18 @@ public class SmsTargetResource extends PingdomResource {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * The country code. (Optional)
+     */
+    @ResourceDiffProperty(updatable = true)
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     /**
@@ -149,26 +151,23 @@ public class SmsTargetResource extends PingdomResource {
     }
 
     @Override
-    public String toDisplayString() {return "sms target " + getNumber();}
-
-    @Override
-    public String toString() {
-        return "SmsTargetResource{" +
-                "countryCode='" + countryCode + '\'' +
-                ", id=" + id +
-                ", number='" + number + '\'' +
-                ", provider='" + provider + '\'' +
-                ", severity='" + severity + '\'' +
-                '}';
-    }
-
-    @Override
     public String primaryKey() {
         return String.format("%s", getNumber());
     }
 
     @Override
-    public String resourceIdentifier() {
-        return null;
+    public String toDisplayString() {
+        return "sms target " + getNumber();
+    }
+
+    @Override
+    public String toString() {
+        return "SmsTargetResource{" +
+            "countryCode='" + countryCode + '\'' +
+            ", id=" + id +
+            ", number='" + number + '\'' +
+            ", provider='" + provider + '\'' +
+            ", severity='" + severity + '\'' +
+            '}';
     }
 }

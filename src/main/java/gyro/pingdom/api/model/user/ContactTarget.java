@@ -5,10 +5,9 @@ import java.util.List;
 
 public class ContactTarget {
 
-    public List<EmailTarget> email;
-    public Integer id;
-    public List<SmsTarget> sms;
-
+    private List<EmailTarget> email;
+    private Integer id;
+    private List<SmsTarget> sms;
 
     public List<EmailTarget> getEmail() {
         if (email == null){

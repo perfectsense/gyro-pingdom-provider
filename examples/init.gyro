@@ -4,5 +4,5 @@ plugin
 end
 
 pingdom::credentials default
-    credential-file-path: "path/to/properties/file"
+    credential-file-path: "ping.props"
 end

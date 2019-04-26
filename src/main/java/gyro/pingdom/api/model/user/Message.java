@@ -2,7 +2,15 @@ package gyro.pingdom.api.model.user;
 
 public class Message {
 
-    public String message;
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     @Override
     public String toString() {
