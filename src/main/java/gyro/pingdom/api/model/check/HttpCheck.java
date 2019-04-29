@@ -2,8 +2,6 @@ package gyro.pingdom.api.model.check;
 
 import gyro.core.diff.Diffable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class HttpCheck extends Diffable {

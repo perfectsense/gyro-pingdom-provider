@@ -16,7 +16,6 @@ import gyro.pingdom.api.model.check.Type;
 import gyro.pingdom.api.model.user.Message;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.http.Field;
 
 import java.io.IOException;
 import java.util.ArrayList;
