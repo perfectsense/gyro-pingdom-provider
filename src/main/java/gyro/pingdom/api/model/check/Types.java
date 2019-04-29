@@ -2,13 +2,13 @@ package gyro.pingdom.api.model.check;
 
 public class Types {
 
-    private HttpCheckResponse http;
+    private HttpCheck http;
 
-    public HttpCheckResponse getHttp() {
+    public HttpCheck getHttp() {
         return http;
     }
 
-    public void setHttp(HttpCheckResponse http) {
+    public void setHttp(HttpCheck http) {
         this.http = http;
     }
 

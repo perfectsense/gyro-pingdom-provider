@@ -33,34 +33,30 @@ public interface PingdomService {
 
     @POST("checks")
     @FormUrlEncoded
-    Call<CheckId> createCheck(@Field("name") String name,
-                              @Field("host") String hostname,
-                              @Field("type") String typeCheck,
-                              @Field("paused") Boolean paused,
-                              @Field("resolution") Integer resolution,
-                              @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
-                              @Field("notifyagainevery") Integer notifyAgainEvery,
-                              @Field("notifywhenbackup") Boolean notifyWhenBackup,
-                              @Field("tags") List<String> tags,
-                              @Field("userids") List<Integer> userIds);
-
-    @POST("checks")
-    @FormUrlEncoded
-    Call<CheckId> createCheck(@Field("name") String name,
-                              @Field("host") String hostname,
-                              @Field("type") String typeCheck,
-                              @Field("paused") Boolean paused,
-                              @Field("resolution") Integer resolution,
-                              @Field("userids") List<Integer> userids,
-                              @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
-                              @Field("notifyagainevery") Integer notifyAgainEvery,
-                              @Field("notifywhenbackup") Boolean notifyWhenBackup,
-                              @Field("tags") List<String> tags,
-                              @Field("probe_filters") Map<String, String> probeFilters,
-                              @Field("ipv6") Boolean ipv6,
-                              @Field("responsetime_threshold") Integer responseTimeThreshold,
-                              @Field("integrationids") List<Integer> integrationIds,
-                              @Field("teamids") List<Integer> teamIds);
+    Call<CheckResponse> createHttpCheck(
+            @Field("name") String name,
+            @Field("host") String host,
+            @Field("type") String type,
+            @Field("paused") Boolean paused,
+            @Field("resolution") Integer resolution,
+            @Field("userids") List<Integer> userids,
+            @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
+            @Field("notifyagainevery") Integer notifyAgainEvery,
+            @Field("notifywhenbackup") Boolean notifyWhenBackup,
+            @Field("tags") List<String> tags,
+            @Field("probe_filters") String probeFilters,
+            @Field("ipv6") Boolean ipv6,
+            @Field("responsetime_threshold") Integer responseTimeThreshold,
+            @Field("integrationids") List<Integer> integrationIds,
+            @Field("teamids") List<Integer> teamIds,
+            @Field("url") String url,
+            @Field("encryption") Boolean encryption,
+            @Field("port") Integer port,
+            @Field("auth") String auth,
+            @Field("shouldcontain") String shouldContain,
+            @Field("shouldnotcontain") String shouldNotContain,
+            @Field("postdata") String postData,
+            @Field("additionalurls") String additionalUrls);
 
     @PUT("checks/{checkid}")
     @FormUrlEncoded
@@ -103,29 +99,6 @@ public interface PingdomService {
                                       @Field("requestheader{X}") String requestHeader);
 
     // -- HTTP Check API
-
-    @POST("checks")
-    @FormUrlEncoded
-    Call<CheckId> createHttpCheck(@Field("name") String name,
-                                  @Field("host") String host,
-                                  @Field("type") String typeCheck,
-                                  @Field("paused") Boolean paused,
-                                  @Field("resolution") String resolution,
-                                  @Field("userids") List<Integer> userids,
-                                  @Field("sendnotificationwhendown") Integer sendnotificationwhendown,
-                                  @Field("notifyagainevery") Integer notifyagainevery,
-                                  @Field("notifywhenbackup") Boolean notifywhenbackup,
-                                  @Field("tags") List<String> tags,
-                                  @Field("probe_filters") Map<String, String> probe_filters,
-                                  @Field("ipv6") Boolean ipv6,
-                                  @Field("responsetime_threshold") Integer responsetime_threshold,
-                                  @Field("integrationids") List<Integer> integrationids,
-                                  @Field("teamids") List<Integer> teamids,
-                                  @Field("url") String url,
-                                  @Field("encryption") Boolean encryption,
-                                  @Field("port") Integer port,
-                                  @Field("auth") String auth,
-                                  @Field("additionalurls") String additionalurls);
 
     @PUT("checks/{checkid}")
     @FormUrlEncoded

@@ -1,18 +1,21 @@
 package gyro.pingdom.api.model.check;
 
+import gyro.core.diff.Diffable;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class HttpCheckResponse extends Check {
+public class HttpCheck extends Diffable {
 
     private String url;
     private Boolean encryption;
     private Integer port;
     private String auth;
-    private String shouldContain;
-    private String shouldNotContain;
-    private String postData;
-    private RequestHeader requestHeaders;
+    private String shouldcontain;
+    private String shouldnotcontain;
+    private String postdata;
+    private Map<String, String> requestheaders;
     private String typeName;
 
     public String getUrl() {
@@ -48,35 +51,35 @@ public class HttpCheckResponse extends Check {
     }
 
     public String getShouldContain() {
-        return shouldContain;
+        return shouldcontain;
     }
 
     public void setShouldContain(String shouldContain) {
-        this.shouldContain = shouldContain;
+        this.shouldcontain = shouldContain;
     }
 
     public String getShouldNotContain() {
-        return shouldNotContain;
+        return shouldnotcontain;
     }
 
     public void setShouldNotContain(String shouldNotContain) {
-        this.shouldNotContain = shouldNotContain;
+        this.shouldnotcontain = shouldNotContain;
     }
 
     public String getPostData() {
-        return postData;
+        return postdata;
     }
 
     public void setPostData(String postData) {
-        this.postData = postData;
+        this.postdata = postData;
     }
 
-    public RequestHeader getRequestHeaders() {
-        return requestHeaders;
+    public Map<String, String> getRequestHeaders() {
+        return requestheaders;
     }
 
-    public void setRequestHeaders(RequestHeader requestHeaders) {
-        this.requestHeaders = requestHeaders;
+    public void setRequestHeaders(Map<String, String> requestHeaders) {
+        this.requestheaders = requestHeaders;
     }
 
     public String getTypeName() {
@@ -87,12 +90,13 @@ public class HttpCheckResponse extends Check {
         this.typeName = typeName;
     }
 
-    public List<String> headers() {
-        List<String> header;
-        if (getRequestHeaders().getRequests() != null) {
-            header = new ArrayList<>(getRequestHeaders().getRequests());
-        }
-        return null;
+    @Override
+    public String primaryKey() {
+        return getUrl();
     }
 
+    @Override
+    public String toDisplayString() {
+        return "http check " + getUrl();
+    }
 }

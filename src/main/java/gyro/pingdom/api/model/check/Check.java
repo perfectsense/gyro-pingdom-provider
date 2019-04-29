@@ -5,23 +5,31 @@ import java.util.Map;
 
 public class Check {
 
+    private Integer id;
     private String created;
     private String hostname;
-    private List<Integer> integrationIds;
-    private Integer id;
+    private List<Integer> integrationids;
     private Boolean ipv6;
     private String name;
-    private Integer notifyAgainEvery;
-    private Boolean notifyWhenBackup;
+    private Integer notifyagainevery;
+    private Boolean notifywhenbackup;
     private Boolean paused;
-    private Map<String, String> probeFilters;
+    private Map<String, String> probe_filters;
     private Integer resolution;
-    private Integer responseTimeThreshold;
-    private Integer sendNotificationWhenDown;
+    private Integer responsetime_threshold;
+    private Integer sendnotificationwhendown;
     private List<Tag> tags;
-    private String type;
     private List<Integer> teamIds;
     private List<Integer> userIds;
+    private Type type;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getCreated() {
         return created;
@@ -40,19 +48,11 @@ public class Check {
     }
 
     public List<Integer> getIntegrationIds() {
-        return integrationIds;
+        return integrationids;
     }
 
     public void setIntegrationIds(List<Integer> integrationIds) {
-        this.integrationIds = integrationIds;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+        this.integrationids = integrationIds;
     }
 
     public Boolean getIpv6() {
@@ -72,19 +72,19 @@ public class Check {
     }
 
     public Integer getNotifyAgainEvery() {
-        return notifyAgainEvery;
+        return notifyagainevery;
     }
 
     public void setNotifyAgainEvery(Integer notifyAgainEvery) {
-        this.notifyAgainEvery = notifyAgainEvery;
+        this.notifyagainevery = notifyAgainEvery;
     }
 
     public Boolean getNotifyWhenBackup() {
-        return notifyWhenBackup;
+        return notifywhenbackup;
     }
 
     public void setNotifyWhenBackup(Boolean notifyWhenBackup) {
-        this.notifyWhenBackup = notifyWhenBackup;
+        this.notifywhenbackup = notifyWhenBackup;
     }
 
     public Boolean getPaused() {
@@ -96,11 +96,11 @@ public class Check {
     }
 
     public Map<String, String> getProbeFilters() {
-        return probeFilters;
+        return probe_filters;
     }
 
     public void setProbeFilters(Map<String, String> probeFilters) {
-        this.probeFilters = probeFilters;
+        this.probe_filters = probeFilters;
     }
 
     public Integer getResolution() {
@@ -112,19 +112,19 @@ public class Check {
     }
 
     public Integer getResponseTimeThreshold() {
-        return responseTimeThreshold;
+        return responsetime_threshold;
     }
 
     public void setResponseTimeThreshold(Integer responseTimeThreshold) {
-        this.responseTimeThreshold = responseTimeThreshold;
+        this.responsetime_threshold = responseTimeThreshold;
     }
 
     public Integer getSendNotificationWhenDown() {
-        return sendNotificationWhenDown;
+        return sendnotificationwhendown;
     }
 
     public void setSendNotificationWhenDown(Integer sendNotificationWhenDown) {
-        this.sendNotificationWhenDown = sendNotificationWhenDown;
+        this.sendnotificationwhendown = sendNotificationWhenDown;
     }
 
     public List<Tag> getTags() {
@@ -135,11 +135,11 @@ public class Check {
         this.tags = tags;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

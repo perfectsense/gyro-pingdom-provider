@@ -2,20 +2,14 @@ package gyro.pingdom.api.model.check;
 
 public class CheckResponse {
 
-    public CheckResponseObject check;
+    public Check check;
 
-    public CheckResponseObject getCheck() {
+    public Check getCheck() {
         return check;
     }
 
-    public void setCheck(CheckResponseObject check) {
+    public void setCheck(Check check) {
         this.check = check;
     }
 
-    @Override
-    public String toString() {
-        return "CheckResponse{" +
-                "check=" + check +
-                '}';
-    }
 }

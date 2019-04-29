@@ -1,17 +1,20 @@
 package gyro.pingdom.check;
 
+import com.psddev.dari.util.StringUtils;
 import gyro.core.GyroException;
+import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceName;
 import gyro.core.resource.ResourceOutput;
-import gyro.core.resource.Resource;
-
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.PingdomService;
-import gyro.pingdom.api.model.check.CheckId;
+import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
-import gyro.pingdom.api.model.check.CheckResponseObject;
+import gyro.pingdom.api.model.check.HttpCheck;
+import gyro.pingdom.api.model.check.Type;
 import gyro.pingdom.api.model.check.Types;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +42,8 @@ public class CheckResource extends PingdomResource {
     private List<Integer> teamIds;
     private Types type;
     private List<Integer> userIds;
+
+    private HttpCheck http;
 
     /**
      * The target host of the check. (Required)
@@ -251,6 +256,14 @@ public class CheckResource extends PingdomResource {
         this.userIds = userIds;
     }
 
+    public HttpCheck getHttp() {
+        return http;
+    }
+
+    public void setHttp(HttpCheck http) {
+        this.http = http;
+    }
+
     @Override
     public boolean refresh() {
         PingdomService service = createClient();
@@ -262,24 +275,30 @@ public class CheckResource extends PingdomResource {
                 return false;
             }
 
-            CheckResponseObject check = checkId.getCheck();
+            Check check = checkId.getCheck();
 
             setHostname(check.getHostname());
-            setIntegrationIds(check.getIntegrationids());
+            setIntegrationIds(check.getIntegrationIds());
             setId(check.getId());
             setIpv6(check.getIpv6());
             setName(check.getName());
-            setNotifyAgainEvery(check.getNotifyagainevery());
-            setNotifyWhenBackUp(check.getNotifywhenbackup());
+            setNotifyAgainEvery(check.getNotifyAgainEvery());
+            setNotifyWhenBackUp(check.getNotifyWhenBackup());
             setPaused(check.getPaused());
             setProbeFilters(check.getProbeFilters());
             setResolution(check.getResolution());
-            setResponseTimeThreshold(check.getResponsetime_threshold());
-            setSendNotificationWhenDown(check.getSendnotificationwhendown());
-            setTags(check.tags());
-            setTeamIds(check.getTeamids());
-            setType(check.getType());
-            setUserIds(check.getUserids());
+            setResponseTimeThreshold(check.getResponseTimeThreshold());
+            setSendNotificationWhenDown(check.getSendNotificationWhenDown());
+            setTeamIds(check.getTeamIds());
+            //setTags(check.getTags());
+            //setType(check.getType());
+            setUserIds(check.getUserIds());
+
+            if (check.getType().checkType() == Type.CheckType.HTTP) {
+                HttpCheck httpCheck = new HttpCheck();
+                httpCheck.setAuth(check.getType().getHttp().getAuth());
+            }
+
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -292,14 +311,43 @@ public class CheckResource extends PingdomResource {
         PingdomService service = createClient();
 
         try {
-            CheckId check = service.createCheck(getName(), getHostname(), "http",
+            if (getHttp() != null) {
+                HttpCheck http = getHttp();
+
+                Call<CheckResponse> call = service.createHttpCheck(
+                    getName(),
+                    getHostname(),
+                    "http",
                     getPaused(),
                     getResolution(),
+                    getUserIds(),
                     getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(),
-                    getTags(), getUserIds()).execute().body();
+                    getNotifyAgainEvery(),
+                    getNotifyWhenBackUp(),
+                    getTags(),
+                    probeFiltersToString(),
+                    getIpv6(),
+                    getResponseTimeThreshold(),
+                    getIntegrationIds(),
+                    getTeamIds(),
+                    http.getUrl(),
+                    http.getEncryption(),
+                    http.getPort(),
+                    http.getAuth(),
+                    http.getShouldContain(),
+                    http.getShouldNotContain(),
+                    http.getPostData(),
+                    null);
 
-            setId(check.getCheck().getId());
+                Response<CheckResponse> response = call.execute();
+                if (!response.isSuccessful()) {
+                    throw new GyroException(response.errorBody().string());
+                }
+
+                CheckResponse check = response.body();
+
+                setId(check.getCheck().getId());
+            }
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -334,5 +382,15 @@ public class CheckResource extends PingdomResource {
 
     @Override
     public String toDisplayString() {return "check " + getName();}
+
+    private String probeFiltersToString() {
+        List<String> filters = new ArrayList<>();
+
+        for (String key : getProbeFilters().keySet()) {
+            filters.add(String.format("%s:%s", key, getProbeFilters().get(key)));
+        }
+
+        return StringUtils.join(filters, ",");
+    }
 }
 
