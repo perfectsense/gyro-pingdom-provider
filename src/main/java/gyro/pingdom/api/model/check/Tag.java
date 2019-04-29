@@ -2,9 +2,17 @@ package gyro.pingdom.api.model.check;
 
 public class Tag {
 
-    String count;
-    String name;
-    String type;
+    private String count;
+    private String name;
+    private String type;
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
 
     public String getName() {
         return name;
@@ -14,12 +22,12 @@ public class Tag {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Tag{" +
-                "count='" + count + '\'' +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                '}';
+    public String getType() {
+        return type;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

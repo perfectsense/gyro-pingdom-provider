@@ -12,6 +12,7 @@ import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.CheckService;
 import gyro.pingdom.api.model.check.HttpCheck;
 import gyro.pingdom.api.model.check.HttpCustomCheck;
+import gyro.pingdom.api.model.check.Tag;
 import gyro.pingdom.api.model.check.Type;
 import gyro.pingdom.api.model.user.Message;
 import retrofit2.Call;
@@ -20,6 +21,7 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +41,7 @@ public class CheckResource extends PingdomResource {
     private Integer resolution;
     private Integer responseTimeThreshold;
     private Integer sendNotificationWhenDown;
-    private List<String> tags;
+    private Set<String> tags;
     private List<Integer> teamIds;
     private Type type;
     private List<Integer> userIds;
@@ -203,15 +205,15 @@ public class CheckResource extends PingdomResource {
      * The tags for the check. (Optional)
      */
     @ResourceDiffProperty(updatable = true)
-    public List<String> getTags() {
+    public Set<String> getTags() {
         if (tags == null) {
-            tags = new ArrayList<>();
+            tags = new HashSet<>();
         }
 
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(Set<String> tags) {
         this.tags = tags;
     }
 
@@ -301,9 +303,12 @@ public class CheckResource extends PingdomResource {
             setResponseTimeThreshold(check.getResponseTimeThreshold());
             setSendNotificationWhenDown(check.getSendNotificationWhenDown());
             setTeamIds(check.getTeamIds());
-            //setTags(check.getTags());
-            //setType(check.getType());
             setUserIds(check.getUserIds());
+
+            for (Tag tag : check.getTags()) {
+                System.out.println("Adding tag: " + tag.getName());
+                getTags().add(tag.getName());
+            }
 
             if (check.getType().checkType() == Type.CheckType.HTTP) {
                 HttpCheck httpCheck = new HttpCheck();
@@ -327,7 +332,7 @@ public class CheckResource extends PingdomResource {
             if (getHttp() != null) {
                 call = service.createHttpCheck(
                     getName(), getHostname(), "http", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), getTags(), probeFiltersToString(), getIpv6(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                     getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(), http.getUrl(),
                     getHttp().getEncryption(),
                     getHttp().getPort(),
@@ -339,7 +344,7 @@ public class CheckResource extends PingdomResource {
             } else if (getCustomHttp() != null) {
                 call = service.createCustomHttpCheck(
                     getName(), getHostname(), "httpcustom", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), getTags(), probeFiltersToString(), getIpv6(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                     getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                     getCustomHttp().getUrl(),
                     getCustomHttp().getEncryption(),
@@ -373,7 +378,7 @@ public class CheckResource extends PingdomResource {
             if (getHttp() != null) {
                 call = service.modifyHttpCheck(
                     getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), getTags(), probeFiltersToString(), getIpv6(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                     getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                     getHttp().getUrl(),
                     getHttp().getEncryption(),
@@ -385,7 +390,7 @@ public class CheckResource extends PingdomResource {
             } else if (getCustomHttp() != null) {
                 call = service.modifyCustomHttpCheck(
                     getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), getTags(), probeFiltersToString(), getIpv6(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                     getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                     getCustomHttp().getUrl(),
                     getCustomHttp().getEncryption(),
@@ -425,6 +430,10 @@ public class CheckResource extends PingdomResource {
         }
 
         return StringUtils.join(filters, ",");
+    }
+
+    private String tagsToString() {
+        return StringUtils.join(new ArrayList<>(getTags()), ",");
     }
 }
 

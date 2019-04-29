@@ -7,7 +7,7 @@ pingdom::check check-example
     send-notification-when-down: 7
     notify-again-every: 4
     notify-when-back-up: true
-    #tags: ["first-tag"]
+    tags: ["abc", "xyz"]
 
     http
         url: "/"
