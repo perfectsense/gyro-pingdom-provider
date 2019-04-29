@@ -1,8 +1,6 @@
 package gyro.pingdom.api.model.check;
 
-import gyro.core.diff.Diffable;
-
-public class HttpCustomCheck extends Diffable {
+public class HttpCustomCheck {
 
     private String url;
     private Boolean encryption;
@@ -48,15 +46,5 @@ public class HttpCustomCheck extends Diffable {
 
     public void setAdditionalUrls(String additionalUrls) {
         this.additionalUrls = additionalUrls;
-    }
-
-    @Override
-    public String primaryKey() {
-        return getUrl();
-    }
-
-    @Override
-    public String toDisplayString() {
-        return "custom http check " + getUrl();
     }
 }

@@ -2,7 +2,6 @@ package gyro.pingdom.check;
 
 import com.psddev.dari.util.StringUtils;
 import gyro.core.GyroException;
-import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceName;
 import gyro.core.resource.ResourceOutput;
@@ -15,9 +14,6 @@ import gyro.pingdom.api.model.check.HttpCustomCheck;
 import gyro.pingdom.api.model.check.Tag;
 import gyro.pingdom.api.model.check.TcpCheck;
 import gyro.pingdom.api.model.check.Type;
-import gyro.pingdom.api.model.user.Message;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 @ResourceName("check")
-public class CheckResource extends PingdomResource {
+public abstract class CheckResource extends PingdomResource {
 
     private String hostname;
     private List<Integer> integrationIds;
@@ -46,10 +42,6 @@ public class CheckResource extends PingdomResource {
     private List<Integer> teamIds;
     private Type type;
     private List<Integer> userIds;
-
-    private HttpCheck http;
-    private HttpCustomCheck customHttp;
-    private TcpCheck tcp;
 
     /**
      * The target host of the check. (Required)
@@ -263,29 +255,7 @@ public class CheckResource extends PingdomResource {
         this.userIds = userIds;
     }
 
-    public HttpCheck getHttp() {
-        return http;
-    }
-
-    public void setHttp(HttpCheck http) {
-        this.http = http;
-    }
-
-    public HttpCustomCheck getCustomHttp() {
-        return customHttp;
-    }
-
-    public void setCustomHttp(HttpCustomCheck customHttp) {
-        this.customHttp = customHttp;
-    }
-
-    public TcpCheck getTcp() {
-        return tcp;
-    }
-
-    public void setTcp(TcpCheck tcp) {
-        this.tcp = tcp;
-    }
+    public abstract void doRefresh(Check check);
 
     @Override
     public boolean refresh() {
@@ -316,121 +286,15 @@ public class CheckResource extends PingdomResource {
             setUserIds(check.getUserIds());
 
             for (Tag tag : check.getTags()) {
-                System.out.println("Adding tag: " + tag.getName());
                 getTags().add(tag.getName());
             }
 
-            setHttp(check.getType().getHttp());
-            setCustomHttp(check.getType().getHttpCustom());
-            setTcp(check.getType().getTcp());
-
+            doRefresh(check);
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
 
         return true;
-    }
-
-    @Override
-    public void create() {
-        CheckService service = createClient(CheckService.class);
-
-        try {
-            Call<CheckResponse> call = null;
-
-            if (getHttp() != null) {
-                call = service.createHttpCheck(
-                    getName(), getHostname(), "http", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
-                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(), http.getUrl(),
-                    getHttp().getEncryption(),
-                    getHttp().getPort(),
-                    getHttp().getAuth(),
-                    getHttp().getShouldContain(),
-                    getHttp().getShouldNotContain(),
-                    getHttp().getPostData(),
-                    null);
-            } else if (getCustomHttp() != null) {
-                call = service.createCustomHttpCheck(
-                    getName(), getHostname(), "httpcustom", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
-                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
-                    getCustomHttp().getUrl(),
-                    getCustomHttp().getEncryption(),
-                    getCustomHttp().getPort(),
-                    getCustomHttp().getAuth(),
-                    getCustomHttp().getAdditionalUrls());
-            } else if (getTcp() != null) {
-                call = service.createTcpCheck(
-                    getName(), getHostname(), "tcp", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
-                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
-                    getTcp().getPort(),
-                    getTcp().getStringToSend(),
-                    getTcp().getStringToExpect());
-            } else {
-                throw new GyroException("Unknown Check Type");
-            }
-
-            Response<CheckResponse> response = call.execute();
-            if (!response.isSuccessful()) {
-                throw new GyroException(response.errorBody().string());
-            }
-
-            CheckResponse check = response.body();
-
-            setId(check.getCheck().getId());
-        } catch (IOException ex) {
-            throw new GyroException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void update(Resource current, Set<String> changedProperties) {
-        CheckService service = createClient(CheckService.class);
-
-        try {
-            Call<Message> call = null;
-
-            if (getHttp() != null) {
-                call = service.modifyHttpCheck(
-                    getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
-                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
-                    getHttp().getUrl(),
-                    getHttp().getEncryption(),
-                    getHttp().getPort(),
-                    getHttp().getAuth(),
-                    getHttp().getShouldContain(),
-                    getHttp().getShouldNotContain(),
-                    getHttp().getPostData());
-            } else if (getCustomHttp() != null) {
-                call = service.modifyCustomHttpCheck(
-                    getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
-                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
-                    getCustomHttp().getUrl(),
-                    getCustomHttp().getEncryption(),
-                    getCustomHttp().getPort(),
-                    getCustomHttp().getAuth(),
-                    getCustomHttp().getAdditionalUrls());
-            } else if (getTcp() != null) {
-                call = service.modifyTcpCheck(
-                    getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
-                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
-                    getTcp().getPort(),
-                    getTcp().getStringToSend(),
-                    getTcp().getStringToExpect());
-            }
-
-            Response<Message> response = call.execute();
-            if (!response.isSuccessful()) {
-                throw new GyroException(response.errorBody().string());
-            }
-        } catch(IOException ex) {
-            throw new GyroException(ex.getMessage());
-        }
     }
 
     @Override
@@ -444,10 +308,7 @@ public class CheckResource extends PingdomResource {
         }
     }
 
-    @Override
-    public String toDisplayString() {return "check " + getName();}
-
-    private String probeFiltersToString() {
+    protected String probeFiltersToString() {
         List<String> filters = new ArrayList<>();
 
         for (String key : getProbeFilters().keySet()) {
@@ -457,7 +318,7 @@ public class CheckResource extends PingdomResource {
         return StringUtils.join(filters, ",");
     }
 
-    private String tagsToString() {
+    protected String tagsToString() {
         return StringUtils.join(new ArrayList<>(getTags()), ",");
     }
 }

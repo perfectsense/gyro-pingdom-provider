@@ -57,8 +57,7 @@ public interface CheckService {
         @Field("auth") String auth,
         @Field("shouldcontain") String shouldContain,
         @Field("shouldnotcontain") String shouldNotContain,
-        @Field("postdata") String postData,
-        @Field("additionalurls") String additionalUrls);
+        @Field("postdata") String postData);
 
     @PUT("checks/{checkid}")
     @FormUrlEncoded

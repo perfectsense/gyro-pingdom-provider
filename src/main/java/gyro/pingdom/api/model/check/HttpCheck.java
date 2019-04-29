@@ -1,10 +1,8 @@
 package gyro.pingdom.api.model.check;
 
-import gyro.core.diff.Diffable;
-
 import java.util.Map;
 
-public class HttpCheck extends Diffable {
+public class HttpCheck {
 
     private String url;
     private Boolean encryption;
@@ -86,15 +84,5 @@ public class HttpCheck extends Diffable {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
-    }
-
-    @Override
-    public String primaryKey() {
-        return getUrl();
-    }
-
-    @Override
-    public String toDisplayString() {
-        return "http check " + getUrl();
     }
 }

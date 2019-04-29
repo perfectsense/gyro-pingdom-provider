@@ -1,17 +1,18 @@
 @import ../init as _
 
-pingdom::check custom-check-example
-    name: "example-custom-check"
+pingdom::custom-http-check custom-check-example
+    name: "custom-check-example"
+
+    # Custom HTTP check specific attributes
+    url: "/pingdom.xml"
+    port: 443
+    encryption: true
+
+    # Common check attributes
     resolution: 5
     hostname: "s7.mydomain.com"
     send-notification-when-down: 7
     notify-again-every: 4
     notify-when-back-up: true
-    #tags: ["first-tag"]
-
-    custom-http
-        url: "/pingdom.xml"
-        port: 443
-        encryption: true
-    end
+    tags: ["abc", "xyz"]
 end
