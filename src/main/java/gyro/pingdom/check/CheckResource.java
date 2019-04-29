@@ -12,14 +12,10 @@ import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.HttpCheck;
 import gyro.pingdom.api.model.check.Type;
-import gyro.pingdom.api.model.check.Types;
 import gyro.pingdom.api.model.user.Message;
-import okio.BufferedSink;
-import okio.Okio;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +40,7 @@ public class CheckResource extends PingdomResource {
     private Integer sendNotificationWhenDown;
     private List<String> tags;
     private List<Integer> teamIds;
-    private Types type;
+    private Type type;
     private List<Integer> userIds;
 
     private HttpCheck http;
@@ -237,11 +233,11 @@ public class CheckResource extends PingdomResource {
      * The type of the check. (Required)
      */
     @ResourceDiffProperty(updatable = true)
-    public Types getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Types type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
