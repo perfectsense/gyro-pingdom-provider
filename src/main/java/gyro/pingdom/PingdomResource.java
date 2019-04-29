@@ -26,32 +26,19 @@ public abstract class PingdomResource extends Resource {
         Map<String, String> credentials = resourceCredentials().findCredentials();
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Interceptor.Chain chain) throws IOException {
-                Request original = chain.request();
+        httpClient.addInterceptor(chain -> {
+            Request original = chain.request();
 
-                String auth = Credentials.basic(credentials.get("username"), credentials.get("password"));
+            String auth = Credentials.basic(credentials.get("email"), credentials.get("password"));
 
-                // Request customization: add request headers
-                Request.Builder requestBuilder = original.newBuilder().header("Authorization", auth);
-                requestBuilder.addHeader("Accept", "application/json");
-                Request request = requestBuilder.build();
-                return chain.proceed(request);
-            }
-        });
+            Request request = original.newBuilder()
+                .addHeader("Accept", "application/json")
+                .addHeader("Authorization", auth)
+                .addHeader("App-Key", credentials.get("app-key"))
+                .addHeader("Account-Email", credentials.get("email"))
+                .build();
 
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Interceptor.Chain chain) throws IOException {
-                Request original = chain.request();
-
-                // Request customization: add request headers
-                Request.Builder requestBuilder = original.newBuilder().header("App-Key", credentials.get("app-key"));
-                requestBuilder.addHeader("Accept", "application/json");
-                Request request = requestBuilder.build();
-                return chain.proceed(request);
-            }
+            return chain.proceed(request);
         });
 
         // Temporary workaround to allow OkHTTP to shutdown when Gyro exits. The full fix
