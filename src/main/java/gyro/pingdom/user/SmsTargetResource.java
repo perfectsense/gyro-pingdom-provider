@@ -8,9 +8,9 @@ import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceOutput;
 
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.api.PingdomService;
 import gyro.pingdom.api.model.user.ContactTargetId;
 import gyro.pingdom.api.model.user.SmsTarget;
+import gyro.pingdom.api.model.user.UserService;
 
 import java.io.IOException;
 import java.util.Set;
@@ -106,7 +106,7 @@ public class SmsTargetResource extends PingdomResource {
 
     @Override
     public void create() {
-        PingdomService service = createClient();
+        UserService service = createClient(UserService.class);
 
         try {
             ContactTargetId contactTarget = service.addSmsTargetToUser(getUserId(),
@@ -126,7 +126,7 @@ public class SmsTargetResource extends PingdomResource {
 
     @Override
     public void update(Resource current, Set<String> changedProperties) {
-        PingdomService service = createClient();
+        UserService service = createClient(UserService.class);
 
         SmsTargetResource oldResource = (SmsTargetResource) current;
 
@@ -141,7 +141,7 @@ public class SmsTargetResource extends PingdomResource {
 
     @Override
     public void delete() {
-        PingdomService service = createClient();
+        UserService service = createClient(UserService.class);
 
         try {
             service.deleteSmsTarget(getUserId(), getId()).execute().body();

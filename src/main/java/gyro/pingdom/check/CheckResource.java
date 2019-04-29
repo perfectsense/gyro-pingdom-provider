@@ -7,9 +7,9 @@ import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceName;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.api.PingdomService;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
+import gyro.pingdom.api.model.check.CheckService;
 import gyro.pingdom.api.model.check.HttpCheck;
 import gyro.pingdom.api.model.check.HttpCustomCheck;
 import gyro.pingdom.api.model.check.Type;
@@ -277,7 +277,7 @@ public class CheckResource extends PingdomResource {
 
     @Override
     public boolean refresh() {
-        PingdomService service = createClient();
+        CheckService service = createClient(CheckService.class);
 
         try {
             CheckResponse checkId = service.getCheck(getId()).execute().body();
@@ -319,7 +319,7 @@ public class CheckResource extends PingdomResource {
 
     @Override
     public void create() {
-        PingdomService service = createClient();
+        CheckService service = createClient(CheckService.class);
 
         try {
             Call<CheckResponse> call = null;
@@ -365,7 +365,7 @@ public class CheckResource extends PingdomResource {
 
     @Override
     public void update(Resource current, Set<String> changedProperties) {
-        PingdomService service = createClient();
+        CheckService service = createClient(CheckService.class);
 
         try {
             Call<Message> call = null;
@@ -405,7 +405,7 @@ public class CheckResource extends PingdomResource {
 
     @Override
     public void delete() {
-        PingdomService service = createClient();
+        CheckService service = createClient(CheckService.class);
 
         try {
             service.deleteCheck(getId()).execute().body();
