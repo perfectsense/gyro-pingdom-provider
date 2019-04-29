@@ -5,7 +5,7 @@ pingdom::check check-example
     resolution: 5
     hostname: "s7.mydomain.com"
     send-notification-when-down: 7
-    notify-again-every: 6
+    notify-again-every: 4
     notify-when-back-up: true
     #tags: ["first-tag"]
 

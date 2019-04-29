@@ -31,98 +31,63 @@ public interface PingdomService {
     @GET("checks/{checkid}")
     Call<CheckResponse> getCheck(@Path("checkid") Integer checkId);
 
-    @POST("checks")
-    @FormUrlEncoded
-    Call<CheckResponse> createHttpCheck(
-            @Field("name") String name,
-            @Field("host") String host,
-            @Field("type") String type,
-            @Field("paused") Boolean paused,
-            @Field("resolution") Integer resolution,
-            @Field("userids") List<Integer> userids,
-            @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
-            @Field("notifyagainevery") Integer notifyAgainEvery,
-            @Field("notifywhenbackup") Boolean notifyWhenBackup,
-            @Field("tags") List<String> tags,
-            @Field("probe_filters") String probeFilters,
-            @Field("ipv6") Boolean ipv6,
-            @Field("responsetime_threshold") Integer responseTimeThreshold,
-            @Field("integrationids") List<Integer> integrationIds,
-            @Field("teamids") List<Integer> teamIds,
-            @Field("url") String url,
-            @Field("encryption") Boolean encryption,
-            @Field("port") Integer port,
-            @Field("auth") String auth,
-            @Field("shouldcontain") String shouldContain,
-            @Field("shouldnotcontain") String shouldNotContain,
-            @Field("postdata") String postData,
-            @Field("additionalurls") String additionalUrls);
-
-    @PUT("checks/{checkid}")
-    @FormUrlEncoded
-    Call<Message> modifyCheck(@Path("checkid") Integer checkId,
-                              @Field("name") String name,
-                              @Field("host") String host,
-                              @Field("type") String typeCheck,
-                              @Field("paused") Boolean paused,
-                              @Field("resolution") Integer resolution,
-                              @Field("userids") List<Integer> userids,
-                              @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
-                              @Field("notifyagainevery") Integer notifyAgainEvery,
-                              @Field("notifywhenbackup") Boolean notifyWhenBackup,
-                              @Field("tags") List<String> tags,
-                              @Field("probe_filters") Map<String, String> probeFilters,
-                              @Field("ipv6") Boolean ipv6,
-                              @Field("responsetime_threshold") Integer responseTimeThreshold,
-                              @Field("integrationids") List<Integer> integrationIds,
-                              @Field("teamids") List<Integer> teamIds);
-
     @DELETE("checks/{checkid}")
     Call<Message> deleteCheck(@Path("checkid") Integer checkId);
 
     // -- HTTP Check API
 
-    @PUT("checks/{checkid}")
+    @POST("checks")
     @FormUrlEncoded
-    Call<Message> modifyHttpCheck(@Path("checkid") Integer checkId,
-                                  @Field("url") String url,
-                                  @Field("encryption") Boolean encryption,
-                                  @Field("port") Integer port,
-                                  @Field("auth") String auth,
-                                  @Field("shouldcontain") String shouldContain,
-                                  @Field("shouldnotcontain") String shouldNotContain,
-                                  @Field("postdata") String postData);
+    Call<CheckResponse> createHttpCheck(
+        @Field("name") String name,
+        @Field("host") String host,
+        @Field("type") String type,
+        @Field("paused") Boolean paused,
+        @Field("resolution") Integer resolution,
+        @Field("userids") List<Integer> userids,
+        @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
+        @Field("notifyagainevery") Integer notifyAgainEvery,
+        @Field("notifywhenbackup") Boolean notifyWhenBackup,
+        @Field("tags") List<String> tags,
+        @Field("probe_filters") String probeFilters,
+        @Field("ipv6") Boolean ipv6,
+        @Field("responsetime_threshold") Integer responseTimeThreshold,
+        @Field("integrationids") List<Integer> integrationIds,
+        @Field("teamids") List<Integer> teamIds,
+        @Field("url") String url,
+        @Field("encryption") Boolean encryption,
+        @Field("port") Integer port,
+        @Field("auth") String auth,
+        @Field("shouldcontain") String shouldContain,
+        @Field("shouldnotcontain") String shouldNotContain,
+        @Field("postdata") String postData,
+        @Field("additionalurls") String additionalUrls);
 
     @PUT("checks/{checkid}")
     @FormUrlEncoded
-    Call<Message> modifyRequestHeader(@Path("checkid") Integer checkId,
-                                      @Field("requestheader{X}") String requestHeader);
-
-    // -- HTTP Check API
-
-    @PUT("checks/{checkid}")
-    @FormUrlEncoded
-    Call<Message> modifyHttpCustomCheck(@Path("checkid") Integer checkId,
-                                        @Field("name") String name,
-                                        @Field("host") String host,
-                                        @Field("type") String typeCheck,
-                                        @Field("paused") Boolean paused,
-                                        @Field("resolution") String resolution,
-                                        @Field("userids") List<Integer> userids,
-                                        @Field("sendnotificationwhendown") Integer sendnotificationwhendown,
-                                        @Field("notifyagainevery") Integer notifyagainevery,
-                                        @Field("notifywhenbackup") Boolean notifywhenbackup,
-                                        @Field("tags") List<String> tags,
-                                        @Field("probe_filters") Map<String, String> probe_filters,
-                                        @Field("ipv6") Boolean ipv6,
-                                        @Field("responsetime_threshold") Integer responsetime_threshold,
-                                        @Field("integrationids") List<Integer> integrationids,
-                                        @Field("teamids") List<Integer> teamids,
-                                        @Field("url") String url,
-                                        @Field("encryption") Boolean encryption,
-                                        @Field("port") Integer port,
-                                        @Field("auth") String auth,
-                                        @Field("additionalurls") String additionalurls);
+    Call<Message> modifyHttpCheck(
+        @Path("checkid") Integer checkId,
+        @Field("name") String name,
+        @Field("host") String host,
+        @Field("paused") Boolean paused,
+        @Field("resolution") Integer resolution,
+        @Field("userids") List<Integer> userids,
+        @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
+        @Field("notifyagainevery") Integer notifyAgainEvery,
+        @Field("notifywhenbackup") Boolean notifyWhenBackup,
+        @Field("tags") List<String> tags,
+        @Field("probe_filters") String probeFilters,
+        @Field("ipv6") Boolean ipv6,
+        @Field("responsetime_threshold") Integer responseTimeThreshold,
+        @Field("integrationids") List<Integer> integrationIds,
+        @Field("teamids") List<Integer> teamIds,
+        @Field("url") String url,
+        @Field("encryption") Boolean encryption,
+        @Field("port") Integer port,
+        @Field("auth") String auth,
+        @Field("shouldcontain") String shouldContain,
+        @Field("shouldnotcontain") String shouldNotContain,
+        @Field("postdata") String postData);
 
     // -- TCP Check API
 

@@ -13,9 +13,13 @@ import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.HttpCheck;
 import gyro.pingdom.api.model.check.Type;
 import gyro.pingdom.api.model.check.Types;
+import gyro.pingdom.api.model.user.Message;
+import okio.BufferedSink;
+import okio.Okio;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -358,12 +362,36 @@ public class CheckResource extends PingdomResource {
         PingdomService service = createClient();
 
         try {
-            service.modifyCheck(getId(), getName(), getHostname(), getType().inUse(), getPaused(),
-                    getResolution(), getUserIds(), getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(), getNotifyWhenBackUp(),
-                    getTags(), getProbeFilters(), getIpv6(),
-                    getResponseTimeThreshold(), getIntegrationIds(),
-                    getTeamIds()).execute().body();
+            if (getHttp() != null) {
+                Call<Message> call = service.modifyHttpCheck(
+                    getId(),
+                    getName(),
+                    getHostname(),
+                    getPaused(),
+                    getResolution(),
+                    getUserIds(),
+                    getSendNotificationWhenDown(),
+                    getNotifyAgainEvery(),
+                    getNotifyWhenBackUp(),
+                    getTags(),
+                    probeFiltersToString(),
+                    getIpv6(),
+                    getResponseTimeThreshold(),
+                    getIntegrationIds(),
+                    getTeamIds(),
+                    http.getUrl(),
+                    http.getEncryption(),
+                    http.getPort(),
+                    http.getAuth(),
+                    http.getShouldContain(),
+                    http.getShouldNotContain(),
+                    http.getPostData());
+
+                Response<Message> response = call.execute();
+                if (!response.isSuccessful()) {
+                    throw new GyroException(response.errorBody().string());
+                }
+            }
         } catch(IOException ex) {
             throw new GyroException(ex.getMessage());
         }
