@@ -89,6 +89,57 @@ public interface PingdomService {
         @Field("shouldnotcontain") String shouldNotContain,
         @Field("postdata") String postData);
 
+    // -- Custom HTTP Check API
+
+    @POST("checks")
+    @FormUrlEncoded
+    Call<CheckResponse> createCustomHttpCheck(
+        @Field("name") String name,
+        @Field("host") String host,
+        @Field("type") String type,
+        @Field("paused") Boolean paused,
+        @Field("resolution") Integer resolution,
+        @Field("userids") List<Integer> userids,
+        @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
+        @Field("notifyagainevery") Integer notifyAgainEvery,
+        @Field("notifywhenbackup") Boolean notifyWhenBackup,
+        @Field("tags") List<String> tags,
+        @Field("probe_filters") String probeFilters,
+        @Field("ipv6") Boolean ipv6,
+        @Field("responsetime_threshold") Integer responseTimeThreshold,
+        @Field("integrationids") List<Integer> integrationIds,
+        @Field("teamids") List<Integer> teamIds,
+        @Field("url") String url,
+        @Field("encryption") Boolean encryption,
+        @Field("port") Integer port,
+        @Field("auth") String auth,
+        @Field("additionalurls") String additionalUrls);
+
+    @PUT("checks/{checkid}")
+    @FormUrlEncoded
+    Call<Message> modifyCustomHttpCheck(
+        @Path("checkid") Integer checkId,
+        @Field("name") String name,
+        @Field("host") String host,
+        @Field("paused") Boolean paused,
+        @Field("resolution") Integer resolution,
+        @Field("userids") List<Integer> userids,
+        @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
+        @Field("notifyagainevery") Integer notifyAgainEvery,
+        @Field("notifywhenbackup") Boolean notifyWhenBackup,
+        @Field("tags") List<String> tags,
+        @Field("probe_filters") String probeFilters,
+        @Field("ipv6") Boolean ipv6,
+        @Field("responsetime_threshold") Integer responseTimeThreshold,
+        @Field("integrationids") List<Integer> integrationIds,
+        @Field("teamids") List<Integer> teamIds,
+        @Field("url") String url,
+        @Field("encryption") Boolean encryption,
+        @Field("port") Integer port,
+        @Field("auth") String auth,
+        @Field("additionalurls") String additionalUrls);
+
+
     // -- TCP Check API
 
     @POST("checks")

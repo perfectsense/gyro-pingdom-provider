@@ -11,10 +11,12 @@ import gyro.pingdom.api.PingdomService;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.HttpCheck;
+import gyro.pingdom.api.model.check.HttpCustomCheck;
 import gyro.pingdom.api.model.check.Type;
 import gyro.pingdom.api.model.user.Message;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.Field;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ public class CheckResource extends PingdomResource {
     private List<Integer> userIds;
 
     private HttpCheck http;
+    private HttpCustomCheck customHttp;
 
     /**
      * The target host of the check. (Required)
@@ -243,6 +246,7 @@ public class CheckResource extends PingdomResource {
 
     /**
      * Ids of the users that will be notified is the host is down. (Optional)
+     import gyro.core.diff.Diff;
      */
     @ResourceDiffProperty(updatable = true)
     public List<Integer> getUserIds() {
@@ -262,6 +266,14 @@ public class CheckResource extends PingdomResource {
 
     public void setHttp(HttpCheck http) {
         this.http = http;
+    }
+
+    public HttpCustomCheck getCustomHttp() {
+        return customHttp;
+    }
+
+    public void setCustomHttp(HttpCustomCheck customHttp) {
+        this.customHttp = customHttp;
     }
 
     @Override
@@ -311,43 +323,42 @@ public class CheckResource extends PingdomResource {
         PingdomService service = createClient();
 
         try {
+            Call<CheckResponse> call = null;
+
             if (getHttp() != null) {
-                HttpCheck http = getHttp();
-
-                Call<CheckResponse> call = service.createHttpCheck(
-                    getName(),
-                    getHostname(),
-                    "http",
-                    getPaused(),
-                    getResolution(),
-                    getUserIds(),
-                    getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(),
-                    getNotifyWhenBackUp(),
-                    getTags(),
-                    probeFiltersToString(),
-                    getIpv6(),
-                    getResponseTimeThreshold(),
-                    getIntegrationIds(),
-                    getTeamIds(),
-                    http.getUrl(),
-                    http.getEncryption(),
-                    http.getPort(),
-                    http.getAuth(),
-                    http.getShouldContain(),
-                    http.getShouldNotContain(),
-                    http.getPostData(),
+                call = service.createHttpCheck(
+                    getName(), getHostname(), "http", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), getTags(), probeFiltersToString(), getIpv6(),
+                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(), http.getUrl(),
+                    getHttp().getEncryption(),
+                    getHttp().getPort(),
+                    getHttp().getAuth(),
+                    getHttp().getShouldContain(),
+                    getHttp().getShouldNotContain(),
+                    getHttp().getPostData(),
                     null);
-
-                Response<CheckResponse> response = call.execute();
-                if (!response.isSuccessful()) {
-                    throw new GyroException(response.errorBody().string());
-                }
-
-                CheckResponse check = response.body();
-
-                setId(check.getCheck().getId());
+            } else if (getCustomHttp() != null) {
+                call = service.createCustomHttpCheck(
+                    getName(), getHostname(), "httpcustom", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), getTags(), probeFiltersToString(), getIpv6(),
+                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
+                    getCustomHttp().getUrl(),
+                    getCustomHttp().getEncryption(),
+                    getCustomHttp().getPort(),
+                    getCustomHttp().getAuth(),
+                    getCustomHttp().getAdditionalUrls());
+            } else {
+                throw new GyroException("Unknown Check Type");
             }
+
+            Response<CheckResponse> response = call.execute();
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
+            }
+
+            CheckResponse check = response.body();
+
+            setId(check.getCheck().getId());
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -358,35 +369,35 @@ public class CheckResource extends PingdomResource {
         PingdomService service = createClient();
 
         try {
-            if (getHttp() != null) {
-                Call<Message> call = service.modifyHttpCheck(
-                    getId(),
-                    getName(),
-                    getHostname(),
-                    getPaused(),
-                    getResolution(),
-                    getUserIds(),
-                    getSendNotificationWhenDown(),
-                    getNotifyAgainEvery(),
-                    getNotifyWhenBackUp(),
-                    getTags(),
-                    probeFiltersToString(),
-                    getIpv6(),
-                    getResponseTimeThreshold(),
-                    getIntegrationIds(),
-                    getTeamIds(),
-                    http.getUrl(),
-                    http.getEncryption(),
-                    http.getPort(),
-                    http.getAuth(),
-                    http.getShouldContain(),
-                    http.getShouldNotContain(),
-                    http.getPostData());
+            Call<Message> call = null;
 
-                Response<Message> response = call.execute();
-                if (!response.isSuccessful()) {
-                    throw new GyroException(response.errorBody().string());
-                }
+            if (getHttp() != null) {
+                call = service.modifyHttpCheck(
+                    getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), getTags(), probeFiltersToString(), getIpv6(),
+                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
+                    getHttp().getUrl(),
+                    getHttp().getEncryption(),
+                    getHttp().getPort(),
+                    getHttp().getAuth(),
+                    getHttp().getShouldContain(),
+                    getHttp().getShouldNotContain(),
+                    getHttp().getPostData());
+            } else if (getCustomHttp() != null) {
+                call = service.modifyCustomHttpCheck(
+                    getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), getTags(), probeFiltersToString(), getIpv6(),
+                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
+                    getCustomHttp().getUrl(),
+                    getCustomHttp().getEncryption(),
+                    getCustomHttp().getPort(),
+                    getCustomHttp().getAuth(),
+                    getCustomHttp().getAdditionalUrls());
+            }
+
+            Response<Message> response = call.execute();
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
             }
         } catch(IOException ex) {
             throw new GyroException(ex.getMessage());

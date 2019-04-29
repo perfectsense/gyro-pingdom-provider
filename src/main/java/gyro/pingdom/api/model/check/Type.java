@@ -3,6 +3,7 @@ package gyro.pingdom.api.model.check;
 public class Type {
 
     private HttpCheck httpCheck;
+    private HttpCustomCheck httpCustomCheck;
 
     public HttpCheck getHttp() {
         return httpCheck;
@@ -10,6 +11,14 @@ public class Type {
 
     public void setHttp(HttpCheck httpCheck) {
         this.httpCheck = httpCheck;
+    }
+
+    public HttpCustomCheck getHttpCustom() {
+        return httpCustomCheck;
+    }
+
+    public void setHttpCustom(HttpCustomCheck httpCustomCheck) {
+        this.httpCustomCheck = httpCustomCheck;
     }
 
     public CheckType checkType() {

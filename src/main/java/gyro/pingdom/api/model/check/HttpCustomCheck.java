@@ -1,10 +1,12 @@
 package gyro.pingdom.api.model.check;
 
-public class HttpCustomCheck extends Check {
+import gyro.core.diff.Diffable;
+
+public class HttpCustomCheck extends Diffable {
 
     private String url;
-    private String encryption;
-    private String port;
+    private Boolean encryption;
+    private Integer port;
     private String auth;
     private String additionalUrls;
 
@@ -16,19 +18,19 @@ public class HttpCustomCheck extends Check {
         this.url = url;
     }
 
-    public String getEncryption() {
+    public Boolean getEncryption() {
         return encryption;
     }
 
-    public void setEncryption(String encryption) {
+    public void setEncryption(Boolean encryption) {
         this.encryption = encryption;
     }
 
-    public String getPort() {
+    public Integer getPort() {
         return port;
     }
 
-    public void setPort(String port) {
+    public void setPort(Integer port) {
         this.port = port;
     }
 
@@ -48,4 +50,13 @@ public class HttpCustomCheck extends Check {
         this.additionalUrls = additionalUrls;
     }
 
+    @Override
+    public String primaryKey() {
+        return getUrl();
+    }
+
+    @Override
+    public String toDisplayString() {
+        return "custom http check " + getUrl();
+    }
 }
