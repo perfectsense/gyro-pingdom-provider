@@ -1,0 +1,17 @@
+@import ../init as _
+
+pingdom::check tcp-check-example
+    name: "tcp-check-example"
+    resolution: 5
+    hostname: "s7.mydomain.com"
+    send-notification-when-down: 7
+    notify-again-every: 4
+    notify-when-back-up: true
+    tags: ["abc", "xyz"]
+
+    tcp
+        port: 80
+        string-to-send: "GET / HTTP/1.0"
+        string-to-expect: "200 OK"
+    end
+end

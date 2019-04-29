@@ -4,6 +4,7 @@ public class Type {
 
     private HttpCheck httpCheck;
     private HttpCustomCheck httpCustomCheck;
+    private TcpCheck tcp;
 
     public HttpCheck getHttp() {
         return httpCheck;
@@ -21,24 +22,12 @@ public class Type {
         this.httpCustomCheck = httpCustomCheck;
     }
 
-    public CheckType checkType() {
-        if (getHttp() != null) {
-            return CheckType.HTTP;
-        }
-
-        return CheckType.UNKNOWN;
+    public TcpCheck getTcp() {
+        return tcp;
     }
 
-    public static enum CheckType {
-        HTTP,
-        HTTP_CUSTOM,
-        TCP,
-        SMTP,
-        POP3,
-        IMAP,
-        PING,
-        DNS,
-        UDP,
-        UNKNOWN
+    public void setTcp(TcpCheck tcp) {
+        this.tcp = tcp;
     }
+
 }

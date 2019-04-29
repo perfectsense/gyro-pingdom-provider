@@ -13,6 +13,7 @@ import gyro.pingdom.api.model.check.CheckService;
 import gyro.pingdom.api.model.check.HttpCheck;
 import gyro.pingdom.api.model.check.HttpCustomCheck;
 import gyro.pingdom.api.model.check.Tag;
+import gyro.pingdom.api.model.check.TcpCheck;
 import gyro.pingdom.api.model.check.Type;
 import gyro.pingdom.api.model.user.Message;
 import retrofit2.Call;
@@ -48,6 +49,7 @@ public class CheckResource extends PingdomResource {
 
     private HttpCheck http;
     private HttpCustomCheck customHttp;
+    private TcpCheck tcp;
 
     /**
      * The target host of the check. (Required)
@@ -277,6 +279,14 @@ public class CheckResource extends PingdomResource {
         this.customHttp = customHttp;
     }
 
+    public TcpCheck getTcp() {
+        return tcp;
+    }
+
+    public void setTcp(TcpCheck tcp) {
+        this.tcp = tcp;
+    }
+
     @Override
     public boolean refresh() {
         CheckService service = createClient(CheckService.class);
@@ -310,10 +320,9 @@ public class CheckResource extends PingdomResource {
                 getTags().add(tag.getName());
             }
 
-            if (check.getType().checkType() == Type.CheckType.HTTP) {
-                HttpCheck httpCheck = new HttpCheck();
-                httpCheck.setAuth(check.getType().getHttp().getAuth());
-            }
+            setHttp(check.getType().getHttp());
+            setCustomHttp(check.getType().getHttpCustom());
+            setTcp(check.getType().getTcp());
 
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
@@ -351,6 +360,14 @@ public class CheckResource extends PingdomResource {
                     getCustomHttp().getPort(),
                     getCustomHttp().getAuth(),
                     getCustomHttp().getAdditionalUrls());
+            } else if (getTcp() != null) {
+                call = service.createTcpCheck(
+                    getName(), getHostname(), "tcp", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
+                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
+                    getTcp().getPort(),
+                    getTcp().getStringToSend(),
+                    getTcp().getStringToExpect());
             } else {
                 throw new GyroException("Unknown Check Type");
             }
@@ -397,6 +414,14 @@ public class CheckResource extends PingdomResource {
                     getCustomHttp().getPort(),
                     getCustomHttp().getAuth(),
                     getCustomHttp().getAdditionalUrls());
+            } else if (getTcp() != null) {
+                call = service.modifyTcpCheck(
+                    getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                    getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
+                    getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
+                    getTcp().getPort(),
+                    getTcp().getStringToSend(),
+                    getTcp().getStringToExpect());
             }
 
             Response<Message> response = call.execute();

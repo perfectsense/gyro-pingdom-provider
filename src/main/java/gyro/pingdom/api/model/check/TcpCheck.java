@@ -1,6 +1,8 @@
 package gyro.pingdom.api.model.check;
 
-public class TcpCheck extends Check {
+import gyro.core.diff.Diffable;
+
+public class TcpCheck extends Diffable {
 
     private Integer port;
     private String stringToSend;
@@ -28,5 +30,15 @@ public class TcpCheck extends Check {
 
     public void setStringToExpect(String stringToExpect) {
         this.stringToExpect = stringToExpect;
+    }
+
+    @Override
+    public String primaryKey() {
+        return null;
+    }
+
+    @Override
+    public String toDisplayString() {
+        return "tcp check on port " + getPort();
     }
 }
