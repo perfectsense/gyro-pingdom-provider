@@ -2,6 +2,7 @@ package gyro.pingdom.check;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
+import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceName;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
@@ -23,6 +24,7 @@ public class CustomHttpCheckResource extends CheckResource {
     private String auth;
     private String additionalUrls;
 
+    @ResourceDiffProperty(updatable = true)
     public String getUrl() {
         return url;
     }
@@ -31,6 +33,7 @@ public class CustomHttpCheckResource extends CheckResource {
         this.url = url;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public Boolean getEncryption() {
         return encryption;
     }
@@ -39,6 +42,7 @@ public class CustomHttpCheckResource extends CheckResource {
         this.encryption = encryption;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public Integer getPort() {
         return port;
     }
@@ -47,6 +51,7 @@ public class CustomHttpCheckResource extends CheckResource {
         this.port = port;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getAuth() {
         return auth;
     }
@@ -55,6 +60,7 @@ public class CustomHttpCheckResource extends CheckResource {
         this.auth = auth;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getAdditionalUrls() {
         return additionalUrls;
     }
