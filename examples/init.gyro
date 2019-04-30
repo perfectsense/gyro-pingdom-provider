@@ -1,0 +1,8 @@
+plugin
+    artifact: 'gyro:gyro-pingdom-provider:0.14-SNAPSHOT'
+    repositories: ['https://artifactory.psdops.com/public']
+end
+
+pingdom::credentials default
+    credential-file-path: "ping.props"
+end

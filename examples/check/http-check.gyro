@@ -1,0 +1,19 @@
+@import ../init as _
+
+pingdom::http-check http-check-example
+    name: "http-check-example"
+
+    # HTTP specific attributes
+    url: "/"
+    port: 443
+    encryption: true
+    should-contain: "hello"
+
+    # Common check attributes
+    resolution: 5
+    hostname: "s7.mydomain.com"
+    send-notification-when-down: 7
+    notify-again-every: 4
+    notify-when-back-up: true
+    tags: ["abc", "xyz"]
+end
