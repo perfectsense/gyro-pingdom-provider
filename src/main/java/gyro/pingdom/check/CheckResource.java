@@ -23,9 +23,9 @@ import java.util.Set;
 @ResourceName("check")
 public abstract class CheckResource extends PingdomResource {
 
+    private Integer id;
     private String hostname;
     private List<Integer> integrationIds;
-    private Integer id;
     private Boolean ipv6;
     private String name;
     private Integer notifyAgainEvery;
@@ -39,6 +39,18 @@ public abstract class CheckResource extends PingdomResource {
     private List<Integer> teamIds;
     private Type type;
     private List<Integer> userIds;
+
+    /**
+     * The returned id of the check.
+     */
+    @ResourceOutput
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * The target host of the check. (Required)
@@ -66,18 +78,6 @@ public abstract class CheckResource extends PingdomResource {
 
     public void setIntegrationIds(List<Integer> integrationIds) {
         this.integrationIds = integrationIds;
-    }
-
-    /**
-     * The returned id of the check.
-     */
-    @ResourceOutput
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     /**
