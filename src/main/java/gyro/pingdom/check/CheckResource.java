@@ -1,5 +1,6 @@
 package gyro.pingdom.check;
 
+import com.psddev.dari.util.ObjectUtils;
 import com.psddev.dari.util.StringUtils;
 import gyro.core.GyroException;
 import gyro.core.resource.ResourceDiffProperty;
@@ -32,7 +33,6 @@ public abstract class CheckResource extends PingdomResource {
     private Integer notifyAgainEvery;
     private Boolean notifyWhenBackUp;
     private Boolean paused;
-    private Map<String, String> probeFilters;
     private Integer resolution;
     private Integer responseTimeThreshold;
     private Integer sendNotificationWhenDown;
@@ -40,6 +40,7 @@ public abstract class CheckResource extends PingdomResource {
     private List<Integer> teamIds;
     private Type type;
     private List<UserResource> users;
+    private String probeRegion;
 
     /**
      * The returned id of the check.
@@ -142,22 +143,6 @@ public abstract class CheckResource extends PingdomResource {
     }
 
     /**
-     * Decides if check is paused. (Optional)
-     */
-    @ResourceDiffProperty(updatable = true)
-    public Map<String, String> getProbeFilters() {
-        if (probeFilters == null) {
-            probeFilters = new HashMap<>();
-        }
-
-        return probeFilters;
-    }
-
-    public void setProbeFilters(Map<String, String> probeFilters) {
-        this.probeFilters = probeFilters;
-    }
-
-    /**
      * Determines how often the host's status is checked. (Optional)
      */
     @ResourceDiffProperty(updatable = true)
@@ -252,6 +237,18 @@ public abstract class CheckResource extends PingdomResource {
         this.users = users;
     }
 
+    /**
+     * Filter probe location. Valid values are North America (``NA``), Europe (``EU``), Asia Pacific (``APAC``), orLatin America (``LATAM``).
+     */
+    @ResourceDiffProperty(updatable = true)
+    public String getProbeRegion() {
+        return probeRegion;
+    }
+
+    public void setProbeRegion(String probeRegion) {
+        this.probeRegion = probeRegion;
+    }
+
     public abstract void doRefresh(Check check);
 
     @Override
@@ -275,7 +272,6 @@ public abstract class CheckResource extends PingdomResource {
             setNotifyAgainEvery(check.getNotifyAgainEvery());
             setNotifyWhenBackUp(check.getNotifyWhenBackup());
             setPaused(check.getPaused());
-            setProbeFilters(check.getProbeFilters());
             setResolution(check.getResolution());
             setResponseTimeThreshold(check.getResponseTimeThreshold());
             setSendNotificationWhenDown(check.getSendNotificationWhenDown());
@@ -290,6 +286,14 @@ public abstract class CheckResource extends PingdomResource {
 
             for (Tag tag : check.getTags()) {
                 getTags().add(tag.getName());
+            }
+
+            if (!check.getProbeFilters().isEmpty()) {
+                for (String filter : check.getProbeFilters()) {
+                    if (filter.startsWith("region: ")) {
+                        setProbeRegion(filter.replace("region: ", ""));
+                    }
+                }
             }
 
             doRefresh(check);
@@ -312,13 +316,11 @@ public abstract class CheckResource extends PingdomResource {
     }
 
     protected String probeFiltersToString() {
-        List<String> filters = new ArrayList<>();
-
-        for (String key : getProbeFilters().keySet()) {
-            filters.add(String.format("%s:%s", key, getProbeFilters().get(key)));
+        if (!ObjectUtils.isBlank(getProbeRegion())) {
+            return String.format("region:%s", getProbeRegion());
         }
 
-        return StringUtils.join(filters, ",");
+        return null;
     }
 
     protected String tagsToString() {

@@ -3,8 +3,8 @@ package gyro.pingdom.api.model.check;
 public class TcpCheck {
 
     private Integer port;
-    private String stringToSend;
-    private String stringToExpect;
+    private String stringtosend;
+    private String stringtoexpect;
 
     public Integer getPort() {
         return port;
@@ -15,19 +15,19 @@ public class TcpCheck {
     }
 
     public String getStringToSend() {
-        return stringToSend;
+        return stringtosend;
     }
 
     public void setStringToSend(String stringToSend) {
-        this.stringToSend = stringToSend;
+        this.stringtosend = stringToSend;
     }
 
     public String getStringToExpect() {
-        return stringToExpect;
+        return stringtoexpect;
     }
 
     public void setStringToExpect(String stringToExpect) {
-        this.stringToExpect = stringToExpect;
+        this.stringtoexpect = stringToExpect;
     }
 
 }
