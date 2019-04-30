@@ -2,6 +2,7 @@ package gyro.pingdom.check;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
+import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceName;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
@@ -21,6 +22,7 @@ public class TcpCheckResource extends CheckResource {
     private String stringToSend;
     private String stringToExpect;
 
+    @ResourceDiffProperty(updatable = true)
     public Integer getPort() {
         return port;
     }
@@ -29,6 +31,7 @@ public class TcpCheckResource extends CheckResource {
         this.port = port;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getStringToSend() {
         return stringToSend;
     }
@@ -37,6 +40,8 @@ public class TcpCheckResource extends CheckResource {
         this.stringToSend = stringToSend;
     }
 
+    /* String that should not be in the response to consider check successful. */
+    @ResourceDiffProperty(updatable = true)
     public String getStringToExpect() {
         return stringToExpect;
     }
