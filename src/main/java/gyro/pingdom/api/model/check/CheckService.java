@@ -17,7 +17,7 @@ public interface CheckService {
     // -- Check API
 
     @GET("checks")
-    Call<CheckList> listChecks();
+    Call<ListChecksResponse> listChecks();
 
     @GET("checks/{checkid}")
     Call<CheckResponse> getCheck(@Path("checkid") Integer checkId);
@@ -35,7 +35,7 @@ public interface CheckService {
         @Field("type") String type,
         @Field("paused") Boolean paused,
         @Field("resolution") Integer resolution,
-        @Field("userids") List<Integer> userids,
+        @Field("userids") String userids,
         @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
         @Field("notifyagainevery") Integer notifyAgainEvery,
         @Field("notifywhenbackup") Boolean notifyWhenBackup,
@@ -61,7 +61,7 @@ public interface CheckService {
         @Field("host") String host,
         @Field("paused") Boolean paused,
         @Field("resolution") Integer resolution,
-        @Field("userids") List<Integer> userids,
+        @Field("userids") String userids,
         @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
         @Field("notifyagainevery") Integer notifyAgainEvery,
         @Field("notifywhenbackup") Boolean notifyWhenBackup,
@@ -89,7 +89,7 @@ public interface CheckService {
         @Field("type") String type,
         @Field("paused") Boolean paused,
         @Field("resolution") Integer resolution,
-        @Field("userids") List<Integer> userids,
+        @Field("userids") String userids,
         @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
         @Field("notifyagainevery") Integer notifyAgainEvery,
         @Field("notifywhenbackup") Boolean notifyWhenBackup,
@@ -113,7 +113,7 @@ public interface CheckService {
         @Field("host") String host,
         @Field("paused") Boolean paused,
         @Field("resolution") Integer resolution,
-        @Field("userids") List<Integer> userids,
+        @Field("userids") String userids,
         @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
         @Field("notifyagainevery") Integer notifyAgainEvery,
         @Field("notifywhenbackup") Boolean notifyWhenBackup,
@@ -140,7 +140,7 @@ public interface CheckService {
         @Field("type") String type,
         @Field("paused") Boolean paused,
         @Field("resolution") Integer resolution,
-        @Field("userids") List<Integer> userids,
+        @Field("userids") String userids,
         @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
         @Field("notifyagainevery") Integer notifyAgainEvery,
         @Field("notifywhenbackup") Boolean notifyWhenBackup,
@@ -162,7 +162,7 @@ public interface CheckService {
         @Field("host") String host,
         @Field("paused") Boolean paused,
         @Field("resolution") Integer resolution,
-        @Field("userids") List<Integer> userids,
+        @Field("userids") String userids,
         @Field("sendnotificationwhendown") Integer sendNotificationWhenDown,
         @Field("notifyagainevery") Integer notifyAgainEvery,
         @Field("notifywhenbackup") Boolean notifyWhenBackup,

@@ -60,7 +60,7 @@ public class TcpCheckResource extends CheckResource {
 
         try {
             Call<CheckResponse> call = service.createTcpCheck(
-                getName(), getHostname(), "tcp", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                getName(), getHostname(), "tcp", getPaused(), getResolution(), usersToString(), getSendNotificationWhenDown(),
                 getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                 getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                 getPort(),
@@ -86,7 +86,7 @@ public class TcpCheckResource extends CheckResource {
 
         try {
             Call<Message> call = service.modifyTcpCheck(
-                getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                getId(), getName(), getHostname(), getPaused(), getResolution(), usersToString(), getSendNotificationWhenDown(),
                 getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                 getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                 getPort(),

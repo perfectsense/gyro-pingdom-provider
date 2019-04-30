@@ -80,7 +80,7 @@ public class CustomHttpCheckResource extends CheckResource {
 
         try {
             Call<CheckResponse>  call = service.createCustomHttpCheck(
-                getName(), getHostname(), "httpcustom", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                getName(), getHostname(), "httpcustom", getPaused(), getResolution(), usersToString(), getSendNotificationWhenDown(),
                 getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                 getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                 getUrl(),
@@ -108,7 +108,7 @@ public class CustomHttpCheckResource extends CheckResource {
 
         try {
             Call<Message> call = service.modifyCustomHttpCheck(
-                getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                getId(), getName(), getHostname(), getPaused(), getResolution(), usersToString(), getSendNotificationWhenDown(),
                 getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                 getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                 getUrl(),

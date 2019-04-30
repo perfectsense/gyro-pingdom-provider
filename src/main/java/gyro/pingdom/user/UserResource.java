@@ -4,6 +4,7 @@ import gyro.core.GyroException;
 import gyro.core.diff.Create;
 import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceId;
 import gyro.core.resource.ResourceName;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
@@ -31,6 +32,7 @@ public class UserResource extends PingdomResource {
     private List<EmailTargetResource> emailTarget;
     private List<SmsTargetResource> smsTarget;
 
+    @ResourceId
     @ResourceOutput
     public Integer getId() {
         return id;

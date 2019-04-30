@@ -1,5 +1,6 @@
 package gyro.pingdom.check;
 
+import com.psddev.dari.util.ObjectUtils;
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceName;
@@ -64,7 +65,9 @@ public class HttpCheckResource extends CheckResource {
     }
 
     public void setShouldContain(String shouldContain) {
-        this.shouldContain = shouldContain;
+        if (!ObjectUtils.isBlank(shouldNotContain)) {
+            this.shouldContain = shouldContain;
+        }
     }
 
     public String getShouldNotContain() {
@@ -72,7 +75,9 @@ public class HttpCheckResource extends CheckResource {
     }
 
     public void setShouldNotContain(String shouldNotContain) {
-        this.shouldNotContain = shouldNotContain;
+        if (!ObjectUtils.isBlank(shouldNotContain)) {
+            this.shouldNotContain = shouldNotContain;
+        }
     }
 
     public String getPostData() {
@@ -110,7 +115,7 @@ public class HttpCheckResource extends CheckResource {
 
         try {
             Call<CheckResponse> call = service.createHttpCheck(
-                getName(), getHostname(), "http", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                getName(), getHostname(), "http", getPaused(), getResolution(), usersToString(), getSendNotificationWhenDown(),
                 getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                 getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                 getUrl(),
@@ -140,7 +145,7 @@ public class HttpCheckResource extends CheckResource {
 
         try {
             Call<Message> call = service.modifyHttpCheck(
-                getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                getId(), getName(), getHostname(), getPaused(), getResolution(), usersToString(), getSendNotificationWhenDown(),
                 getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                 getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                 getUrl(),

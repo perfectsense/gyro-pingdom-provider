@@ -9,11 +9,9 @@ import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.CheckService;
-import gyro.pingdom.api.model.check.HttpCheck;
-import gyro.pingdom.api.model.check.HttpCustomCheck;
 import gyro.pingdom.api.model.check.Tag;
-import gyro.pingdom.api.model.check.TcpCheck;
 import gyro.pingdom.api.model.check.Type;
+import gyro.pingdom.user.UserResource;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,11 +24,11 @@ import java.util.Set;
 @ResourceName("check")
 public abstract class CheckResource extends PingdomResource {
 
+    private Integer id;
+    private String name;
     private String hostname;
     private List<Integer> integrationIds;
-    private Integer id;
     private Boolean ipv6;
-    private String name;
     private Integer notifyAgainEvery;
     private Boolean notifyWhenBackUp;
     private Boolean paused;
@@ -41,7 +39,31 @@ public abstract class CheckResource extends PingdomResource {
     private Set<String> tags;
     private List<Integer> teamIds;
     private Type type;
-    private List<Integer> userIds;
+    private List<UserResource> users;
+
+    /**
+     * The returned id of the check.
+     */
+    @ResourceOutput
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * The name of the check. (Required)
+     */
+    @ResourceDiffProperty(updatable = true)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * The target host of the check. (Required)
@@ -72,18 +94,6 @@ public abstract class CheckResource extends PingdomResource {
     }
 
     /**
-     * The returned id of the check.
-     */
-    @ResourceOutput
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
      * Decides if ipv6 is used, rather than ipv4. (Optional)
      */
     @ResourceDiffProperty(updatable = true)
@@ -93,18 +103,6 @@ public abstract class CheckResource extends PingdomResource {
 
     public void setIpv6(Boolean ipv6) {
         this.ipv6 = ipv6;
-    }
-
-    /**
-     * The name of the check. (Required)
-     */
-    @ResourceDiffProperty(updatable = true)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -240,19 +238,18 @@ public abstract class CheckResource extends PingdomResource {
     }
 
     /**
-     * Ids of the users that will be notified is the host is down. (Optional)
-     import gyro.core.diff.Diff;
+     * Users that will be notified is the host is down. (Optional)
      */
     @ResourceDiffProperty(updatable = true)
-    public List<Integer> getUserIds() {
-        if (userIds == null) {
-            userIds = new ArrayList<>();
+    public List<UserResource> getUsers() {
+        if (users == null) {
+            users = new ArrayList<>();
         }
-        return userIds;
+        return users;
     }
 
-    public void setUserIds(List<Integer> userIds) {
-        this.userIds = userIds;
+    public void setUsers(List<UserResource> users) {
+        this.users = users;
     }
 
     public abstract void doRefresh(Check check);
@@ -283,7 +280,13 @@ public abstract class CheckResource extends PingdomResource {
             setResponseTimeThreshold(check.getResponseTimeThreshold());
             setSendNotificationWhenDown(check.getSendNotificationWhenDown());
             setTeamIds(check.getTeamIds());
-            setUserIds(check.getUserIds());
+
+            for (Integer userId : check.getUserIds()) {
+                UserResource user = findById(UserResource.class, String.valueOf(userId));
+                if (user != null) {
+                    getUsers().add(user);
+                }
+            }
 
             for (Tag tag : check.getTags()) {
                 getTags().add(tag.getName());
@@ -320,6 +323,16 @@ public abstract class CheckResource extends PingdomResource {
 
     protected String tagsToString() {
         return StringUtils.join(new ArrayList<>(getTags()), ",");
+    }
+
+    protected String usersToString() {
+        List<String> userIds = new ArrayList<>();
+
+        for (UserResource user : getUsers()) {
+            userIds.add(String.valueOf(user.getId()));
+        }
+
+        return StringUtils.join(userIds, ",");
     }
 }
 
