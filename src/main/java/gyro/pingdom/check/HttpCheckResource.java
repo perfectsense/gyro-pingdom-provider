@@ -110,7 +110,7 @@ public class HttpCheckResource extends CheckResource {
 
         try {
             Call<CheckResponse> call = service.createHttpCheck(
-                getName(), getHostname(), "http", getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                getName(), getHostname(), "http", getPaused(), getResolution(), usersToString(), getSendNotificationWhenDown(),
                 getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                 getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                 getUrl(),
@@ -140,7 +140,7 @@ public class HttpCheckResource extends CheckResource {
 
         try {
             Call<Message> call = service.modifyHttpCheck(
-                getId(), getName(), getHostname(), getPaused(), getResolution(), getUserIds(), getSendNotificationWhenDown(),
+                getId(), getName(), getHostname(), getPaused(), getResolution(), usersToString(), getSendNotificationWhenDown(),
                 getNotifyAgainEvery(), getNotifyWhenBackUp(), tagsToString(), probeFiltersToString(), getIpv6(),
                 getResponseTimeThreshold(), getIntegrationIds(), getTeamIds(),
                 getUrl(),

@@ -2,6 +2,7 @@
 
 pingdom::http-check http-check-example
     name: "http-check-example"
+    users: [$(pingdom::user sample-user)]
 
     # HTTP specific attributes
     url: "/"
@@ -17,3 +18,20 @@ pingdom::http-check http-check-example
     notify-when-back-up: true
     tags: ["abc", "xyz"]
 end
+
+pingdom::user sample-user
+    name: "http-check-sample-user"
+    paused: "YES"
+
+    email-target
+        email: "example@example.com"
+        severity: "LOW"
+    end
+
+    sms-target
+        country-code: "1"
+        number: "555-555-5555"
+        severity: "HIGH"
+    end
+end
+

@@ -20,7 +20,7 @@ public class Check {
     private Integer sendnotificationwhendown;
     private List<Tag> tags;
     private List<Integer> teamIds;
-    private List<Integer> userIds;
+    private List<Integer> userids;
     private Type type;
 
     public Integer getId() {
@@ -152,11 +152,11 @@ public class Check {
     }
 
     public List<Integer> getUserIds() {
-        return userIds;
+        return userids;
     }
 
     public void setUserIds(List<Integer> userIds) {
-        this.userIds = userIds;
+        this.userids = userIds;
     }
 
 }
