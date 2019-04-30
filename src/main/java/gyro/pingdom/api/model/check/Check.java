@@ -1,5 +1,6 @@
 package gyro.pingdom.api.model.check;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -152,6 +153,10 @@ public class Check {
     }
 
     public List<Integer> getUserIds() {
+        if (userids == null) {
+            userids = new ArrayList<>();
+        }
+
         return userids;
     }
 
