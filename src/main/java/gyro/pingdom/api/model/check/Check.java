@@ -1,6 +1,7 @@
 package gyro.pingdom.api.model.check;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class Check {
     private Integer notifyagainevery;
     private Boolean notifywhenbackup;
     private Boolean paused;
-    private Map<String, String> probe_filters;
+    private List<String> probe_filters;
     private Integer resolution;
     private Integer responsetime_threshold;
     private Integer sendnotificationwhendown;
@@ -96,11 +97,15 @@ public class Check {
         this.paused = paused;
     }
 
-    public Map<String, String> getProbeFilters() {
+    public List<String> getProbeFilters() {
+        if (probe_filters == null) {
+            probe_filters = new ArrayList<>();
+        }
+
         return probe_filters;
     }
 
-    public void setProbeFilters(Map<String, String> probeFilters) {
+    public void setProbeFilters(List<String> probeFilters) {
         this.probe_filters = probeFilters;
     }
 
