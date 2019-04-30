@@ -4,6 +4,7 @@ import gyro.pingdom.api.model.common.Message;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -11,6 +12,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CheckService {
 
@@ -51,7 +53,8 @@ public interface CheckService {
         @Field("auth") String auth,
         @Field("shouldcontain") String shouldContain,
         @Field("shouldnotcontain") String shouldNotContain,
-        @Field("postdata") String postData);
+        @Field("postdata") String postData,
+        @FieldMap Map<String, String> requestHeaders);
 
     @PUT("checks/{checkid}")
     @FormUrlEncoded
@@ -77,7 +80,8 @@ public interface CheckService {
         @Field("auth") String auth,
         @Field("shouldcontain") String shouldContain,
         @Field("shouldnotcontain") String shouldNotContain,
-        @Field("postdata") String postData);
+        @Field("postdata") String postData,
+        @FieldMap Map<String, String> requestHeaders);
 
     // -- Custom HTTP Check API
 

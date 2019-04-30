@@ -17,6 +17,11 @@ pingdom::http-check http-check-example
     notify-again-every: 4
     notify-when-back-up: true
     tags: ["abc", "xyz"]
+
+    request-headers: {
+        X-Request-Type: "api",
+        X-Api-Key: "1234"
+    }
 end
 
 pingdom::user sample-user
