@@ -104,6 +104,7 @@ public class HttpCheckResource extends CheckResource {
         this.postData = postData;
     }
 
+    /* Request headers to send along with check request. */
     @ResourceDiffProperty(updatable = true)
     public Map<String, String> getRequestHeaders() {
         return requestHeaders;
@@ -200,7 +201,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     /**
-     * Convert the Gyro map to a special map neede for the API call.
+     * Convert the Gyro map to a special map needed for the API call.
      *
      * For example if the http check defines this in a Gyro file:
      *
