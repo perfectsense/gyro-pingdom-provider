@@ -14,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -103,6 +104,7 @@ public class HttpCheckResource extends CheckResource {
         this.postData = postData;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public Map<String, String> getRequestHeaders() {
         return requestHeaders;
     }
@@ -122,6 +124,16 @@ public class HttpCheckResource extends CheckResource {
         setShouldContain(http.getShouldContain());
         setShouldNotContain(http.getShouldNotContain());
         setPostData(http.getPostData());
+        setRequestHeaders(http.getRequestHeaders());
+
+        // Remove the default Pingdom User-Agent from the headers list so it's
+        // not removed since it won't be defined in the Gyro file.
+        if (getRequestHeaders().containsKey("User-Agent")) {
+            String userAgent = getRequestHeaders().get("User-Agent");
+            if (userAgent.startsWith("Pingdom")) {
+                getRequestHeaders().remove("User-Agent");
+            }
+        }
     }
 
     @Override
@@ -139,7 +151,8 @@ public class HttpCheckResource extends CheckResource {
                 getAuth(),
                 getShouldContain(),
                 getShouldNotContain(),
-                getPostData());
+                getPostData(),
+                requestHeadersToMap());
 
             Response<CheckResponse> response = call.execute();
             if (!response.isSuccessful()) {
@@ -169,7 +182,8 @@ public class HttpCheckResource extends CheckResource {
                 getAuth(),
                 getShouldContain(),
                 getShouldNotContain(),
-                getPostData());
+                getPostData(),
+                requestHeadersToMap());
 
             Response<Message> response = call.execute();
             if (!response.isSuccessful()) {
@@ -183,5 +197,39 @@ public class HttpCheckResource extends CheckResource {
     @Override
     public String toDisplayString() {
         return "http check " + getUrl();
+    }
+
+    /**
+     * Convert the Gyro map to a special map neede for the API call.
+     *
+     * For example if the http check defines this in a Gyro file:
+     *
+     * request-headers: {
+     *     X-Api-Key: "abc123"
+     * }
+     *
+     * This would be converted to a map containing:
+     *
+     * requestheader1: "X-Api-Key:abc123"
+     *
+     * This would then be translated by Retrofit to a query param:
+     *
+     * ?requestheader1=X-Api-Key:abc123
+     *
+     */
+    private Map<String, String> requestHeadersToMap() {
+        Map<String, String> apiMap = new HashMap<>();
+
+        int i = 0;
+        for (Map.Entry<String, String> entry : getRequestHeaders().entrySet()) {
+            String key = String.format("requestheader%d", i);
+            String value = String.format("%s:%s", entry.getKey(), entry.getValue());
+
+            apiMap.put(key, value);
+
+            i++;
+        }
+
+        return apiMap;
     }
 }
