@@ -69,7 +69,7 @@ public class HttpCheckResource extends CheckResource {
         this.auth = auth;
     }
 
-    /* String that should be in the request to consider check successful. */
+    /* String that should be in the response to consider check successful. */
     @ResourceDiffProperty(updatable = true)
     public String getShouldContain() {
         return shouldContain;
@@ -81,7 +81,7 @@ public class HttpCheckResource extends CheckResource {
         }
     }
 
-    /* String that should not be in the request to consider check successful. */
+    /* String that should not be in the response to consider check successful. */
     @ResourceDiffProperty(updatable = true)
     public String getShouldNotContain() {
         return shouldNotContain;
