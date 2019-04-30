@@ -1,4 +1,4 @@
-package gyro.pingdom.api.model.user;
+package gyro.pingdom.api.model.common;
 
 public class Message {
 
@@ -12,10 +12,4 @@ public class Message {
         this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return "\nMessage{" +
-                "message=" + message +
-                '}';
-    }
 }

@@ -1,11 +1,6 @@
 package gyro.pingdom.api.model.check;
 
-import gyro.pingdom.api.model.user.ContactTarget;
-import gyro.pingdom.api.model.user.ContactTargetId;
-import gyro.pingdom.api.model.user.ContactTargetsList;
-import gyro.pingdom.api.model.user.Message;
-import gyro.pingdom.api.model.user.UserId;
-import gyro.pingdom.api.model.user.UserList;
+import gyro.pingdom.api.model.common.Message;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -16,7 +11,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CheckService {
 

@@ -12,10 +12,4 @@ public class UserId {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "UserId{" +
-                "user=" + user +
-                '}';
-    }
 }

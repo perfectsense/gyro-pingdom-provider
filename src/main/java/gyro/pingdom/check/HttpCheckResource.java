@@ -7,7 +7,7 @@ import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.CheckService;
 import gyro.pingdom.api.model.check.HttpCheck;
-import gyro.pingdom.api.model.user.Message;
+import gyro.pingdom.api.model.common.Message;
 import retrofit2.Call;
 import retrofit2.Response;
 

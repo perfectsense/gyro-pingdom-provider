@@ -12,10 +12,4 @@ public class ContactTargetId {
        this.contactTarget = contactTarget;
     }
 
-    @Override
-    public String toString() {
-        return "ContactTargetId{" +
-                "contact_target=" + contactTarget +
-                '}';
-    }
 }

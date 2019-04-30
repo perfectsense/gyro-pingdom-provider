@@ -5,9 +5,17 @@ import java.util.List;
 
 public class ContactTarget {
 
-    private List<EmailTarget> email;
     private Integer id;
+    private List<EmailTarget> email;
     private List<SmsTarget> sms;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public List<EmailTarget> getEmail() {
         if (email == null){
@@ -19,14 +27,6 @@ public class ContactTarget {
 
     public void setEmail(List<EmailTarget> email) {
         this.email = email;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public List<SmsTarget> getSms() {
@@ -41,12 +41,4 @@ public class ContactTarget {
         this.sms = sms;
     }
 
-    @Override
-    public String toString() {
-        return "ContactTarget{" +
-                "email=" + email +
-                ", id=" + id +
-                ", sms=" + sms +
-                '}';
-    }
 }

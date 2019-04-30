@@ -14,10 +14,4 @@ public class UserList {
         this.users = users;
     }
 
-    @Override
-    public String toString() {
-        return "UserList{" +
-                "user=" + users +
-                '}';
-    }
 }

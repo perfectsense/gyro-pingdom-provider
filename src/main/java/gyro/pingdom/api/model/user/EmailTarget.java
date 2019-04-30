@@ -30,12 +30,4 @@ public class EmailTarget {
         this.severity = severity;
     }
 
-    @Override
-    public String toString() {
-        return "EmailTarget{" +
-                "address='" + address + '\'' +
-                ", id=" + id +
-                ", severity='" + severity + '\'' +
-                '}';
-    }
 }

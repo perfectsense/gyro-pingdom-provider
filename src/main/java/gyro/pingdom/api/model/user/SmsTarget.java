@@ -48,14 +48,4 @@ public class SmsTarget {
         this.severity = severity;
     }
 
-    @Override
-    public String toString() {
-        return "SmsTarget{" +
-                "country_code=" + countryCode +
-                ", id=" + id +
-                ", number='" + number + '\'' +
-                ", provider='" + provider + '\'' +
-                ", severity='" + severity + '\'' +
-                '}';
-    }
 }

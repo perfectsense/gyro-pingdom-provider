@@ -1,5 +1,6 @@
 package gyro.pingdom.api.model.user;
 
+import gyro.pingdom.api.model.common.Message;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
