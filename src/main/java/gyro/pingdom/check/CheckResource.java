@@ -9,10 +9,7 @@ import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.CheckService;
-import gyro.pingdom.api.model.check.HttpCheck;
-import gyro.pingdom.api.model.check.HttpCustomCheck;
 import gyro.pingdom.api.model.check.Tag;
-import gyro.pingdom.api.model.check.TcpCheck;
 import gyro.pingdom.api.model.check.Type;
 
 import java.io.IOException;

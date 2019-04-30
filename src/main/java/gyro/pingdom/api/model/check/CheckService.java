@@ -17,7 +17,7 @@ public interface CheckService {
     // -- Check API
 
     @GET("checks")
-    Call<CheckList> listChecks();
+    Call<ListChecksResponse> listChecks();
 
     @GET("checks/{checkid}")
     Call<CheckResponse> getCheck(@Path("checkid") Integer checkId);
