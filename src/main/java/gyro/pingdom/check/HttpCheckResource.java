@@ -3,6 +3,7 @@ package gyro.pingdom.check;
 import com.psddev.dari.util.ObjectUtils;
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
+import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceName;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
@@ -28,6 +29,7 @@ public class HttpCheckResource extends CheckResource {
     private String postData;
     private Map<String, String> requestHeaders;
 
+    @ResourceDiffProperty(updatable = true)
     public String getUrl() {
         return url;
     }
@@ -36,6 +38,7 @@ public class HttpCheckResource extends CheckResource {
         this.url = url;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public Boolean getEncryption() {
         return encryption;
     }
@@ -44,6 +47,7 @@ public class HttpCheckResource extends CheckResource {
         this.encryption = encryption;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public Integer getPort() {
         return port;
     }
@@ -52,6 +56,7 @@ public class HttpCheckResource extends CheckResource {
         this.port = port;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getAuth() {
         return auth;
     }
@@ -60,6 +65,7 @@ public class HttpCheckResource extends CheckResource {
         this.auth = auth;
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getShouldContain() {
         return shouldContain;
     }
@@ -70,6 +76,7 @@ public class HttpCheckResource extends CheckResource {
         }
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getShouldNotContain() {
         return shouldNotContain;
     }
@@ -80,6 +87,7 @@ public class HttpCheckResource extends CheckResource {
         }
     }
 
+    @ResourceDiffProperty(updatable = true)
     public String getPostData() {
         return postData;
     }
