@@ -106,10 +106,7 @@ public class EmailTargetResource extends PingdomResource {
         UserService service = createClient(UserService.class);
 
         try {
-            // TODO: getId() is null, appears to be a bug in copying state into pending.
-            Integer targetId = ((EmailTargetResource) current).getId();
-
-            Call<Message> call = service.modifyEmailTarget(getUserId(), targetId, getEmail(), getSeverity());
+            Call<Message> call = service.modifyEmailTarget(getUserId(), getId(), getEmail(), getSeverity());
             Response<Message> response = call.execute();
 
             if (!response.isSuccessful()) {

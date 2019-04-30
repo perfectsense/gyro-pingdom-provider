@@ -141,11 +141,8 @@ public class SmsTargetResource extends PingdomResource {
         UserService service = createClient(UserService.class);
 
         try {
-            // TODO: getId() is null, appears to be a bug in copying state into pending.
-            Integer targetId = ((SmsTargetResource) current).getId();
-
             Call<Message> call = service.modifySmsTarget(
-                getUserId(), targetId, getCountryCode(), getNumber(), getProvider(), getSeverity());
+                getUserId(), getId(), getCountryCode(), getNumber(), getProvider(), getSeverity());
             Response<Message> response = call.execute();
 
             if (!response.isSuccessful()) {
