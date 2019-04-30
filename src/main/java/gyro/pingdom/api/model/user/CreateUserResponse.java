@@ -1,6 +1,6 @@
 package gyro.pingdom.api.model.user;
 
-public class UserId {
+public class CreateUserResponse {
 
     private User user;
 

@@ -1,7 +1,17 @@
 @import ../init as _
 
 pingdom::user user-example
-   name: "test-user"
-   primary-contact: "NO"
-   paused: "NO"
+    name: "test-user"
+    paused: "YES"
+
+    email-target
+        email: "example@example.com"
+        severity: "HiGh"
+    end
+
+    sms-target
+        country-code: "1"
+        number: "555-555-5555"
+        severity: "HIGH"
+    end
 end

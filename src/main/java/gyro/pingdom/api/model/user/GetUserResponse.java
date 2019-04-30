@@ -1,6 +1,6 @@
 package gyro.pingdom.api.model.user;
 
-public class ContactTargetsList {
+public class GetUserResponse {
 
     private ContactTarget contactTargets;
 

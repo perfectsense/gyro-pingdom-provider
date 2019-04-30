@@ -1,21 +1,23 @@
 package gyro.pingdom.user;
 
 import gyro.core.GyroException;
+import gyro.core.diff.Create;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceName;
-
 import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceName;
 import gyro.core.resource.ResourceOutput;
-
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.api.model.user.ContactTargetsList;
+import gyro.pingdom.api.model.common.Message;
+import gyro.pingdom.api.model.user.CreateUserResponse;
 import gyro.pingdom.api.model.user.EmailTarget;
+import gyro.pingdom.api.model.user.ListUsersResponse;
 import gyro.pingdom.api.model.user.SmsTarget;
-import gyro.pingdom.api.model.user.UserId;
+import gyro.pingdom.api.model.user.User;
 import gyro.pingdom.api.model.user.UserService;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +28,6 @@ public class UserResource extends PingdomResource {
     private Integer id;
     private String name;
     private String paused;
-    private String primaryContact;
     private List<EmailTargetResource> emailTarget;
     private List<SmsTargetResource> smsTarget;
 
@@ -55,15 +56,6 @@ public class UserResource extends PingdomResource {
 
     public void setPaused(String paused) {
         this.paused = paused;
-    }
-
-    @ResourceDiffProperty(updatable = true)
-    public String getPrimaryContact() {
-        return primaryContact;
-    }
-
-    public void setPrimaryContact(String primaryContact) {
-        this.primaryContact = primaryContact;
     }
 
     /**
@@ -106,31 +98,38 @@ public class UserResource extends PingdomResource {
         UserService service = createClient(UserService.class);
 
         try {
-            ContactTargetsList body = service.getUser(getId()).execute().body();
+            Call<ListUsersResponse> users = service.listUsers();
+            Response<ListUsersResponse> response = users.execute();
 
-            if (body == null) {
-                return false;
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
             }
 
-            getEmailTarget().clear();
-            for (EmailTarget emailTarget : body.getContactTargets().getEmail()) {
-                EmailTargetResource emailTargetResource = new EmailTargetResource(emailTarget);
-                emailTargetResource.parent(this);
-                getEmailTarget().add(emailTargetResource);
-            }
+            for (User user : response.body().getUsers()) {
+                if (user.getId().equals(getId())) {
+                    setName(user.getName());
+                    setPaused(user.getPaused());
 
+                    getEmailTarget().clear();
+                    for (EmailTarget emailTarget : user.getEmail()) {
+                        EmailTargetResource emailTargetResource = new EmailTargetResource(emailTarget);
+                        getEmailTarget().add(emailTargetResource);
+                    }
 
-            getSmsTarget().clear();
-            for (SmsTarget smsTarget : body.getContactTargets().getSms()) {
-                SmsTargetResource smsTargetResource = new SmsTargetResource(smsTarget);
-                smsTargetResource.parent(this);
-                getSmsTarget().add(smsTargetResource);
+                    getSmsTarget().clear();
+                    for (SmsTarget smsTarget : user.getSms()) {
+                        SmsTargetResource smsTargetResource = new SmsTargetResource(smsTarget);
+                        getSmsTarget().add(smsTargetResource);
+                    }
+
+                    return true;
+                }
             }
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
 
-        return true;
+        return false;
     }
 
     @Override
@@ -138,14 +137,18 @@ public class UserResource extends PingdomResource {
         UserService service = createClient(UserService.class);
 
         try {
-            UserId body = service.createUser(getName()).execute().body();
+            Call<CreateUserResponse> call = service.createUser(getName());
+            Response<CreateUserResponse> response = call.execute();
 
-            setId(body.getUser().getId());
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
+            }
 
-            service.modifyPrimaryAndPaused(getId(), getPrimaryContact(), getPaused()).execute().body();
+            CreateUserResponse createUserResponse = response.body();
 
-            service.modifyUserName(getId(), getName()).execute().body();
+            setId(createUserResponse.getUser().getId());
 
+            modifyUser();
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -153,14 +156,7 @@ public class UserResource extends PingdomResource {
 
     @Override
     public void update(Resource current, Set<String> changedProperties) {
-        UserService service = createClient(UserService.class);
-
-        try {
-            service.modifyUserNamePaused(getId(), getName(), getPaused()).execute().body();
-            service.modifyPrimary(getId(), getPrimaryContact()).execute().body();
-        } catch (IOException ex) {
-            throw new GyroException(ex.getMessage());
-        }
+        modifyUser();
     }
 
     @Override
@@ -168,7 +164,12 @@ public class UserResource extends PingdomResource {
         UserService service = createClient(UserService.class);
 
         try {
-            service.deleteUser(getId()).execute().body();
+            Call<Message> call = service.deleteUser(getId());
+            Response<Message> response = call.execute();
+
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
+            }
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -178,4 +179,20 @@ public class UserResource extends PingdomResource {
     public String toDisplayString() {
         return "user " + getName();
     }
+
+    private void modifyUser() {
+        UserService service = createClient(UserService.class);
+
+        try {
+            Call<Message> call = service.modifyUser(getId(), getName(), getPaused(), "true");
+            Response<Message> response = call.execute();
+
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
+            }
+        } catch (IOException ex) {
+            throw new GyroException(ex.getMessage());
+        }
+    }
+
 }

@@ -8,9 +8,13 @@ import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceOutput;
 
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.api.model.user.ContactTargetId;
+import gyro.pingdom.api.model.common.Message;
+import gyro.pingdom.api.model.user.ContactTarget;
+import gyro.pingdom.api.model.user.NewContactTargetResponse;
 import gyro.pingdom.api.model.user.SmsTarget;
 import gyro.pingdom.api.model.user.UserService;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.Set;
@@ -77,6 +81,10 @@ public class SmsTargetResource extends PingdomResource {
      */
     @ResourceDiffProperty(updatable = true)
     public String getProvider() {
+        if (provider == null) {
+            return "nexmo";
+        }
+
         return provider;
     }
 
@@ -102,23 +110,27 @@ public class SmsTargetResource extends PingdomResource {
     }
 
     @Override
-    public boolean refresh() { return false; }
+    public boolean refresh() {
+        return false;
+    }
 
     @Override
     public void create() {
         UserService service = createClient(UserService.class);
 
         try {
-            ContactTargetId contactTarget = service.addSmsTargetToUser(getUserId(),
-                    getCountryCode(), getNumber(),
-                    getProvider(), getSeverity()).execute().body();
+            Call<NewContactTargetResponse> call = service.addSmsTarget(
+                getUserId(), getCountryCode(), getNumber(), getProvider(), getSeverity());
+            Response<NewContactTargetResponse> response = call.execute();
 
-            setId(contactTarget.getContactTarget().getId());
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
+            }
 
-            service.modifySmsTarget(getUserId(),
-                    getId(), getCountryCode(), getNumber(),
-                    getProvider(), getSeverity()).execute().body();
+            NewContactTargetResponse contactTargetResponse = response.body();
+            ContactTarget contactTarget = contactTargetResponse.getContactTarget();
 
+            setId(contactTarget.getId());
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -128,12 +140,17 @@ public class SmsTargetResource extends PingdomResource {
     public void update(Resource current, Set<String> changedProperties) {
         UserService service = createClient(UserService.class);
 
-        SmsTargetResource oldResource = (SmsTargetResource) current;
-
         try {
-            service.modifySmsTarget(getUserId(),
-                    oldResource.getId(), getCountryCode(), getNumber(),
-                    getProvider(), getSeverity()).execute().body();
+            // TODO: getId() is null, appears to be a bug in copying state into pending.
+            Integer targetId = ((SmsTargetResource) current).getId();
+
+            Call<Message> call = service.modifySmsTarget(
+                getUserId(), targetId, getCountryCode(), getNumber(), getProvider(), getSeverity());
+            Response<Message> response = call.execute();
+
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
+            }
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -144,7 +161,7 @@ public class SmsTargetResource extends PingdomResource {
         UserService service = createClient(UserService.class);
 
         try {
-            service.deleteSmsTarget(getUserId(), getId()).execute().body();
+            service.deleteTarget(getUserId(), getId()).execute().body();
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -152,7 +169,7 @@ public class SmsTargetResource extends PingdomResource {
 
     @Override
     public String primaryKey() {
-        return String.format("%s", getNumber());
+        return null;
     }
 
     @Override
@@ -160,14 +177,4 @@ public class SmsTargetResource extends PingdomResource {
         return "sms target " + getNumber();
     }
 
-    @Override
-    public String toString() {
-        return "SmsTargetResource{" +
-            "countryCode='" + countryCode + '\'' +
-            ", id=" + id +
-            ", number='" + number + '\'' +
-            ", provider='" + provider + '\'' +
-            ", severity='" + severity + '\'' +
-            '}';
-    }
 }

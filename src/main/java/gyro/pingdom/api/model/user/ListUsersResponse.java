@@ -2,7 +2,7 @@ package gyro.pingdom.api.model.user;
 
 import java.util.List;
 
-public class UserList {
+public class ListUsersResponse {
 
     private List<User> users;
 

@@ -3,7 +3,7 @@ package gyro.pingdom.api.model.user;
 public class SmsTarget {
 
     private Integer id;
-    private String countryCode;
+    private String country_code;
     private String number;
     private String provider;
     private String severity;
@@ -17,11 +17,11 @@ public class SmsTarget {
     }
 
     public String getCountryCode() {
-        return countryCode;
+        return country_code;
     }
 
     public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+        this.country_code = countryCode;
     }
 
     public String getNumber() {

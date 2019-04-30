@@ -2,14 +2,17 @@ package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
+import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceName;
 import gyro.core.resource.ResourceOutput;
-import gyro.core.resource.ResourceDiffProperty;
-
 import gyro.pingdom.PingdomResource;
-import gyro.pingdom.api.model.user.ContactTargetId;
+import gyro.pingdom.api.model.common.Message;
+import gyro.pingdom.api.model.user.ContactTarget;
 import gyro.pingdom.api.model.user.EmailTarget;
+import gyro.pingdom.api.model.user.NewContactTargetResponse;
 import gyro.pingdom.api.model.user.UserService;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.Set;
@@ -26,8 +29,8 @@ public class EmailTargetResource extends PingdomResource {
     }
 
     EmailTargetResource(EmailTarget emailTarget) {
-        setEmail(emailTarget.getAddress());
         setId(emailTarget.getId());
+        setEmail(emailTarget.getAddress());
         setSeverity(emailTarget.getSeverity());
     }
 
@@ -82,13 +85,17 @@ public class EmailTargetResource extends PingdomResource {
         UserService service = createClient(UserService.class);
 
         try {
-            ContactTargetId contactTarget = service.addEmailTargetToUser(getUserId(), getEmail(),
-                    getSeverity()).execute().body();
+            Call<NewContactTargetResponse> call = service.addEmailTarget(getUserId(), getEmail(), getSeverity());
+            Response<NewContactTargetResponse> response = call.execute();
 
-            setId(contactTarget.getContactTarget().getId());
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
+            }
 
-            service.modifyEmailTarget(getUserId(), getId(), getEmail(), getSeverity()).execute().body();
+            NewContactTargetResponse contactTargetResponse = response.body();
+            ContactTarget contactTarget = contactTargetResponse.getContactTarget();
 
+            setId(contactTarget.getId());
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -98,10 +105,16 @@ public class EmailTargetResource extends PingdomResource {
     public void update(Resource current, Set<String> changedProperties) {
         UserService service = createClient(UserService.class);
 
-        EmailTargetResource oldResource = (EmailTargetResource) current;
-
         try {
-            service.modifyEmailTarget(getUserId(), oldResource.getId(), getEmail(), getSeverity()).execute().body();
+            // TODO: getId() is null, appears to be a bug in copying state into pending.
+            Integer targetId = ((EmailTargetResource) current).getId();
+
+            Call<Message> call = service.modifyEmailTarget(getUserId(), targetId, getEmail(), getSeverity());
+            Response<Message> response = call.execute();
+
+            if (!response.isSuccessful()) {
+                throw new GyroException(response.errorBody().string());
+            }
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -112,7 +125,7 @@ public class EmailTargetResource extends PingdomResource {
         UserService service = createClient(UserService.class);
 
         try {
-            service.deleteEmailTarget(getUserId(), getId()).execute().body();
+            service.deleteTarget(getUserId(), getId()).execute().body();
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
@@ -120,7 +133,7 @@ public class EmailTargetResource extends PingdomResource {
 
     @Override
     public String primaryKey() {
-        return String.format("%s", getEmail());
+        return null;
     }
 
     @Override
@@ -128,12 +141,4 @@ public class EmailTargetResource extends PingdomResource {
         return "email target " + getEmail();
     }
 
-    @Override
-    public String toString() {
-        return "EmailTargetResource{" +
-            "email='" + email + '\'' +
-            ", id=" + id +
-            ", severity='" + severity + '\'' +
-            '}';
-    }
 }
