@@ -1,6 +1,5 @@
 package gyro.pingdom.check;
 
-import com.ibm.icu.text.ArabicShaping;
 import com.psddev.dari.util.StringUtils;
 import gyro.core.GyroException;
 import gyro.core.resource.ResourceDiffProperty;
@@ -282,7 +281,6 @@ public abstract class CheckResource extends PingdomResource {
             setSendNotificationWhenDown(check.getSendNotificationWhenDown());
             setTeamIds(check.getTeamIds());
 
-            //setUserIds(check.getUserIds());
             for (Integer userId : check.getUserIds()) {
                 UserResource user = findById(UserResource.class, String.valueOf(userId));
                 if (user != null) {
