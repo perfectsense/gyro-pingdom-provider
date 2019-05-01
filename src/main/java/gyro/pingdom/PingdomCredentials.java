@@ -54,11 +54,9 @@ public class PingdomCredentials extends Credentials {
     }
 
     private Properties loadProperties() {
-        try {
-            InputStream fileInput = Files.newInputStream(getRelativeCredentialsPath());
+        try (InputStream input = Files.newInputStream(getRelativeCredentialsPath())) {
             Properties props = new Properties();
-            props.load(fileInput);
-            fileInput.close();
+            props.load(input);
 
             return props;
         } catch (FileNotFoundException ex) {
@@ -68,7 +66,7 @@ public class PingdomCredentials extends Credentials {
         }
     }
 
-    private Path getRelativeCredentialsPath() throws IOException {
+    private Path getRelativeCredentialsPath() {
         FileScope fileScope = scope().getFileScope();
 
         return Paths.get(fileScope.getFile()).toAbsolutePath().normalize().getParent().resolve(getCredentialFilePath());
