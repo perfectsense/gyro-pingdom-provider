@@ -3,11 +3,13 @@ package gyro.pingdom;
 import gyro.core.Credentials;
 import gyro.core.GyroException;
 import gyro.core.resource.ResourceName;
+import gyro.core.scope.FileScope;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -49,8 +51,7 @@ public class PingdomCredentials extends Credentials {
 
     private Properties loadProperties() {
         try {
-            File file = new File(getCredentialFilePath());
-            FileInputStream fileInput = new FileInputStream(file);
+            FileInputStream fileInput = new FileInputStream(getRelativeCredentialsFile());
             Properties props = new Properties();
             props.load(fileInput);
             fileInput.close();
@@ -61,5 +62,14 @@ public class PingdomCredentials extends Credentials {
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
+    }
+
+    private File getRelativeCredentialsFile() throws IOException {
+        FileScope fileScope = scope().getFileScope();
+
+        Path currentPath = new File(fileScope.getFile()).getCanonicalFile().getParentFile().toPath();
+        Path credentialsPath = currentPath.resolve(getCredentialFilePath()).normalize();
+
+        return credentialsPath.toFile();
     }
 }
