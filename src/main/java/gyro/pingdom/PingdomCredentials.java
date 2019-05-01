@@ -9,7 +9,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -51,7 +55,7 @@ public class PingdomCredentials extends Credentials {
 
     private Properties loadProperties() {
         try {
-            FileInputStream fileInput = new FileInputStream(getRelativeCredentialsFile());
+            InputStream fileInput = Files.newInputStream(getRelativeCredentialsPath());
             Properties props = new Properties();
             props.load(fileInput);
             fileInput.close();
@@ -64,12 +68,9 @@ public class PingdomCredentials extends Credentials {
         }
     }
 
-    private File getRelativeCredentialsFile() throws IOException {
+    private Path getRelativeCredentialsPath() throws IOException {
         FileScope fileScope = scope().getFileScope();
 
-        Path currentPath = new File(fileScope.getFile()).getCanonicalFile().getParentFile().toPath();
-        Path credentialsPath = currentPath.resolve(getCredentialFilePath()).normalize();
-
-        return credentialsPath.toFile();
+        return Paths.get(fileScope.getFile()).toAbsolutePath().normalize().getParent().resolve(getCredentialFilePath());
     }
 }
