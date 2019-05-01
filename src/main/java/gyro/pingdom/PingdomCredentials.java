@@ -59,8 +59,6 @@ public class PingdomCredentials extends Credentials {
             props.load(input);
 
             return props;
-        } catch (FileNotFoundException ex) {
-            throw new GyroException(ex.getMessage());
         } catch (IOException ex) {
             throw new GyroException(ex.getMessage());
         }
