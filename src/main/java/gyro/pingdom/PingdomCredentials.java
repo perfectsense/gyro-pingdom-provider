@@ -5,10 +5,7 @@ import gyro.core.GyroException;
 import gyro.core.resource.ResourceName;
 import gyro.core.scope.FileScope;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,19 +47,19 @@ public class PingdomCredentials extends Credentials {
     }
 
     private Properties loadProperties() {
-        try (InputStream input = Files.newInputStream(getRelativeCredentialsPath())) {
+        try (InputStream input = getRelativeCredentialsPath()) {
             Properties props = new Properties();
             props.load(input);
 
             return props;
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             throw new GyroException(ex.getMessage());
         }
     }
 
-    private Path getRelativeCredentialsPath() {
+    private InputStream getRelativeCredentialsPath() throws Exception {
         FileScope fileScope = scope().getFileScope();
 
-        return Paths.get(fileScope.getFile()).toAbsolutePath().normalize().getParent().resolve(getCredentialFilePath());
+        return fileScope.getRootScope().getBackend().openInput(Paths.get(fileScope.getFile()).getParent().resolve(getCredentialFilePath()).toString());
     }
 }

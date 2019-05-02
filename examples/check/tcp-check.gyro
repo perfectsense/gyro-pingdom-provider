@@ -1,4 +1,3 @@
-@import ../init as _
 
 pingdom::tcp-check tcp-check-example
     name: "tcp-check-example"
