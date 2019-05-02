@@ -1,4 +1,3 @@
-@import ../init as _
 
 pingdom::user user-example
     name: "test-user"

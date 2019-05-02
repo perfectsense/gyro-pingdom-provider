@@ -1,4 +1,3 @@
-@import ../init as _
 
 pingdom::http-check http-check-example
     name: "http-check-example"
