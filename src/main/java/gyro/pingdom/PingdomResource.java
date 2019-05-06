@@ -13,11 +13,6 @@ import java.util.Map;
 
 public abstract class PingdomResource extends Resource {
 
-    @Override
-    public Class resourceCredentialsClass() {
-        return PingdomCredentials.class;
-    }
-
     protected <T> T createClient(Class<T> serviceClass) {
         Map<String, String> credentials = resourceCredentials().findCredentials();
 
