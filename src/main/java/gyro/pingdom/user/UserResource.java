@@ -2,7 +2,7 @@ package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceUpdatable;
 import gyro.core.resource.ResourceId;
 import gyro.core.resource.ResourceType;
 import gyro.core.resource.ResourceOutput;
@@ -41,7 +41,7 @@ public class UserResource extends PingdomResource {
         this.id = id;
     }
 
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getName() {
         return name;
     }
@@ -50,7 +50,7 @@ public class UserResource extends PingdomResource {
         this.name = name;
     }
 
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getPaused() {
         return paused;
     }
@@ -64,7 +64,7 @@ public class UserResource extends PingdomResource {
      *
      * @subresource gyro.pingdom.user.EmailTargetResource
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public List<EmailTargetResource> getEmailTarget() {
         if (emailTarget == null) {
             emailTarget = new ArrayList<>();

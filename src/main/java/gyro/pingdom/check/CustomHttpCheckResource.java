@@ -2,7 +2,7 @@ package gyro.pingdom.check;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceUpdatable;
 import gyro.core.resource.ResourceType;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
@@ -25,7 +25,7 @@ public class CustomHttpCheckResource extends CheckResource {
     private String additionalUrls;
 
     /* URL containing Pingdom XML response. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getUrl() {
         return url;
     }
@@ -35,7 +35,7 @@ public class CustomHttpCheckResource extends CheckResource {
     }
 
     /* Whether to connect to host using SSL. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Boolean getEncryption() {
         return encryption;
     }
@@ -45,7 +45,7 @@ public class CustomHttpCheckResource extends CheckResource {
     }
 
     /* The target port to connect to. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Integer getPort() {
         return port;
     }
@@ -55,7 +55,7 @@ public class CustomHttpCheckResource extends CheckResource {
     }
 
     /* Username/Password used for auth (HTTP Basic Auth). In formation "username:password". */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getAuth() {
         return auth;
     }
@@ -65,7 +65,7 @@ public class CustomHttpCheckResource extends CheckResource {
     }
 
     /* Up to 5 additional URLs, pointing to Pingdom XML response, to check. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getAdditionalUrls() {
         return additionalUrls;
     }

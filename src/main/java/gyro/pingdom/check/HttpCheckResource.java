@@ -3,7 +3,7 @@ package gyro.pingdom.check;
 import com.psddev.dari.util.ObjectUtils;
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceUpdatable;
 import gyro.core.resource.ResourceType;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
@@ -31,7 +31,7 @@ public class HttpCheckResource extends CheckResource {
     private Map<String, String> requestHeaders;
 
     /* URL to check on host. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getUrl() {
         return url;
     }
@@ -41,7 +41,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     /* Whether to connect to host using SSL. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Boolean getEncryption() {
         return encryption;
     }
@@ -51,7 +51,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     /* The target port to connect to. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Integer getPort() {
         return port;
     }
@@ -61,7 +61,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     /* Username/Password used for auth (HTTP Basic Auth). In formation "username:password". */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getAuth() {
         return auth;
     }
@@ -71,7 +71,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     /* String that should be in the response to consider check successful. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getShouldContain() {
         return shouldContain;
     }
@@ -83,7 +83,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     /* String that should not be in the response to consider check successful. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getShouldNotContain() {
         return shouldNotContain;
     }
@@ -95,7 +95,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     /* POST data to send in check request. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getPostData() {
         return postData;
     }
@@ -105,7 +105,7 @@ public class HttpCheckResource extends CheckResource {
     }
 
     /* Request headers to send along with check request. */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Map<String, String> getRequestHeaders() {
         return requestHeaders;
     }

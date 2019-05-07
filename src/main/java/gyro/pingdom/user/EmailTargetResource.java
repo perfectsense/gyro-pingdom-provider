@@ -2,7 +2,7 @@ package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceUpdatable;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.common.Message;
@@ -47,7 +47,7 @@ public class EmailTargetResource extends PingdomResource {
     /**
      * The email for the target. (Required)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getEmail() {
         return email;
     }
@@ -59,7 +59,7 @@ public class EmailTargetResource extends PingdomResource {
     /**
      * The severity of the target. (Required)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getSeverity() {
         return severity;
     }
