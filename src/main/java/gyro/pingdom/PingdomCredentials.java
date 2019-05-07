@@ -7,12 +7,10 @@ import gyro.core.scope.FileScope;
 
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 @ResourceName("credentials")
-public class PingdomCredentials extends Credentials {
+public class PingdomCredentials extends Credentials<gyro.pingdom.api.model.common.Credentials> {
 
     private String credentialFilePath;
 
@@ -30,20 +28,13 @@ public class PingdomCredentials extends Credentials {
     }
 
     @Override
-    public Map<String, String> findCredentials(boolean refresh) {
+    public gyro.pingdom.api.model.common.Credentials findCredentials(boolean refresh) {
         return findCredentials(refresh, true);
     }
 
     @Override
-    public Map<String, String> findCredentials(boolean refresh, boolean extended) {
-        Properties credentialsProperties = loadProperties();
-
-        Map<String, String> credentials = new HashMap<>();
-        credentials.put("app-key", (String) credentialsProperties.get("app-key"));
-        credentials.put("email", (String) credentialsProperties.get("email"));
-        credentials.put("password", (String) credentialsProperties.get("password"));
-
-        return credentials;
+    public gyro.pingdom.api.model.common.Credentials findCredentials(boolean refresh, boolean extended) {
+        return new gyro.pingdom.api.model.common.Credentials(loadProperties());
     }
 
     private Properties loadProperties() {
