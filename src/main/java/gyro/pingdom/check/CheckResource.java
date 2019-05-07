@@ -4,7 +4,7 @@ import com.psddev.dari.util.ObjectUtils;
 import com.psddev.dari.util.StringUtils;
 import gyro.core.GyroException;
 import gyro.core.resource.ResourceDiffProperty;
-import gyro.core.resource.ResourceName;
+import gyro.core.resource.ResourceType;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.check.Check;
@@ -16,13 +16,11 @@ import gyro.pingdom.user.UserResource;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-@ResourceName("check")
+@ResourceType("check")
 public abstract class CheckResource extends PingdomResource {
 
     private Integer id;

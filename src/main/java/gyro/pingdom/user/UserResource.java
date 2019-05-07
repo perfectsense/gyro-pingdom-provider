@@ -1,11 +1,10 @@
 package gyro.pingdom.user;
 
 import gyro.core.GyroException;
-import gyro.core.diff.Create;
 import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceId;
-import gyro.core.resource.ResourceName;
+import gyro.core.resource.ResourceType;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.common.Message;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@ResourceName("user")
+@ResourceType("user")
 public class UserResource extends PingdomResource {
 
     private Integer id;

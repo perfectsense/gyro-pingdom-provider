@@ -3,7 +3,7 @@ package gyro.pingdom.check;
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceDiffProperty;
-import gyro.core.resource.ResourceName;
+import gyro.core.resource.ResourceType;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.CheckService;
@@ -15,7 +15,7 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.Set;
 
-@ResourceName("tcp-check")
+@ResourceType("tcp-check")
 public class TcpCheckResource extends CheckResource {
 
     private Integer port;

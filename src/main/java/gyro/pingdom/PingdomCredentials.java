@@ -2,7 +2,7 @@ package gyro.pingdom;
 
 import gyro.core.Credentials;
 import gyro.core.GyroException;
-import gyro.core.resource.ResourceName;
+import gyro.core.resource.ResourceType;
 import gyro.core.scope.FileScope;
 
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-@ResourceName("credentials")
+@ResourceType("credentials")
 public class PingdomCredentials extends Credentials {
 
     private String credentialFilePath;
