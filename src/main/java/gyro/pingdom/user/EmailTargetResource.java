@@ -3,7 +3,6 @@ package gyro.pingdom.user;
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
 import gyro.core.resource.ResourceDiffProperty;
-import gyro.core.resource.ResourceName;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.common.Message;
@@ -17,7 +16,6 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.Set;
 
-@ResourceName(parent = "user", value = "email-target")
 public class EmailTargetResource extends PingdomResource {
 
     private Integer id;

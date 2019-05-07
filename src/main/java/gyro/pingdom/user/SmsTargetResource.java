@@ -2,7 +2,6 @@ package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceName;
 
 import gyro.core.resource.ResourceDiffProperty;
 import gyro.core.resource.ResourceOutput;
@@ -19,7 +18,6 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.Set;
 
-@ResourceName(parent = "user", value = "sms-target")
 public class SmsTargetResource extends PingdomResource {
 
     private Integer id;
