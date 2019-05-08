@@ -135,7 +135,7 @@ public class SmsTargetResource extends PingdomResource {
     }
 
     @Override
-    public void update(Resource current, Set<String> changedProperties) {
+    public void update(Resource current, Set<String> changedFieldNames) {
         UserService service = createClient(UserService.class);
 
         try {

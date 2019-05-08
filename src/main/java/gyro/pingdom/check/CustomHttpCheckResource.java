@@ -114,7 +114,7 @@ public class CustomHttpCheckResource extends CheckResource {
     }
 
     @Override
-    public void update(Resource current, Set<String> changedProperties) {
+    public void update(Resource current, Set<String> changedFieldNames) {
         CheckService service = createClient(CheckService.class);
 
         try {
