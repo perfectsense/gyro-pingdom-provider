@@ -3,7 +3,7 @@ package gyro.pingdom;
 import gyro.core.Credentials;
 import gyro.core.GyroException;
 import gyro.core.resource.ResourceType;
-import gyro.core.scope.FileScope;
+import gyro.core.resource.FileScope;
 
 import java.io.InputStream;
 import java.nio.file.Paths;
