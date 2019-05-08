@@ -1,11 +1,10 @@
 package gyro.pingdom.user;
 
 import gyro.core.GyroException;
-import gyro.core.diff.Create;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceUpdatable;
 import gyro.core.resource.ResourceId;
-import gyro.core.resource.ResourceName;
+import gyro.core.resource.ResourceType;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.common.Message;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@ResourceName("user")
+@ResourceType("user")
 public class UserResource extends PingdomResource {
 
     private Integer id;
@@ -42,7 +41,7 @@ public class UserResource extends PingdomResource {
         this.id = id;
     }
 
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getName() {
         return name;
     }
@@ -51,7 +50,7 @@ public class UserResource extends PingdomResource {
         this.name = name;
     }
 
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getPaused() {
         return paused;
     }
@@ -65,7 +64,7 @@ public class UserResource extends PingdomResource {
      *
      * @subresource gyro.pingdom.user.EmailTargetResource
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public List<EmailTargetResource> getEmailTarget() {
         if (emailTarget == null) {
             emailTarget = new ArrayList<>();
@@ -157,7 +156,7 @@ public class UserResource extends PingdomResource {
     }
 
     @Override
-    public void update(Resource current, Set<String> changedProperties) {
+    public void update(Resource current, Set<String> changedFieldNames) {
         modifyUser();
     }
 

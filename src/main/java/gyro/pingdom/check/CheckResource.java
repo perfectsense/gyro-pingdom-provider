@@ -3,8 +3,8 @@ package gyro.pingdom.check;
 import com.psddev.dari.util.ObjectUtils;
 import com.psddev.dari.util.StringUtils;
 import gyro.core.GyroException;
-import gyro.core.resource.ResourceDiffProperty;
-import gyro.core.resource.ResourceName;
+import gyro.core.resource.ResourceUpdatable;
+import gyro.core.resource.ResourceType;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.check.Check;
@@ -16,13 +16,11 @@ import gyro.pingdom.user.UserResource;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-@ResourceName("check")
+@ResourceType("check")
 public abstract class CheckResource extends PingdomResource {
 
     private Integer id;
@@ -57,7 +55,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * The name of the check. (Required)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getName() {
         return name;
     }
@@ -69,7 +67,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * The target host of the check. (Required)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getHostname() {
         return hostname;
     }
@@ -81,7 +79,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * The list of integration identifiers. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public List<Integer> getIntegrationIds() {
         if (integrationIds == null) {
             integrationIds = new ArrayList<>();
@@ -97,7 +95,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Decides if ipv6 is used, rather than ipv4. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Boolean getIpv6() {
         return ipv6;
     }
@@ -109,7 +107,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Notify every x cycles. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Integer getNotifyAgainEvery() {
         return notifyAgainEvery;
     }
@@ -121,7 +119,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Decides if a notification is sent when the host is back up. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Boolean getNotifyWhenBackUp() {
         return notifyWhenBackUp;
     }
@@ -133,7 +131,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Decides if check is paused. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Boolean getPaused() {
         return paused;
     }
@@ -145,7 +143,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Determines how often the host's status is checked. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Integer getResolution() {
         return resolution;
     }
@@ -157,7 +155,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Triggers an alert if the response time is over this many ms. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Integer getResponseTimeThreshold() {
         return responseTimeThreshold;
     }
@@ -169,7 +167,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Determines if a notification is sent if the host goes down. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Integer getSendNotificationWhenDown() {
         return sendNotificationWhenDown;
     }
@@ -181,7 +179,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * The tags for the check. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Set<String> getTags() {
         if (tags == null) {
             tags = new HashSet<>();
@@ -197,7 +195,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Ids of the teams that will be notified is the host is down. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public List<Integer> getTeamIds() {
         if (teamIds == null) {
             teamIds = new ArrayList<>();
@@ -213,7 +211,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * The type of the check. (Required)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public Type getType() {
         return type;
     }
@@ -225,7 +223,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Users that will be notified is the host is down. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public List<UserResource> getUsers() {
         if (users == null) {
             users = new ArrayList<>();
@@ -240,7 +238,7 @@ public abstract class CheckResource extends PingdomResource {
     /**
      * Filter probe location. Valid values are North America (``NA``), Europe (``EU``), Asia Pacific (``APAC``), orLatin America (``LATAM``).
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getProbeRegion() {
         return probeRegion;
     }
