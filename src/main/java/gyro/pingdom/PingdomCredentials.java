@@ -3,10 +3,10 @@ package gyro.pingdom;
 import gyro.core.Credentials;
 import gyro.core.GyroException;
 import gyro.core.resource.ResourceType;
-import gyro.core.resource.FileScope;
 
-import java.io.InputStream;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -47,19 +47,20 @@ public class PingdomCredentials extends Credentials {
     }
 
     private Properties loadProperties() {
-        try (InputStream input = getRelativeCredentialsPath()) {
+        String file = getCredentialFilePath();
+
+        try (InputStreamReader input = new InputStreamReader(openInput(file), StandardCharsets.UTF_8)) {
             Properties props = new Properties();
+
             props.load(input);
 
             return props;
-        } catch (Exception ex) {
-            throw new GyroException(ex.getMessage());
+
+        } catch (IOException error) {
+            throw new GyroException(
+                String.format("Can't load [%s] properties file!", file),
+                error);
         }
     }
 
-    private InputStream getRelativeCredentialsPath() throws Exception {
-        FileScope fileScope = scope().getFileScope();
-
-        return fileScope.getRootScope().getBackend().openInput(Paths.get(fileScope.getFile()).getParent().resolve(getCredentialFilePath()).toString());
-    }
 }
