@@ -2,9 +2,8 @@ package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceName;
 
-import gyro.core.resource.ResourceDiffProperty;
+import gyro.core.resource.ResourceUpdatable;
 import gyro.core.resource.ResourceOutput;
 
 import gyro.pingdom.PingdomResource;
@@ -19,7 +18,6 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.Set;
 
-@ResourceName(parent = "user", value = "sms-target")
 public class SmsTargetResource extends PingdomResource {
 
     private Integer id;
@@ -55,7 +53,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The country code. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getCountryCode() {
         return countryCode;
     }
@@ -67,7 +65,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The phone number of the target. (Required)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getNumber() {
         return number;
     }
@@ -79,7 +77,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The provider for the target. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getProvider() {
         if (provider == null) {
             return "nexmo";
@@ -95,7 +93,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The severity of the target. (Optional)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getSeverity() {
         return severity;
     }
@@ -137,7 +135,7 @@ public class SmsTargetResource extends PingdomResource {
     }
 
     @Override
-    public void update(Resource current, Set<String> changedProperties) {
+    public void update(Resource current, Set<String> changedFieldNames) {
         UserService service = createClient(UserService.class);
 
         try {

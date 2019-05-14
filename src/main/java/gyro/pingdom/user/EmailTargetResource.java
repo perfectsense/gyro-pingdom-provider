@@ -2,8 +2,7 @@ package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceDiffProperty;
-import gyro.core.resource.ResourceName;
+import gyro.core.resource.ResourceUpdatable;
 import gyro.core.resource.ResourceOutput;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.common.Message;
@@ -17,7 +16,6 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.Set;
 
-@ResourceName(parent = "user", value = "email-target")
 public class EmailTargetResource extends PingdomResource {
 
     private Integer id;
@@ -49,7 +47,7 @@ public class EmailTargetResource extends PingdomResource {
     /**
      * The email for the target. (Required)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getEmail() {
         return email;
     }
@@ -61,7 +59,7 @@ public class EmailTargetResource extends PingdomResource {
     /**
      * The severity of the target. (Required)
      */
-    @ResourceDiffProperty(updatable = true)
+    @ResourceUpdatable
     public String getSeverity() {
         return severity;
     }
@@ -102,7 +100,7 @@ public class EmailTargetResource extends PingdomResource {
     }
 
     @Override
-    public void update(Resource current, Set<String> changedProperties) {
+    public void update(Resource current, Set<String> changedFieldNames) {
         UserService service = createClient(UserService.class);
 
         try {

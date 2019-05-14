@@ -12,11 +12,6 @@ import java.util.Collections;
 
 public abstract class PingdomResource extends Resource {
 
-    @Override
-    public Class resourceCredentialsClass() {
-        return PingdomCredentials.class;
-    }
-
     protected <T> T createClient(Class<T> serviceClass) {
         PingdomCredentials pingdomCredentials = (PingdomCredentials) resourceCredentials();
         gyro.pingdom.api.model.common.Credentials credentials = pingdomCredentials.findCredentials();
