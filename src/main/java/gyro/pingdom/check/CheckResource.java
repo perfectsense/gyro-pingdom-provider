@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @ResourceType("check")
 public abstract class CheckResource extends PingdomResource {
@@ -275,16 +277,14 @@ public abstract class CheckResource extends PingdomResource {
             setSendNotificationWhenDown(check.getSendNotificationWhenDown());
             setTeamIds(check.getTeamIds());
 
-            for (Integer userId : check.getUserIds()) {
-                UserResource user = findById(UserResource.class, String.valueOf(userId));
-                if (user != null) {
-                    getUsers().add(user);
-                }
-            }
+            setUsers(check.getUserIds().stream()
+                .map(id -> findById(UserResource.class, id))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList()));
 
-            for (Tag tag : check.getTags()) {
-                getTags().add(tag.getName());
-            }
+            setTags(check.getTags().stream()
+                .map(tag -> tag.getName())
+                .collect(Collectors.toSet()));
 
             if (!check.getProbeFilters().isEmpty()) {
                 for (String filter : check.getProbeFilters()) {
