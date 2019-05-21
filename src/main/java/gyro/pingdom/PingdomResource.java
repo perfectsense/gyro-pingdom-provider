@@ -13,7 +13,7 @@ import java.util.Collections;
 public abstract class PingdomResource extends Resource {
 
     protected <T> T createClient(Class<T> serviceClass) {
-        PingdomCredentials pingdomCredentials = (PingdomCredentials) resourceCredentials();
+        PingdomCredentials pingdomCredentials = (PingdomCredentials) credentials();
         gyro.pingdom.api.model.common.Credentials credentials = pingdomCredentials.findCredentials();
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();

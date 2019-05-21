@@ -1,15 +1,13 @@
 package gyro.pingdom;
 
-import gyro.core.Credentials;
+import gyro.core.auth.Credentials;
 import gyro.core.GyroException;
-import gyro.core.resource.ResourceType;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-@ResourceType("credentials")
 public class PingdomCredentials extends Credentials<gyro.pingdom.api.model.common.Credentials> {
 
     private String credentialFilePath;
@@ -20,11 +18,6 @@ public class PingdomCredentials extends Credentials<gyro.pingdom.api.model.commo
 
     public void setCredentialFilePath(String credentialFilePath) {
         this.credentialFilePath = credentialFilePath;
-    }
-
-    @Override
-    public String getCloudName() {
-        return "pingdom";
     }
 
     @Override
