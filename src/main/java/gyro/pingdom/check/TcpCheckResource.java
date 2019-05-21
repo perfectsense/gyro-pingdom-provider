@@ -2,7 +2,7 @@ package gyro.pingdom.check;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceUpdatable;
+import gyro.core.resource.Updatable;
 import gyro.core.resource.ResourceType;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
@@ -23,7 +23,7 @@ public class TcpCheckResource extends CheckResource {
     private String stringToExpect;
 
     /* The target port to connect to. */
-    @ResourceUpdatable
+    @Updatable
     public Integer getPort() {
         return port;
     }
@@ -33,7 +33,7 @@ public class TcpCheckResource extends CheckResource {
     }
 
     /* A string to send once connected to the host. */
-    @ResourceUpdatable
+    @Updatable
     public String getStringToSend() {
         return stringToSend;
     }
@@ -43,7 +43,7 @@ public class TcpCheckResource extends CheckResource {
     }
 
     /* String that should be in the response to consider check successful. */
-    @ResourceUpdatable
+    @Updatable
     public String getStringToExpect() {
         return stringToExpect;
     }
