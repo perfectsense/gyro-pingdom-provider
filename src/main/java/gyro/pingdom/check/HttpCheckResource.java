@@ -4,7 +4,7 @@ import com.psddev.dari.util.ObjectUtils;
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
 import gyro.core.resource.Updatable;
-import gyro.core.resource.ResourceType;
+import gyro.core.Type;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.CheckService;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@ResourceType("http-check")
+@Type("http-check")
 public class HttpCheckResource extends CheckResource {
 
     private String url;

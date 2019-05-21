@@ -4,13 +4,12 @@ import com.psddev.dari.util.ObjectUtils;
 import com.psddev.dari.util.StringUtils;
 import gyro.core.GyroException;
 import gyro.core.resource.Updatable;
-import gyro.core.resource.ResourceType;
+import gyro.core.Type;
 import gyro.core.resource.Output;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
 import gyro.pingdom.api.model.check.CheckService;
-import gyro.pingdom.api.model.check.Type;
 import gyro.pingdom.user.UserResource;
 
 import java.io.IOException;
@@ -21,7 +20,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ResourceType("check")
+@Type("check")
 public abstract class CheckResource extends PingdomResource {
 
     private Integer id;
@@ -37,7 +36,7 @@ public abstract class CheckResource extends PingdomResource {
     private Integer sendNotificationWhenDown;
     private Set<String> tags;
     private List<Integer> teamIds;
-    private Type type;
+    private gyro.pingdom.api.model.check.Type type;
     private List<UserResource> users;
     private String probeRegion;
 
@@ -213,11 +212,11 @@ public abstract class CheckResource extends PingdomResource {
      * The type of the check. (Required)
      */
     @Updatable
-    public Type getType() {
+    public gyro.pingdom.api.model.check.Type getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(gyro.pingdom.api.model.check.Type type) {
         this.type = type;
     }
 
