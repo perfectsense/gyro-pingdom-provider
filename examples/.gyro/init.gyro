@@ -1,6 +1,6 @@
 @highlander
 @repository 'https://artifactory.psdops.com/public'
-@plugin 'gyro:gyro-pingdom-provider:0.14-SNAPSHOT'
+@plugin 'gyro:gyro-pingdom-provider:0.15-SNAPSHOT'
 
 @credentials 'pingdom::credentials' {
     credential-file-path: "../../ping.props"
