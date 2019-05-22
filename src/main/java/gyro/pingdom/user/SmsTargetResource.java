@@ -3,8 +3,8 @@ package gyro.pingdom.user;
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
 
-import gyro.core.resource.ResourceUpdatable;
-import gyro.core.resource.ResourceOutput;
+import gyro.core.resource.Updatable;
+import gyro.core.resource.Output;
 
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.common.Message;
@@ -41,7 +41,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The id of the target
      */
-    @ResourceOutput
+    @Output
     public Integer getId() {
         return id;
     }
@@ -53,7 +53,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The country code. (Optional)
      */
-    @ResourceUpdatable
+    @Updatable
     public String getCountryCode() {
         return countryCode;
     }
@@ -65,7 +65,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The phone number of the target. (Required)
      */
-    @ResourceUpdatable
+    @Updatable
     public String getNumber() {
         return number;
     }
@@ -77,7 +77,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The provider for the target. (Optional)
      */
-    @ResourceUpdatable
+    @Updatable
     public String getProvider() {
         if (provider == null) {
             return "nexmo";
@@ -93,7 +93,7 @@ public class SmsTargetResource extends PingdomResource {
     /**
      * The severity of the target. (Optional)
      */
-    @ResourceUpdatable
+    @Updatable
     public String getSeverity() {
         return severity;
     }

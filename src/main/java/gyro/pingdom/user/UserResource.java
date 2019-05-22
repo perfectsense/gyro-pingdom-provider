@@ -2,10 +2,10 @@ package gyro.pingdom.user;
 
 import gyro.core.GyroException;
 import gyro.core.resource.Resource;
-import gyro.core.resource.ResourceUpdatable;
-import gyro.core.resource.ResourceId;
-import gyro.core.resource.ResourceType;
-import gyro.core.resource.ResourceOutput;
+import gyro.core.resource.Updatable;
+import gyro.core.resource.Id;
+import gyro.core.Type;
+import gyro.core.resource.Output;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.common.Message;
 import gyro.pingdom.api.model.user.CreateUserResponse;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@ResourceType("user")
+@Type("user")
 public class UserResource extends PingdomResource {
 
     private Integer id;
@@ -31,8 +31,8 @@ public class UserResource extends PingdomResource {
     private List<EmailTargetResource> emailTarget;
     private List<SmsTargetResource> smsTarget;
 
-    @ResourceId
-    @ResourceOutput
+    @Id
+    @Output
     public Integer getId() {
         return id;
     }
@@ -41,7 +41,7 @@ public class UserResource extends PingdomResource {
         this.id = id;
     }
 
-    @ResourceUpdatable
+    @Updatable
     public String getName() {
         return name;
     }
@@ -50,7 +50,7 @@ public class UserResource extends PingdomResource {
         this.name = name;
     }
 
-    @ResourceUpdatable
+    @Updatable
     public String getPaused() {
         return paused;
     }
@@ -64,7 +64,7 @@ public class UserResource extends PingdomResource {
      *
      * @subresource gyro.pingdom.user.EmailTargetResource
      */
-    @ResourceUpdatable
+    @Updatable
     public List<EmailTargetResource> getEmailTarget() {
         if (emailTarget == null) {
             emailTarget = new ArrayList<>();
