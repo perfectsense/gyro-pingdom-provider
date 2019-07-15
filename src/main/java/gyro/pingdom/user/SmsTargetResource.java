@@ -6,6 +6,7 @@ import gyro.core.resource.Resource;
 import gyro.core.resource.Updatable;
 import gyro.core.resource.Output;
 
+import gyro.core.scope.State;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.common.Message;
 import gyro.pingdom.api.model.user.ContactTarget;
@@ -113,7 +114,7 @@ public class SmsTargetResource extends PingdomResource {
     }
 
     @Override
-    public void create() {
+    public void create(State state) {
         UserService service = createClient(UserService.class);
 
         try {
@@ -135,7 +136,7 @@ public class SmsTargetResource extends PingdomResource {
     }
 
     @Override
-    public void update(Resource current, Set<String> changedFieldNames) {
+    public void update(State state, Resource current, Set<String> changedFieldNames) {
         UserService service = createClient(UserService.class);
 
         try {
@@ -152,7 +153,7 @@ public class SmsTargetResource extends PingdomResource {
     }
 
     @Override
-    public void delete() {
+    public void delete(State state) {
         UserService service = createClient(UserService.class);
 
         try {
