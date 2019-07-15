@@ -1,6 +1,7 @@
 package gyro.pingdom.user;
 
 import gyro.core.GyroException;
+import gyro.core.GyroUI;
 import gyro.core.resource.Resource;
 import gyro.core.resource.Updatable;
 import gyro.core.resource.Output;
@@ -80,7 +81,7 @@ public class EmailTargetResource extends PingdomResource {
     }
 
     @Override
-    public void create(State state) {
+    public void create(GyroUI ui, State state) {
         UserService service = createClient(UserService.class);
 
         try {
@@ -101,7 +102,7 @@ public class EmailTargetResource extends PingdomResource {
     }
 
     @Override
-    public void update(State state, Resource current, Set<String> changedFieldNames) {
+    public void update(GyroUI ui, State state, Resource current, Set<String> changedFieldNames) {
         UserService service = createClient(UserService.class);
 
         try {
@@ -117,7 +118,7 @@ public class EmailTargetResource extends PingdomResource {
     }
 
     @Override
-    public void delete(State state) {
+    public void delete(GyroUI ui, State state) {
         UserService service = createClient(UserService.class);
 
         try {

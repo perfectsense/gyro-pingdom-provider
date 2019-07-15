@@ -1,6 +1,7 @@
 package gyro.pingdom.check;
 
 import gyro.core.GyroException;
+import gyro.core.GyroUI;
 import gyro.core.resource.Resource;
 import gyro.core.resource.Updatable;
 import gyro.core.Type;
@@ -87,7 +88,7 @@ public class CustomHttpCheckResource extends CheckResource {
     }
 
     @Override
-    public void create(State state) {
+    public void create(GyroUI ui, State state) {
         CheckService service = createClient(CheckService.class);
 
         try {
@@ -115,7 +116,7 @@ public class CustomHttpCheckResource extends CheckResource {
     }
 
     @Override
-    public void update(State state, Resource current, Set<String> changedFieldNames) {
+    public void update(GyroUI ui, State state, Resource current, Set<String> changedFieldNames) {
         CheckService service = createClient(CheckService.class);
 
         try {
