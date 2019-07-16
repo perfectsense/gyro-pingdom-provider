@@ -3,9 +3,11 @@ package gyro.pingdom.check;
 import com.psddev.dari.util.ObjectUtils;
 import com.psddev.dari.util.StringUtils;
 import gyro.core.GyroException;
+import gyro.core.GyroUI;
 import gyro.core.resource.Updatable;
 import gyro.core.Type;
 import gyro.core.resource.Output;
+import gyro.core.scope.State;
 import gyro.pingdom.PingdomResource;
 import gyro.pingdom.api.model.check.Check;
 import gyro.pingdom.api.model.check.CheckResponse;
@@ -301,7 +303,7 @@ public abstract class CheckResource extends PingdomResource {
     }
 
     @Override
-    public void delete() {
+    public void delete(GyroUI ui, State state) {
         CheckService service = createClient(CheckService.class);
 
         try {
