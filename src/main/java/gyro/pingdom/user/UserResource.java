@@ -178,11 +178,6 @@ public class UserResource extends PingdomResource {
         }
     }
 
-    @Override
-    public String toDisplayString() {
-        return "user " + getName();
-    }
-
     private void modifyUser() {
         UserService service = createClient(UserService.class);
 

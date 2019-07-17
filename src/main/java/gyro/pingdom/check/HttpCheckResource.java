@@ -197,11 +197,6 @@ public class HttpCheckResource extends CheckResource {
         }
     }
 
-    @Override
-    public String toDisplayString() {
-        return "http check " + getUrl();
-    }
-
     /**
      * Convert the Gyro map to a special map needed for the API call.
      *

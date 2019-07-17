@@ -139,8 +139,4 @@ public class CustomHttpCheckResource extends CheckResource {
         }
     }
 
-    @Override
-    public String toDisplayString() {
-        return "custom http check " + getUrl();
-    }
 }

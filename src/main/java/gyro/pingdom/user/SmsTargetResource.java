@@ -169,9 +169,4 @@ public class SmsTargetResource extends PingdomResource {
         return null;
     }
 
-    @Override
-    public String toDisplayString() {
-        return "sms target " + getNumber();
-    }
-
 }
