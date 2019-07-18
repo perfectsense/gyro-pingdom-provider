@@ -133,9 +133,4 @@ public class EmailTargetResource extends PingdomResource {
         return null;
     }
 
-    @Override
-    public String toDisplayString() {
-        return "email target " + getEmail();
-    }
-
 }

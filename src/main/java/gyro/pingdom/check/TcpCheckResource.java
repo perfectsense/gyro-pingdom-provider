@@ -111,9 +111,4 @@ public class TcpCheckResource extends CheckResource {
         }
     }
 
-    @Override
-    public String toDisplayString() {
-        return "tcp check on port " + getPort();
-    }
-
 }
