@@ -3,7 +3,7 @@
 @repository: 'https://artifactory.psdops.com/public'
 @repository: 'https://artifactory.psdops.com/gyro-snapshots'
 
-@plugin: 'gyro:gyro-pingdom-provider:0.14-SNAPSHOT'
+@plugin: 'gyro:gyro-pingdom-provider:0.15-SNAPSHOT'
 
 @credentials pingdom::credentials default
     credential-file-path: "../../ping.props"
