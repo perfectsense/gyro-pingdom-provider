@@ -40,6 +40,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Creates a User.
+ *
+ * Example
+ * -------
+ *
+ * .. code-block:: gyro
+ *
+ *     pingdom::user user-example
+ *         name: "test-user"
+ *         paused: "YES"
+ *
+ *         email-target
+ *             email: "example@example.com"
+ *             severity: "HiGh"
+ *         end
+ *
+ *         sms-target
+ *             country-code: "1"
+ *             number: "555-555-5555"
+ *             severity: "HIGH"
+ *         end
+ *     end
+ */
 @Type("user")
 public class UserResource extends PingdomResource {
 
