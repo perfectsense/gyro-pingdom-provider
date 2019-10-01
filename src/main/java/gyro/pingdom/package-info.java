@@ -15,8 +15,32 @@
  */
 
 /**
- * Pingdom Provider
- * ------------------
+ * Pingdom
+ * -------
+ *
+ * The Pingdom provider implements support for the Pingdom website monitoring service.
+ *
+ * Authentication
+ * ++++++++++++++
+ *
+ * The Pingdom provider expects credentials to be in Java properties file format. The
+ * ``app-key``, ``email``, and ``password`` are required.
+ *
+ * **Example credentials.props file:**
+ *
+ * .. code::
+ *
+ *     app-key=iFi1Ueyaiyaihah4oeheu1walohweish
+ *     email=user@example.com
+ *     password=eic6paoHecieShooLe3eah2xiequ7ahc
+ *
+ * Then use these credentials in ``.gyro/init.gyro`` in your Gyro project:
+ *
+ * .. code:: shell
+ *
+ *     {@literal @}credentials pingdom::credentials
+ *          credentials-file-path: "/path/to/credentials.props"
+ *     {@literal @}end
  */
 @DocNamespace("pingdom")
 @Namespace("pingdom")
