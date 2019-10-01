@@ -27,7 +27,7 @@ if (System.getenv('TRAVIS_BRANCH') && System.getenv('TRAVIS_PULL_REQUEST') == 'f
 }
 
 group = 'gyro'
-version = '0.15-SNAPSHOT'
+version = '0.99.0-SNAPSHOT'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -53,19 +53,19 @@ configurations {
 
 dependencies {
     api 'com.psddev:dari-util:3.3.607-xe0f27a'
-    api "gyro:gyro-core:0.15-SNAPSHOT"
+    api "gyro:gyro-core:0.99.0-SNAPSHOT"
 
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.5.0'
     
-    gyroDoclet "gyro:gyro-doclet:0.15-SNAPSHOT"
+    gyroDoclet "gyro:gyro-doclet:0.99.0-SNAPSHOT"
 }
 
 task referenceDocs(type: Javadoc) {
     title = null // Prevents -doctitle and -windowtitle from being passed to GyroDoclet
     source = sourceSets.main.allJava
-    classpath = configurations.compile
+    classpath = configurations.runtimeClasspath
     options.doclet = "gyro.doclet.GyroDoclet"
     options.docletpath = configurations.gyroDoclet.files.asType(List)
 }
