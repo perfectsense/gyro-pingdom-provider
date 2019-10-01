@@ -59,7 +59,7 @@ public abstract class CheckResource extends PingdomResource {
     private String probeRegion;
 
     /**
-     * The returned id of the check.
+     * The returned ID of the check.
      */
     @Output
     public Integer getId() {
@@ -254,7 +254,7 @@ public abstract class CheckResource extends PingdomResource {
     }
 
     /**
-     * Filter probe location. Valid values are North America (``NA``), Europe (``EU``), Asia Pacific (``APAC``), orLatin America (``LATAM``).
+     * Filter probe location. Valid values are North America (``NA``) or Europe (``EU``) or Asia Pacific (``APAC``) or Latin America (``LATAM``).
      */
     @Updatable
     public String getProbeRegion() {

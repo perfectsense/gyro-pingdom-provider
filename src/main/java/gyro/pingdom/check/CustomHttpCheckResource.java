@@ -33,6 +33,31 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.Set;
 
+/**
+ * Creates a Custom HTTP Check.
+ *
+ * Example
+ * -------
+ *
+ * .. code-block:: gyro
+ *
+ *     pingdom::custom-http-check custom-check-example
+ *         name: "custom-check-example"
+ *
+ *         # Custom HTTP check specific attributes
+ *         url: "/pingdom.xml"
+ *         port: 443
+ *         encryption: true
+ *
+ *         # Common check attributes
+ *         resolution: 5
+ *         hostname: "s7.mydomain.com"
+ *         send-notification-when-down: 7
+ *         notify-again-every: 4
+ *         notify-when-back-up: true
+ *         tags: ["abc", "xyz"]
+ *     end
+ */
 @Type("custom-http-check")
 public class CustomHttpCheckResource extends CheckResource {
 
@@ -42,7 +67,9 @@ public class CustomHttpCheckResource extends CheckResource {
     private String auth;
     private String additionalUrls;
 
-    /* URL containing Pingdom XML response. */
+    /**
+     * URL containing Pingdom XML response.
+     */
     @Updatable
     public String getUrl() {
         return url;
@@ -52,7 +79,9 @@ public class CustomHttpCheckResource extends CheckResource {
         this.url = url;
     }
 
-    /* Whether to connect to host using SSL. */
+    /**
+     * Whether to connect to host using SSL.
+     */
     @Updatable
     public Boolean getEncryption() {
         return encryption;
@@ -62,7 +91,9 @@ public class CustomHttpCheckResource extends CheckResource {
         this.encryption = encryption;
     }
 
-    /* The target port to connect to. */
+    /**
+     * The target port to connect to.
+     */
     @Updatable
     public Integer getPort() {
         return port;
@@ -72,7 +103,9 @@ public class CustomHttpCheckResource extends CheckResource {
         this.port = port;
     }
 
-    /* Username/Password used for auth (HTTP Basic Auth). In formation "username:password". */
+    /**
+     * Username/Password used for auth (HTTP Basic Auth). In formation "username:password".
+     */
     @Updatable
     public String getAuth() {
         return auth;
@@ -82,7 +115,9 @@ public class CustomHttpCheckResource extends CheckResource {
         this.auth = auth;
     }
 
-    /* Up to 5 additional URLs, pointing to Pingdom XML response, to check. */
+    /**
+     * Up to 5 additional URLs, pointing to Pingdom XML response, to check.
+     */
     @Updatable
     public String getAdditionalUrls() {
         return additionalUrls;

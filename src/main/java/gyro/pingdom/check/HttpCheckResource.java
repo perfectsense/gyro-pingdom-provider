@@ -36,6 +36,38 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Creates a HTTP Check.
+ *
+ * Example
+ * -------
+ *
+ * .. code-block:: gyro
+ *
+ *     pingdom::http-check http-check-example
+ *         name: "http-check-example"
+ *         users: [$(pingdom::user sample-user)]
+ *
+ *         # HTTP specific attributes
+ *         url: "/"
+ *         port: 443
+ *         encryption: true
+ *         should-contain: "hello"
+ *
+ *         # Common check attributes
+ *         resolution: 5
+ *         hostname: "s7.mydomain.com"
+ *         send-notification-when-down: 7
+ *         notify-again-every: 4
+ *         notify-when-back-up: true
+ *         tags: ["abc", "xyz"]
+ *
+ *         request-headers: {
+ *             X-Request-Type: "api",
+ *             X-Api-Key: "1234"
+ *         }
+ *     end
+ */
 @Type("http-check")
 public class HttpCheckResource extends CheckResource {
 
@@ -48,7 +80,9 @@ public class HttpCheckResource extends CheckResource {
     private String postData;
     private Map<String, String> requestHeaders;
 
-    /* URL to check on host. */
+    /**
+     * URL to check on host.
+     */
     @Updatable
     public String getUrl() {
         return url;
@@ -58,7 +92,9 @@ public class HttpCheckResource extends CheckResource {
         this.url = url;
     }
 
-    /* Whether to connect to host using SSL. */
+    /**
+     * Whether to connect to host using SSL.
+     */
     @Updatable
     public Boolean getEncryption() {
         return encryption;
@@ -68,7 +104,9 @@ public class HttpCheckResource extends CheckResource {
         this.encryption = encryption;
     }
 
-    /* The target port to connect to. */
+    /**
+     * The target port to connect to.
+     */
     @Updatable
     public Integer getPort() {
         return port;
@@ -78,7 +116,9 @@ public class HttpCheckResource extends CheckResource {
         this.port = port;
     }
 
-    /* Username/Password used for auth (HTTP Basic Auth). In formation "username:password". */
+    /**
+     * Username/Password used for auth (HTTP Basic Auth). In formation "username:password".
+     */
     @Updatable
     public String getAuth() {
         return auth;
@@ -88,7 +128,9 @@ public class HttpCheckResource extends CheckResource {
         this.auth = auth;
     }
 
-    /* String that should be in the response to consider check successful. */
+    /**
+     * String that should be in the response to consider check successful.
+     */
     @Updatable
     public String getShouldContain() {
         return shouldContain;
@@ -100,7 +142,9 @@ public class HttpCheckResource extends CheckResource {
         }
     }
 
-    /* String that should not be in the response to consider check successful. */
+    /**
+     * String that should not be in the response to consider check successful.
+     */
     @Updatable
     public String getShouldNotContain() {
         return shouldNotContain;
@@ -112,7 +156,9 @@ public class HttpCheckResource extends CheckResource {
         }
     }
 
-    /* POST data to send in check request. */
+    /**
+     * POST data to send in check request.
+     */
     @Updatable
     public String getPostData() {
         return postData;
@@ -122,7 +168,9 @@ public class HttpCheckResource extends CheckResource {
         this.postData = postData;
     }
 
-    /* Request headers to send along with check request. */
+    /**
+     * Request headers to send along with check request.
+     */
     @Updatable
     public Map<String, String> getRequestHeaders() {
         return requestHeaders;

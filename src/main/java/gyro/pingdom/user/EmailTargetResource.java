@@ -51,7 +51,7 @@ public class EmailTargetResource extends PingdomResource {
     }
 
     /**
-     * The id of the target. (Required)
+     * The ID of the target. (Required)
      */
     @Output
     public Integer getId() {
