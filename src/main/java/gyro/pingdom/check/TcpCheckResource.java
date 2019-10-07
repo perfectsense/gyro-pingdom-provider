@@ -33,6 +33,31 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.Set;
 
+/**
+ * Creates a TCP Check.
+ *
+ * Example
+ * -------
+ *
+ * .. code-block:: gyro
+ *
+ *     pingdom::tcp-check tcp-check-example
+ *         name: "tcp-check-example"
+ *
+ *         # TCP check specific attributes
+ *         port: 80
+ *         string-to-send: "GET / HTTP/1.0"
+ *         string-to-expect: "200 OK"
+ *
+ *         # Common check attributes
+ *         resolution: 5
+ *         hostname: "s7.mydomain.com"
+ *         send-notification-when-down: 7
+ *         notify-again-every: 4
+ *         notify-when-back-up: true
+ *         tags: ["abc", "xyz"]
+ *     end
+ */
 @Type("tcp-check")
 public class TcpCheckResource extends CheckResource {
 
@@ -40,7 +65,9 @@ public class TcpCheckResource extends CheckResource {
     private String stringToSend;
     private String stringToExpect;
 
-    /* The target port to connect to. */
+    /**
+     * The target port to connect to.
+     */
     @Updatable
     public Integer getPort() {
         return port;
@@ -50,7 +77,9 @@ public class TcpCheckResource extends CheckResource {
         this.port = port;
     }
 
-    /* A string to send once connected to the host. */
+    /**
+     * A string to send once connected to the host.
+     */
     @Updatable
     public String getStringToSend() {
         return stringToSend;
@@ -60,7 +89,9 @@ public class TcpCheckResource extends CheckResource {
         this.stringToSend = stringToSend;
     }
 
-    /* String that should be in the response to consider check successful. */
+    /**
+     * String that should be in the response to consider check successful.
+     */
     @Updatable
     public String getStringToExpect() {
         return stringToExpect;
