@@ -28,7 +28,8 @@
  *
  * .. code:: shell
  *
- *     {@literal @}plugin: 'gyro:gyro-pingdom-provider:0.99.0-SNAPSHOT'
+ *     {@literal @}repository: 'https://artifactory.psdops.com/gyro-releases'
+ *     {@literal @}plugin: 'gyro:gyro-pingdom-provider:0.99.0'
  *
  * This lets Gyro load the Pingdom provider plugin and lets you start managing Pingdom resources using Gyro.
  *
