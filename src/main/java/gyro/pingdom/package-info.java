@@ -20,6 +20,18 @@
  *
  * The Pingdom provider implements support for the Pingdom website monitoring service.
  *
+ * Usage
+ * +++++
+ *
+ * The Pingdom provider is implemented as a plugin. To use it add the plugin to your init file.
+ * It uses the format ``@plugin: gyro:gyro-azure-provider:<version>``.
+ *
+ * .. code:: shell
+ *
+ *     {@literal @}plugin: 'gyro:gyro-pingdom-provider:0.99.0-SNAPSHOT'
+ *
+ * This lets Gyro load the Pingdom provider plugin and lets you start managing Pingdom resources using Gyro.
+ *
  * Authentication
  * ++++++++++++++
  *
