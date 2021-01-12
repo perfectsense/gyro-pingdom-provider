@@ -35,7 +35,7 @@ Load the Pingdom provider in your project by consuming it as a `plugin` directiv
 
 ```shell
 @repository: 'https://artifactory.psdops.com/gyro-releases'
-@plugin: 'gyro:gyro-pingdom-provider:0.99.0'
+@plugin: 'gyro:gyro-pingdom-provider:1.0.0'
 ```
 
 #### Authentication ####
