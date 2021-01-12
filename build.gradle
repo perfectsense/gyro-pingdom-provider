@@ -49,6 +49,10 @@ repositories {
     maven {
         url 'https://artifactory.psdops.com/gyro-snapshots'
     }
+
+    maven {
+        url 'https://artifactory.psdops.com/gyro-releases'
+    }
 }
 
 configurations {
@@ -57,13 +61,13 @@ configurations {
 
 dependencies {
     api 'com.psddev:dari-util:3.3.607-xe0f27a'
-    api "gyro:gyro-core:0.99.0-SNAPSHOT"
+    api "gyro:gyro-core:1.0.0"
 
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.5.0'
 
-    gyroDoclet "gyro:gyro-doclet:0.99.0-SNAPSHOT"
+    gyroDoclet "gyro:gyro-doclet:1.0.0"
 }
 
 task referenceDocs(type: Javadoc) {
